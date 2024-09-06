@@ -1,70 +1,70 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { View} from 'react-native';
+import {useGlobalContext} from "@/context";
+import {Box, Flex, Heading, Icon, IconButton, Text} from "native-base";
+import useFetchRequest from "@/hooks/api/useFetchRequest";
+import {KEYS, ENDPOINTS} from "@/constants";
+import Loader from "@/components/shared/Loader";
+import {get} from "lodash";
+import ScreenRefreshControl from "../../components/refresh-control";
+import {MaterialCommunityIcons} from "@expo/vector-icons";
+import React from "react";
+import {useTranslation} from "react-i18next";
+import {numberWithSpaces} from "@/helpers";
+import {Redirect} from "expo-router";
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+    const {t} = useTranslation()
+    const {user,isLoading:isLoadingAuth} = useGlobalContext();
+    const {data: cardData, isLoading, refetch: refetchCardData} = useFetchRequest({
+        queryKey: KEYS.departmentDaily,
+        endpoint: ENDPOINTS.departmentDaily,
+        params: {
+            curator_id: get(user, 'id')
+        },
+        enabled: !!(get(user, 'id'))
+    })
+    if (user) return <Redirect href={"/incoming"}/>;
+    return (
+        <ScreenRefreshControl cb={(_setRefresh) => {
+            refetchCardData();
+            _setRefresh();
+        }}>
+            <View className={'px-4 py-5 bg-[#F2F2F2] flex-1 flex'}>
+                {(isLoading || isLoadingAuth) && <Loader/>}
+                <Box shadow={2}  className={'bg-white mb-4 py-2.5 px-3 rounded-lg'}>
+                    <Flex direction={'row'} align={'center'}><IconButton marginRight={15}  size={10} bg={'#7FC836'} rounded={50}
+                        icon={<Icon size={6} as={MaterialCommunityIcons} name={'hours-24'} color={'#fff'} />}/><View>
+                        <Text >{t("Total number of documents under control")}</Text>
+                        <Heading color={'#7FC836'} size={'lg'}>{numberWithSpaces(get(cardData, 'all', 0))}</Heading>
+                    </View>
+                    </Flex>
+                </Box>
+                <Box shadow={2}  className={'bg-white mb-4 py-2.5 px-3 rounded-lg'}>
+                    <Flex direction={'row'} align={'center'}><IconButton marginRight={15}  size={10} bg={'#E4B33B'} rounded={50}
+                                                                         icon={<Icon size={6} as={MaterialCommunityIcons} name={'hours-24'} color={'#fff'} />}/><View>
+                        <Text>{t("Late completed documents")}</Text>
+                        <Heading color={'#E4B33B'} size={'lg'}>{numberWithSpaces(get(cardData, 'after_take_out_able', 0))}</Heading>
+                    </View>
+                    </Flex>
+                </Box>
+                <Box shadow={2}  className={'bg-white mb-4 py-2.5 px-3 rounded-lg'}>
+                    <Flex direction={'row'} align={'center'}><IconButton marginRight={15}  size={10} bg={'#73C0C0'} rounded={50}
+                                                                         icon={<Icon size={6} as={MaterialCommunityIcons} name={'hours-24'} color={'#fff'} />}/><View>
+                        <Text>{t("Incompleted documents")}</Text>
+                        <Heading color={'#73C0C0'} size={'lg'}>{numberWithSpaces(get(cardData, 'after_take_out_able', 0))}</Heading>
+                    </View>
+                    </Flex>
+                </Box>
+                <Box shadow={2}  className={'bg-white mb-4 py-2.5 px-3 rounded-lg'}>
+                    <Flex direction={'row'} align={'center'}><IconButton marginRight={15}  size={10} bg={'#DC5557'} rounded={50} icon={<Icon size={6} as={MaterialCommunityIcons} name={'hours-24'} color={'#fff'} />}/><View>
+                        <Text>{t("Expired documents")}</Text>
+                        <Heading color={'#DC5557'} size={'lg'}>{numberWithSpaces(get(cardData, 'after_take_out_able', 0))}</Heading>
+                    </View>
+                    </Flex>
+                </Box>
+            </View>
+        </ScreenRefreshControl>
+    );
 }
 
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
+
