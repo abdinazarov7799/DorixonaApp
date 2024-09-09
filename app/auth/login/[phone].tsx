@@ -1,79 +1,90 @@
-import React from 'react';
-import {Text, TextInput, View} from "react-native";
-import {useRouter, useLocalSearchParams} from "expo-router";
-import {Formik} from "formik";
-import {loginSchema} from "@/lib/validation";
-import {Button, Heading} from 'native-base';
-import {useGlobalContext} from "@/context";
-import clsx from "clsx";
+import React, { useEffect, useState } from 'react';
+import { useRouter, useLocalSearchParams } from "expo-router";
+import { useGlobalContext } from "@/context";
 import usePostQuery from "@/hooks/api/usePostQuery";
-import {ENDPOINTS} from "@/constants";
-import {get, head} from "lodash";
-import {useTranslation} from "react-i18next";
+import { ENDPOINTS } from "@/constants";
+import { get, isEqual } from "lodash";
+import { useTranslation } from "react-i18next";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { Button } from "native-base";
+import ReactNativeOtpTextinput from "react-native-otp-textinput/index";
 
 const Login = () => {
-    const {t} = useTranslation()
-    const {setToken} = useGlobalContext()
-    const {phone} = useLocalSearchParams();
+    const { t } = useTranslation();
+    const { setToken } = useGlobalContext();
+    const [otp, setOtp] = useState("");
+    const [isError, setIsError] = useState(false);
+    const { phone } = useLocalSearchParams();
     const router = useRouter();
-    const {mutate:loginRequest,isPending} = usePostQuery({})
-    const onSubmit = (atrrs:any,{setErrors}:any) => {
-        loginRequest({endpoint:ENDPOINTS.login,attributes:atrrs},{
-            onSuccess:({data:response})=>{
-                setToken(get(response,'token'))
-            },
-            onError:(error)=>{
-                setErrors({password:get(head(get(error, 'response.data', [])),'message','Error')})
-            }
-        })
-    }
-    return (
-        <>
-            <Formik
-                onSubmit={onSubmit}
-                initialValues={{phone: phone?.slice(3), password: ""}}
-                validationSchema={loginSchema}
-            >
-                {
-                    ({
-                         handleChange,
-                         handleBlur,
-                         handleSubmit,
-                         values,
-                         errors,
-                         touched,
-                     }) => {
-                        return (<View className={'w-full px-10 max-w-[576px]'}>
-                            <Heading className={'mb-4 font-semibold'}>{t("Введите ваш пароль")}</Heading>
-                            <TextInput
-                                onBlur={handleBlur("password")}
-                                className={clsx('font-light py-1 px-4  border rounded text-sm border-[#61A689]',{'border-red-500':errors.password && touched.password})}
-                                value={values.password}
-                                onChangeText={handleChange("password")}
-                                placeholder={t("Пароль")}
-                                secureTextEntry
-                                mask={['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/]}
-                            />
-                            {errors.password && touched.password && (
-                                <Text className={'text-red-500 font-normal text-xs mt-1'}>
-                                    {t(errors.password)}
-                                </Text>
-                            )}
-                            <Button isLoading={isPending}   className={"mt-4 rounded  text-base bg-[#61A689]"} mode="contained"
-                                    onPress={handleSubmit}>
-                                {t("Войти")}
-                            </Button>
-                            <Button icon={'arrow-left'}   className={'mt-4 rounded  bg-[#73C0C0]'} mode="contained"
-                                    onPress={()=>router.push('/auth')}>
-                                {t("Назад")}
-                            </Button>
+    const { mutate, isPending } = usePostQuery({});
 
-                        </View>)
+    useEffect(() => {
+        if (otp && String(otp).length === 4) {
+            setIsError(false);
+            mutate({ endpoint: ENDPOINTS.signIn, attributes: { phone, otp } }, {
+                onSuccess: ({ data: response }) => {
+                    if (isEqual(response, "Go to sign up")) {
+                        router.push(`/auth/sign-up/${phone}`);
+                    } else {
+                        setToken(get(response, 'access_token'));
+                        router.push(`/`);
                     }
+                },
+                onError: (e) => {
+                    setIsError(true);
+                    console.log(e);
                 }
-            </Formik>
-        </>
+            });
+        }
+    }, [otp]);
+
+    return (
+        <View className={'flex-1 bg-gray-100 justify-between w-full p-6 max-w-[576px]'}>
+            <Text className={'text-[28px] font-bold mb-4 mt-6 text-center'}>{t("Tasdiqlash kodini kiriting")}</Text>
+            <Text className={'text-[15px] text-gray-500 mb-6 text-center'}>
+                {t(`Kiritilgan ${phone} telefon raqamingizga maxsus tasdiqlash kodini SMS tarzda yubordik`)}
+            </Text>
+
+            <ReactNativeOtpTextinput
+                inputCount={4}
+                handleTextChange={(otp) => setOtp(otp)}
+            />
+
+            {isError && (
+                <Text className={"text-red-500 text-center"}>
+                    {t("Noto‘g‘ri kod kiritdingiz, qaytadan urunib ko‘ring")}
+                </Text>
+            )}
+
+            <Button
+                className={"bg-blue-500 p-4 rounded-lg"}
+                isDisabled={isPending || !otp}
+                onPress={() => setOtp(otp)}
+            >
+                {isPending ? (
+                    <ActivityIndicator color="white" />
+                ) : (
+                    t("Tasdiqlash")
+                )}
+            </Button>
+        </View>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    title: {
+        fontSize: 24,
+        marginBottom: 20,
+    },
+    otpText: {
+        marginTop: 20,
+        fontSize: 18,
+    },
+});
 
 export default Login;

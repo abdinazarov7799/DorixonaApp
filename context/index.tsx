@@ -10,11 +10,11 @@ export const Provider = ({children}: ChildProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState<IUser | null | any>(null);
     const [token, setToken] = useState<string | null | any>(null);
+    const [refreshToken, setRefreshToken] = useState<string | null | any>(null);
 
     const {data, isLoading: isLoadingGetMe} = useFetchRequest({
         queryKey: KEYS.getMe,
         endpoint: ENDPOINTS.getMe,
-        params: {include: 'checkpoint,employee.staff.department.rootParent,access,userPost.post,filialBank.title,rootDep.title'},
         headers: {'Authorization': `Bearer ${token}`},
         enabled: !!(token)
     })
@@ -22,10 +22,11 @@ export const Provider = ({children}: ChildProps) => {
     const logout = () => {
         setIsLoading(true);
         setToken(null);
+        setRefreshToken(null);
         setUser(null);
         AsyncStorage.removeItem('token');
+        AsyncStorage.removeItem('refreshToken');
         AsyncStorage.removeItem('user');
-        AsyncStorage.removeItem('certInfo');
         setIsLoading(false);
     }
 
@@ -33,11 +34,13 @@ export const Provider = ({children}: ChildProps) => {
         try {
             setIsLoading(true)
             let userToken = await AsyncStorage.getItem('token');
+            let refreshToken = await AsyncStorage.getItem('refreshToken');
             let userInfo = await AsyncStorage.getItem('user');
             // @ts-ignore
             userInfo = JSON?.parse(userInfo);
             if (userInfo) {
                 setToken(userToken);
+                setRefreshToken(refreshToken);
                 setUser(userInfo);
             }
         } catch (e) {
@@ -50,6 +53,7 @@ export const Provider = ({children}: ChildProps) => {
         if (!isEmpty(data) && !isNil(data)) {
             setUser(data);
             AsyncStorage.setItem('token', token);
+            AsyncStorage.setItem('refreshToken', refreshToken);
             AsyncStorage.setItem('user', JSON.stringify(data));
         }
     }, [data]);
@@ -61,7 +65,7 @@ export const Provider = ({children}: ChildProps) => {
     }, []);
 
     return (
-        <Context.Provider value={{user, setUser, token, isLoading: isLoading, logout, setToken}}>
+        <Context.Provider value={{user, setUser, token, refreshToken,setRefreshToken, isLoading: isLoading, logout, setToken}}>
             {children}
         </Context.Provider>
     );
