@@ -45,7 +45,7 @@ const Index = () => {
                       touched,
                   }) => (
                     <View className={'flex-1 bg-gray-100 justify-between w-full p-10 max-w-[576px]'}>
-                        <View className={"mt-28 mb-16 w-full"}>
+                        <View className={"mt-28 mb-5 w-full"}>
                             <Image
                                 source={require('@/assets/images/phone-icon.png')}
                                 style={{ width: 80, height: 80, margin: "auto" }}
@@ -80,7 +80,7 @@ const Index = () => {
                                 </Text>
                             )}
                         </View>
-                        <Button className={'mt-4 p-4 rounded-lg bg-blue-500'} onPress={handleSubmit}>
+                        <Button className={'p-4 rounded-lg bg-blue-500'} onPress={handleSubmit}>
                             {t("Davom etish")}
                         </Button>
                     </View>

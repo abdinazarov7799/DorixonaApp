@@ -20,3 +20,4 @@ export const KEYS = {
     product_list: 'product_list',
     get_product: 'get_product',
 }
+export const LANGUAGES = [{lang:'uz',title:'UZ'},{lang:'kr',title:'KR'},{lang:'ru',title:'RU'}]

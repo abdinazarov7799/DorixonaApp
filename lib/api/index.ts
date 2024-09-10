@@ -1,7 +1,9 @@
 import { BASE_URL } from "@/constants";
 import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import useStore from "@/store";
+import {router} from "expo-router";
 
+// Axios instans yaratish
 const request = axios.create({
     baseURL: BASE_URL,
     headers: {
@@ -14,49 +16,49 @@ const request = axios.create({
     },
 });
 
-// Interceptor to include token in request
 request.interceptors.request.use(
-    async config => {
-        const token = await AsyncStorage.getItem('token');
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
+    async (config) => {
+        const accessToken = useStore.getState().accessToken; // Hooks o'rniga getState ishlatish
+        if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
         }
         return config;
     },
-    error => {
+    (error) => {
         return Promise.reject(error);
     }
 );
 
-// Response interceptor for token refresh
 request.interceptors.response.use(
-    response => {
+    (response) => {
         return response;
     },
-    async error => {
+    async (error) => {
         const originalRequest = error.config;
+        const refreshToken = useStore.getState().refreshToken; // Hooks o'rniga getState ishlatish
+        const setAccessToken = useStore.getState().setAccessToken;
+        const clearAuthData = useStore.getState().clearAuthData;
 
-        // Agar 401 xatolik bo'lsa va hali tokenni yangilashga urinish qilinmagan bo'lsa:
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
             try {
-                const refreshToken = await AsyncStorage.getItem('refreshToken');
-
-                // Refresh token orqali yangi access token olish
-                const { data } = await axios.post(`${BASE_URL}/auth/refresh-token`, { refreshToken });
+                const { data } = await axios.post(`${BASE_URL}/auth/refresh-token`, {}, {
+                    headers: {
+                        Authorization: `Bearer ${refreshToken}`,
+                    },
+                });
+                console.log(refreshToken,'refreshToken')
+                console.log(data,'refreshToken data')
 
                 if (data?.accessToken) {
-                    // Yangi access tokenni saqlash
-                    await AsyncStorage.setItem('token', data.accessToken);
-
-                    // So'rovni qayta yuborish uchun yangi tokenni qo'shish
+                    setAccessToken(data.accessToken); // Access tokenni yangilash
                     originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
-
-                    // Qayta so'rovni yuborish
                     return axios(originalRequest);
                 }
             } catch (refreshError) {
                 console.log("Refresh token xatosi:", refreshError);
+                clearAuthData()
+                router.push("/auth")
                 return Promise.reject(refreshError);
             }
         }

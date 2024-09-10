@@ -1,6 +1,5 @@
 import React from 'react';
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { useGlobalContext } from "@/context";
 import { useTranslation } from "react-i18next";
 import usePostQuery from "@/hooks/api/usePostQuery";
 import { ENDPOINTS } from "@/constants";
@@ -8,18 +7,31 @@ import { Text, View } from "react-native";
 import { Button, Input } from "native-base";
 import { Formik } from "formik";
 import clsx from "clsx";
+import {get} from "lodash";
+import useStore from "@/store";
 
 const SignUp = () => {
     const { t } = useTranslation();
-    const { setToken } = useGlobalContext();
     const { phone } = useLocalSearchParams();
     const router = useRouter();
+    const setAccessToken = useStore(state => state.setAccessToken)
+    const setRefreshToken = useStore(state => state.setRefreshToken)
+    const setUser = useStore(state => state.setUser)
     const { mutate, isPending } = usePostQuery({});
 
     const onSubmit = ({ firstName, lastName }: any) => {
         mutate({ endpoint: ENDPOINTS.signUp, attributes: { phone, firstName, lastName } }, {
             onSuccess: ({ data: response }) => {
-                console.log(response);
+                const user = {
+                    id: response.id,
+                    firstName: response.firstName,
+                    lastName: response.lastName,
+                    phoneNumber: response.phoneNumber,
+                }
+                setUser(user)
+                setAccessToken(get(response, 'accessToken'));
+                setRefreshToken(get(response, 'refreshToken'));
+                router.push(`/`);
             },
             onError: (e) => {
                 console.log(e);
@@ -50,14 +62,13 @@ const SignUp = () => {
                                 {t("Ismingiz va familyangizni kiriting")}
                             </Text>
 
-                            {/* First Name Input */}
                             <View className={"mb-4"}>
                                 <Input
                                     value={values.firstName}
                                     placeholder={t("Ismingiz")}
                                     onChangeText={handleChange("firstName")}
                                     onBlur={handleBlur("firstName")}
-                                    className={clsx('p-4 rounded-lg bg-white', {
+                                    className={clsx('p-4 bg-white', {
                                         'border border-red-500': errors.firstName && touched.firstName,
                                     })}
                                 />
@@ -68,13 +79,12 @@ const SignUp = () => {
                                 )}
                             </View>
 
-                            {/* Last Name Input */}
                             <Input
                                 value={values.lastName}
                                 placeholder={t("Familyangiz")}
                                 onChangeText={handleChange("lastName")}
                                 onBlur={handleBlur("lastName")}
-                                className={clsx('p-4 rounded-lg bg-white', {
+                                className={clsx('p-4 bg-white', {
                                     'border border-red-500': errors.lastName && touched.lastName,
                                 })}
                             />
@@ -85,7 +95,6 @@ const SignUp = () => {
                             )}
                         </View>
 
-                        {/* Continue Button */}
                         <Button
                             isDisabled={!values.firstName || !values.lastName}
                             className={clsx('mt-4 p-4 rounded-lg text-white', {
@@ -93,6 +102,7 @@ const SignUp = () => {
                                 'bg-blue-300': !values.firstName || !values.lastName,
                             })}
                             onPress={handleSubmit}
+                            isLoading={isPending}
                         >
                             {t("Davom etish")}
                         </Button>

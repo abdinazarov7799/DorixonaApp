@@ -1,70 +1,62 @@
-import { View} from 'react-native';
-import {useGlobalContext} from "@/context";
-import {Box, Flex, Heading, Icon, IconButton, Text} from "native-base";
-import useFetchRequest from "@/hooks/api/useFetchRequest";
-import {KEYS, ENDPOINTS} from "@/constants";
+import {View, Text, Image, FlatList, TouchableOpacity, RefreshControl, ActivityIndicator} from 'react-native';
+import { KEYS, ENDPOINTS } from "@/constants";
 import Loader from "@/components/shared/Loader";
-import {get} from "lodash";
 import ScreenRefreshControl from "../../components/refresh-control";
-import {MaterialCommunityIcons} from "@expo/vector-icons";
 import React from "react";
-import {useTranslation} from "react-i18next";
-import {numberWithSpaces} from "@/helpers";
-import {Redirect} from "expo-router";
+import { useTranslation } from "react-i18next";
+import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
+import {Center} from "native-base";
 
 export default function HomeScreen() {
-    const {t} = useTranslation()
-    const {user,isLoading:isLoadingAuth} = useGlobalContext();
-    const {data: cardData, isLoading, refetch: refetchCardData} = useFetchRequest({
-        queryKey: KEYS.departmentDaily,
-        endpoint: ENDPOINTS.departmentDaily,
-        params: {
-            curator_id: get(user, 'id')
-        },
-        enabled: !!(get(user, 'id'))
-    })
-    if (user) return <Redirect href={"/incoming"}/>;
+    const { t } = useTranslation();
+    const { data, isRefreshing, onRefresh, onEndReached, isFetchingNextPage,isLoading } = useInfiniteScroll({
+        key: KEYS.product_list,
+        url: ENDPOINTS.product_list,
+        limit: 15,
+    });
+
+    console.log(data,'data')
+    const renderProductCard = ({ item }) => (
+        <View className="bg-white p-3 rounded-lg mb-4 w-[48%]">
+            <Image
+                source={{ uri: item.imageUrl }}
+                style={{ width: '100%', height: 100, resizeMode: 'cover' }}
+            />
+            <Text className="mt-2 text-lg font-semibold">{item.name}</Text>
+            <Text className="mt-1 text-black font-bold">{item.price} so'm</Text>
+            <TouchableOpacity className="mt-2 py-2 bg-blue-500 rounded-full">
+                <Text className="text-center text-white">{t("Qo'shish")}</Text>
+            </TouchableOpacity>
+        </View>
+    );
+
     return (
-        <ScreenRefreshControl cb={(_setRefresh) => {
-            refetchCardData();
-            _setRefresh();
-        }}>
-            <View className={'px-4 py-5 bg-[#F2F2F2] flex-1 flex'}>
-                {(isLoading || isLoadingAuth) && <Loader/>}
-                <Box shadow={2}  className={'bg-white mb-4 py-2.5 px-3 rounded-lg'}>
-                    <Flex direction={'row'} align={'center'}><IconButton marginRight={15}  size={10} bg={'#7FC836'} rounded={50}
-                        icon={<Icon size={6} as={MaterialCommunityIcons} name={'hours-24'} color={'#fff'} />}/><View>
-                        <Text >{t("Total number of documents under control")}</Text>
-                        <Heading color={'#7FC836'} size={'lg'}>{numberWithSpaces(get(cardData, 'all', 0))}</Heading>
+        <View className={'px-4 py-5 bg-[#F2F2F2] flex-1'}>
+            {isLoading && <Loader />}
+            <FlatList
+                onEndReached={onEndReached}
+                data={data}
+                initialNumToRender={10}
+                removeClippedSubviews={true}
+                keyExtractor={(item) => item.id}
+                numColumns={2}
+                columnWrapperStyle={{ justifyContent: 'space-between' }}
+                renderItem={renderProductCard}
+                refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh}/>}
+                ListEmptyComponent={
+                    <Center className={'p-10 text-xl'}>{t("No data")}</Center>
+                }
+                ListFooterComponent={
+                    <View style={{
+                        flexDirection: 'row',
+                        height: 100,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}>
+                        {isFetchingNextPage && <ActivityIndicator/>}
                     </View>
-                    </Flex>
-                </Box>
-                <Box shadow={2}  className={'bg-white mb-4 py-2.5 px-3 rounded-lg'}>
-                    <Flex direction={'row'} align={'center'}><IconButton marginRight={15}  size={10} bg={'#E4B33B'} rounded={50}
-                                                                         icon={<Icon size={6} as={MaterialCommunityIcons} name={'hours-24'} color={'#fff'} />}/><View>
-                        <Text>{t("Late completed documents")}</Text>
-                        <Heading color={'#E4B33B'} size={'lg'}>{numberWithSpaces(get(cardData, 'after_take_out_able', 0))}</Heading>
-                    </View>
-                    </Flex>
-                </Box>
-                <Box shadow={2}  className={'bg-white mb-4 py-2.5 px-3 rounded-lg'}>
-                    <Flex direction={'row'} align={'center'}><IconButton marginRight={15}  size={10} bg={'#73C0C0'} rounded={50}
-                                                                         icon={<Icon size={6} as={MaterialCommunityIcons} name={'hours-24'} color={'#fff'} />}/><View>
-                        <Text>{t("Incompleted documents")}</Text>
-                        <Heading color={'#73C0C0'} size={'lg'}>{numberWithSpaces(get(cardData, 'after_take_out_able', 0))}</Heading>
-                    </View>
-                    </Flex>
-                </Box>
-                <Box shadow={2}  className={'bg-white mb-4 py-2.5 px-3 rounded-lg'}>
-                    <Flex direction={'row'} align={'center'}><IconButton marginRight={15}  size={10} bg={'#DC5557'} rounded={50} icon={<Icon size={6} as={MaterialCommunityIcons} name={'hours-24'} color={'#fff'} />}/><View>
-                        <Text>{t("Expired documents")}</Text>
-                        <Heading color={'#DC5557'} size={'lg'}>{numberWithSpaces(get(cardData, 'after_take_out_able', 0))}</Heading>
-                    </View>
-                    </Flex>
-                </Box>
-            </View>
-        </ScreenRefreshControl>
+                }
+            />
+        </View>
     );
 }
-
-

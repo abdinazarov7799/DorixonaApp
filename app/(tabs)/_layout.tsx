@@ -1,81 +1,72 @@
-import {Redirect, Tabs} from 'expo-router';
+import { Redirect, Tabs } from 'expo-router';
 import React from 'react';
-import {TabBarIcon} from '@/components/navigation/TabBarIcon';
-import useFetchRequest from "@/hooks/api/useFetchRequest";
-import {ENDPOINTS, KEYS} from "@/constants";
-import {useGlobalContext} from "@/context";
-import {isEmpty, isNil} from "lodash";
-import Loader from "@/components/shared/Loader";
-import {get} from "lodash";
-import Logo from "@/components/navigation/Logo"
-import {useTranslation} from "react-i18next";
+import { TabBarIcon } from '@/components/navigation/TabBarIcon';
+import Logo from "@/components/navigation/Logo";
+import { useTranslation } from "react-i18next";
 import Language from "@/components/language";
-import Back from "@/components/back";
+import useStore from "@/store";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function TabLayout() {
-    const {t} = useTranslation()
-    const {user, isLoading} = useGlobalContext();
-    const {data: count} = useFetchRequest({queryKey:KEYS.count,endpoint:ENDPOINTS.count,params: {'docStatus[]': 'on_sign'},enabled:!(isEmpty(user) && isNil(user))})
-    if (user === null) return <Redirect href={"/auth"}/>;
+    const { t } = useTranslation();
+    const user = useStore(state => state.user);
+
+    if (user === null) return <Redirect href={"/auth"} />;
+
     return (
-        <>
-            {isLoading && <Loader />}
+        <SafeAreaView  className={'flex-1'}>
             <Tabs
                 screenOptions={{
-                    headerStyle:{backgroundColor:'#fff'},
-                    tabBarActiveTintColor: '#61A689',
-                    tabBarStyle: {paddingBottom: 3,backgroundColor:'#fff'},
-                }}>
+                    headerStyle: { backgroundColor: '#fff' },
+                    tabBarActiveTintColor: '#215ca0',
+                    tabBarStyle: { paddingBottom: 3, backgroundColor: '#fff' },
+                    headerTintColor: "#000",
+                    tabBarLabelStyle: {fontSize: 11},
+                }}
+            >
                 <Tabs.Screen
                     name="index"
+                    key="home"
                     options={{
-                        title: '',
+                        title: t('Bosh oyna'),
                         headerTitleAlign: 'center',
                         headerLeft: () => <Logo />,
                         headerRight: () => <Language color={'#9F9FA0'} right={15} />,
-                        tabBarIcon: ({color, focused}) => (
-                            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color}/>
+                        tabBarIcon: ({ color }) => (
+                            <TabBarIcon name={"home"} color={color} size={24} />
                         ),
-                        tabBarLabel: t('Главная'),
-                        tabBarButton:()=>null,
+                        tabBarLabel: t('Bosh oyna'),
                     }}
                 />
                 <Tabs.Screen
                     name="orders"
+                    key="orders"
                     options={{
-                        title: t('Orders'),
+                        title: t('Buyurtmalar'),
                         headerTitleAlign: 'center',
                         headerLeft: () => <Logo />,
                         headerRight: () => <Language color={'#9F9FA0'} right={15} />,
-                        tabBarIcon: ({color, focused}) => (
-                            <TabBarIcon name={focused ? 'mail' : 'mail-outline'} color={color}/>
+                        tabBarIcon: ({ color }) => (
+                            <TabBarIcon name={'clockcircleo'} color={color} size={24} />
                         ),
-                        tabBarLabel: t('Orders')
-                    }}
-
-                />,
-                <Tabs.Screen
-                    name="payments"
-                    options={{
-                        title: t('Payments'),
-                        headerTitleAlign: 'center',
-                        headerLeft: () => <Logo />,
-                        headerRight: () => <Language color={'#9F9FA0'} right={15} />,
-                        tabBarIcon: ({color, focused}) => (
-                            <TabBarIcon name={focused ? 'paper-plane' : 'paper-plane-outline'} color={color}/>
-                        ),
-                        tabBarLabel: t('Payments')
+                        tabBarLabel: t('Buyurtmalar'),
                     }}
                 />
                 <Tabs.Screen
-                    name="modal"
+                    name="payments"
+                    key="payments"
                     options={{
+                        title: t("To'lovlar"),
                         headerTitleAlign: 'center',
+                        headerLeft: () => <Logo />,
                         headerRight: () => <Language color={'#9F9FA0'} right={15} />,
-                        tabBarButton:()=>null,
+                        tabBarIcon: ({ color }) => (
+                            <TabBarIcon name={"creditcard"} color={color} size={24} />
+                        ),
+                        tabBarLabel: t("To'lovlar"),
                     }}
                 />
             </Tabs>
-        </>
+        </SafeAreaView>
     );
 }

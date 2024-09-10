@@ -11,7 +11,9 @@ export interface IContext {
     user: IUser | null;
     setUser: Dispatch<SetStateAction<IUser | null>>;
     token: string;
+    refreshToken: string;
     logout: Dispatch<SetStateAction<any>>;
     setToken: Dispatch<SetStateAction<any>>;
+    setRefreshToken: Dispatch<SetStateAction<any>>;
     isLoading: boolean;
 }

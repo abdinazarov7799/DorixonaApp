@@ -7,6 +7,7 @@ import {LANGUAGES} from "@/constants";
 import {get, isEqual} from "lodash";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+
 const Index = ({color='#fff',right=0}) => {
     const {t, i18n} = useTranslation()
     const [lang, setLang] = useState('ru');
