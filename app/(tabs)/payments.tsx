@@ -2,7 +2,7 @@ import { Center } from "native-base";
 import {useTranslation} from "react-i18next";
 
 
-export default function TabOutgoingScreen() {
+export default function TabPaymentsScreen() {
     const {t} = useTranslation()
     return (<>
 
