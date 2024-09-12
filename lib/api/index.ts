@@ -42,7 +42,7 @@ request.interceptors.response.use(
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
             try {
-                const { data } = await axios.post(`${BASE_URL}/auth/refresh-token`, {}, {
+                const { data } = await axios.post(`${BASE_URL}/api/refresh-token`, {}, {
                     headers: {
                         Authorization: `Bearer ${refreshToken}`,
                     },

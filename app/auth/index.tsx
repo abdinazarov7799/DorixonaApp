@@ -16,7 +16,7 @@ const Index = () => {
     };
     return (
         <>
-            <View className={"flex-1 justify-between bg-gray-100 p-10"}>
+            <View className={"flex-1 justify-between bg-white p-10"}>
                 <View>
                     <View className={"mt-20 mb-16 w-full"}>
                         <Image source={require('@/assets/images/lang-icon.png')} style={{width: 80, height: 80, margin: "auto"}}/>
@@ -26,17 +26,17 @@ const Index = () => {
                         </Text>
                     </View>
                     <TouchableOpacity onPress={() => setSelectedLanguage('uzLatin')}>
-                        <Text className={`text-lg w-full p-4 rounded-2xl ${selectedLanguage === 'uzLatin' && 'font-bold bg-white'}`}>
+                        <Text className={`text-lg w-full p-4 rounded-2xl ${selectedLanguage === 'uzLatin' && 'font-bold bg-gray-100'}`}>
                             O‘zbek tili
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => setSelectedLanguage('uzCyrillic')}>
-                        <Text className={`text-lg w-full p-4 rounded-2xl ${selectedLanguage === 'uzCyrillic' && 'font-bold bg-white'}`}>
+                        <Text className={`text-lg w-full p-4 rounded-2xl ${selectedLanguage === 'uzCyrillic' && 'font-bold bg-gray-100'}`}>
                             Ўзбек тили
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => setSelectedLanguage('ru')}>
-                        <Text className={`text-lg w-full p-4 rounded-2xl ${selectedLanguage === 'ru' && 'font-bold bg-white'}`}>
+                        <Text className={`text-lg w-full p-4 rounded-2xl ${selectedLanguage === 'ru' && 'font-bold bg-gray-100'}`}>
                             Русский язык
                         </Text>
                     </TouchableOpacity>

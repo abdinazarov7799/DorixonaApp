@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useCallback, useMemo, useState } from 'react';
-import _ from 'lodash';
+import _, {get} from 'lodash';
 import {request} from "@/lib/api";
 
 type Params<F> = {
@@ -33,12 +33,13 @@ export const useInfiniteScroll = <T = unknown, F = object>({
             nextPage: pageParam + 1,
         };
     };
+
     const { data, hasNextPage, fetchNextPage, isFetchingNextPage, refetch,isLoading } = useInfiniteQuery({
         queryKey,
         queryFn,
         initialPageParam: 1,
         getNextPageParam: (lastPage, __, lastPageParam) => {
-            if (_.get(lastPage,'data._meta.currentPage',0) >= _.get(lastPage,'data._meta.pageCount',0)) {
+            if (_.get(lastPage,'data.data.pageable.pageNumber',0) >= _.get(lastPage,'data.totalPages',0)) {
                 return undefined;
             }
             return lastPageParam + 1;
@@ -50,7 +51,6 @@ export const useInfiniteScroll = <T = unknown, F = object>({
             return firstPageParam - 1;
         },
     });
-
     const loadNext = useCallback(() => {
         hasNextPage && fetchNextPage();
     }, [fetchNextPage, hasNextPage]);
@@ -65,8 +65,9 @@ export const useInfiniteScroll = <T = unknown, F = object>({
     }, [isRefreshing, refetch]);
 
     const flattenData = useMemo(() => {
-        return data?.pages.flatMap(page => page?.data?.data) || [];
+        return data?.pages.flatMap(page => page?.data?.content) || [];
     }, [data?.pages]);
+
     return {
         data: flattenData,
         onEndReached: loadNext,

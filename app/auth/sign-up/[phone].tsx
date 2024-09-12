@@ -20,7 +20,7 @@ const SignUp = () => {
     const { mutate, isPending } = usePostQuery({});
 
     const onSubmit = ({ firstName, lastName }: any) => {
-        mutate({ endpoint: ENDPOINTS.signUp, attributes: { phone, firstName, lastName } }, {
+        mutate({ endpoint: ENDPOINTS.signUp, attributes: { phoneNumber: phone, firstName, lastName } }, {
             onSuccess: ({ data: response }) => {
                 const user = {
                     id: response.id,
@@ -53,7 +53,7 @@ const SignUp = () => {
                       errors,
                       touched,
                   }) => (
-                    <View className={'flex-1 bg-gray-100 justify-between w-full p-6 max-w-[576px]'}>
+                    <View className={'flex-1 bg-white justify-between w-full p-6 max-w-[576px]'}>
                         <View className={"mt-24 mb-10 w-full"}>
                             <Text className={'text-[28px] font-bold mb-4 mt-6 text-center'}>
                                 {t("Shaxsiy ma’lumotlar")}

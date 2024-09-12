@@ -17,7 +17,7 @@ const Index = () => {
     const { mutate, isPending } = usePostQuery({});
 
     const onSubmit = ({ phone }: any) => {
-        mutate({ endpoint: ENDPOINTS.signIn, attributes: { phone } }, {
+        mutate({ endpoint: ENDPOINTS.signIn, attributes: { phoneNumber:phone } }, {
             onSuccess: ({ data: response }) => {
                 if (isEqual(response, "OTP is sent")) {
                     router.push(`/auth/login/${phone}`);
@@ -44,7 +44,7 @@ const Index = () => {
                       errors,
                       touched,
                   }) => (
-                    <View className={'flex-1 bg-gray-100 justify-between w-full p-10 max-w-[576px]'}>
+                    <View className={'flex-1 bg-white justify-between w-full p-10 max-w-[576px]'}>
                         <View className={"mt-28 mb-5 w-full"}>
                             <Image
                                 source={require('@/assets/images/phone-icon.png')}
@@ -58,7 +58,7 @@ const Index = () => {
                             </Text>
                             <MaskInput
                                 className={clsx(
-                                    'py-3 px-4 mt-4 rounded-lg text-base bg-white border',
+                                    'py-3 px-4 mt-4 rounded-lg text-base bg-gray-100 border',
                                     {
                                         'border-gray-300': !errors.phone && !touched.phone,
                                         'border-red-500': errors.phone && touched.phone,

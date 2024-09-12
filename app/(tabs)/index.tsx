@@ -1,7 +1,6 @@
 import {View, Text, Image, FlatList, TouchableOpacity, RefreshControl, ActivityIndicator} from 'react-native';
 import { KEYS, ENDPOINTS } from "@/constants";
 import Loader from "@/components/shared/Loader";
-import ScreenRefreshControl from "../../components/refresh-control";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
@@ -15,30 +14,39 @@ export default function HomeScreen() {
         limit: 15,
     });
 
-    console.log(data,'data')
-    const renderProductCard = ({ item }) => (
-        <View className="bg-white p-3 rounded-lg mb-4 w-[48%]">
-            <Image
-                source={{ uri: item.imageUrl }}
-                style={{ width: '100%', height: 100, resizeMode: 'cover' }}
-            />
-            <Text className="mt-2 text-lg font-semibold">{item.name}</Text>
-            <Text className="mt-1 text-black font-bold">{item.price} so'm</Text>
-            <TouchableOpacity className="mt-2 py-2 bg-blue-500 rounded-full">
-                <Text className="text-center text-white">{t("Qo'shish")}</Text>
-            </TouchableOpacity>
-        </View>
-    );
+    const renderProductCard = ({ item }) => {
+        return (
+            <View className="bg-gray-100 p-3 rounded-[10px] mb-4 w-[48%]">
+                <Image
+                    source={{ uri: item?.imageUrl }}
+                    style={{ width: '100%', height: 148, resizeMode: 'cover' }}
+                />
+                <Text
+                    className="mt-1 text-[13px] font-semibold"
+                    numberOfLines={2}
+                    ellipsizeMode="tail"
+                >
+                    {item?.name}
+                </Text>
+                <Text className="mt-1 text-black text-[13px] font-bold">{item?.price} so'm</Text>
+                <TouchableOpacity className="mt-3 py-2 bg-white rounded-full border border-gray-300">
+                    <Text className="text-center text-[13px]">{t("Qo'shish")}</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    };
+
+
 
     return (
-        <View className={'px-4 py-5 bg-[#F2F2F2] flex-1'}>
+        <View className={'px-4 py-5 bg-white flex-1'}>
             {isLoading && <Loader />}
             <FlatList
                 onEndReached={onEndReached}
                 data={data}
                 initialNumToRender={10}
                 removeClippedSubviews={true}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item?.id}
                 numColumns={2}
                 columnWrapperStyle={{ justifyContent: 'space-between' }}
                 renderItem={renderProductCard}

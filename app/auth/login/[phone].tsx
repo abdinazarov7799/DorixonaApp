@@ -4,7 +4,7 @@ import usePostQuery from "@/hooks/api/usePostQuery";
 import { ENDPOINTS } from "@/constants";
 import { get, isEqual } from "lodash";
 import { useTranslation } from "react-i18next";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import { Button } from "native-base";
 import ReactNativeOtpTextinput from "react-native-otp-textinput/index";
 import useStore from "@/store";
@@ -39,7 +39,7 @@ const Login = () => {
     useEffect(() => {
         if (otp && String(otp).length === 4) {
             setIsError(false);
-            mutate({ endpoint: ENDPOINTS.signIn, attributes: { phone, otp } }, {
+            mutate({ endpoint: ENDPOINTS.signIn, attributes: { phoneNumber: phone, otp } }, {
                 onSuccess: ({ data: response }) => {
                     if (isEqual(response, "Go to sign up")) {
                         router.push(`/auth/sign-up/${phone}`);
@@ -67,7 +67,7 @@ const Login = () => {
     const reSendOtp = () => {
         setTimer(60)
         setChargeTimer(true)
-        sendOtp({ endpoint: ENDPOINTS.signIn, attributes: { phone } }, {
+        sendOtp({ endpoint: ENDPOINTS.signIn, attributes: { phoneNumber: phone } }, {
             onSuccess: () => {
 
             },
@@ -77,7 +77,7 @@ const Login = () => {
     }
 
     return (
-        <View className={'flex-1 bg-gray-100 justify-between w-full p-6 max-w-[576px]'}>
+        <View className={'flex-1 bg-white justify-between w-full p-6 max-w-[576px]'}>
             <View className={"mt-28 mb-5 w-full max-w-[300px] mx-auto"}>
                 <Text className={'text-[28px] font-bold mb-4 mt-6 text-center'}>{t("Tasdiqlash kodini kiriting")}</Text>
                 <Text className={'text-[15px] text-gray-500 mb-6 text-center'}>
