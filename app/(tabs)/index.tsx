@@ -1,21 +1,21 @@
 import {View, Text, Image, FlatList, TouchableOpacity, RefreshControl, ActivityIndicator} from 'react-native';
 import { KEYS, ENDPOINTS } from "@/constants";
 import Loader from "@/components/shared/Loader";
-import ScreenRefreshControl from "../../components/refresh-control";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
 import {Center} from "native-base";
+import useStore from "@/store";
 
 export default function HomeScreen() {
     const { t } = useTranslation();
     const { data, isRefreshing, onRefresh, onEndReached, isFetchingNextPage,isLoading } = useInfiniteScroll({
-        key: KEYS.product_list,
-        url: ENDPOINTS.product_list,
+        key: KEYS.get_product,
+        url: ENDPOINTS.get_product,
         limit: 15,
     });
 
-    console.log(data,'data')
+    console.log(useStore.getState().accessToken,'data')
     const renderProductCard = ({ item }) => (
         <View className="bg-white p-3 rounded-lg mb-4 w-[48%]">
             <Image
