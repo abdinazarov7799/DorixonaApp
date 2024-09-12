@@ -29,41 +29,45 @@ request.interceptors.request.use(
     }
 );
 
+const refreshToken = async () => {
+    try {
+        const refreshToken = useStore.getState().refreshToken;
+        const response = await axios.post(`${BASE_URL}/api/refresh-token`, {}, {
+            headers: {
+                'Authorization': `Bearer ${refreshToken}`
+            }
+        });
+        const newToken = response?.data?.accessToken;
+        const newRefreshToken = response?.data?.refreshToken;
+        useStore.getState().setAccessToken(newToken);
+        useStore.getState().setRefreshToken(newRefreshToken);
+
+        return newToken;
+    } catch (error) {
+        console.error("Error refreshing token:", error);
+        return null;
+    }
+};
 request.interceptors.response.use(
     (response) => {
         return response;
     },
     async (error) => {
-        const originalRequest = error.config;
-        const refreshToken = useStore.getState().refreshToken; // Hooks o'rniga getState ishlatish
-        const setAccessToken = useStore.getState().setAccessToken;
-        const clearAuthData = useStore.getState().clearAuthData;
-
-        if (error.response?.status === 401 && !originalRequest._retry) {
-            originalRequest._retry = true;
-            try {
-                const { data } = await axios.post(`${BASE_URL}/api/refresh-token`, {}, {
-                    headers: {
-                        Authorization: `Bearer ${refreshToken}`,
-                    },
-                });
-                console.log(refreshToken,'refreshToken')
-                console.log(data,'refreshToken data')
-
-                if (data?.accessToken) {
-                    setAccessToken(data.accessToken); // Access tokenni yangilash
-                    originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
-                    return axios(originalRequest);
-                }
-            } catch (refreshError) {
-                console.log("Refresh token xatosi:", refreshError);
-                clearAuthData()
-                router.push("/auth")
-                return Promise.reject(refreshError);
+        const statusCode = error.response ? error.response.status : null;
+        if (statusCode === 401) {
+            const originalRequest = error.config;
+            const newToken = await refreshToken();
+            console.log(newToken,'newToken')
+            if (newToken) {
+                originalRequest.headers.Authorization = `Bearer ${newToken}`;
+                return axios(originalRequest);
+            }else {
+                useStore.getState().clearAuthData()
+                router.push("/auth");
             }
-        }
         return Promise.reject(error);
     }
-);
+    }
+)
 
 export { request };

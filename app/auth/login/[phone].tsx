@@ -51,8 +51,8 @@ const Login = () => {
                             phoneNumber: response.phoneNumber,
                         }
                         setUser(user)
-                        setAccessToken(get(response, 'accessToken'));
                         setRefreshToken(get(response, 'refreshToken'));
+                        setAccessToken(get(response, 'accessToken'));
                         router.push(`/`);
                     }
                 },

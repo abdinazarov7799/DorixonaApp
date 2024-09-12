@@ -29,9 +29,9 @@ export default function TabLayout() {
                     key="home"
                     options={{
                         title: t('Bosh oyna'),
-                        headerTitleAlign: 'center',
-                        headerLeft: () => <Logo />,
-                        headerRight: () => <Language color={'#9F9FA0'} right={15} />,
+                        headerTitleAlign: 'left',
+                        headerLeft: () => <TabBarIcon name={"bars"} style={{marginLeft: 15}} color={"#215ca0"} size={28} />,
+                        headerRight: () => <TabBarIcon name={"bells"} style={{marginRight: 15}} color={"#215ca0"} size={28} />,
                         tabBarIcon: ({ color }) => (
                             <TabBarIcon name={"home"} color={color} size={24} />
                         ),
@@ -43,9 +43,9 @@ export default function TabLayout() {
                     key="orders"
                     options={{
                         title: t('Buyurtmalar'),
-                        headerTitleAlign: 'center',
-                        headerLeft: () => <Logo />,
-                        headerRight: () => <Language color={'#9F9FA0'} right={15} />,
+                        headerTitleAlign: 'left',
+                        headerLeft: () => <TabBarIcon name={"bars"} style={{marginLeft: 15}} color={"#215ca0"} size={28} />,
+                        headerRight: () => <TabBarIcon name={"bells"} style={{marginRight: 15}} color={"#215ca0"} size={28} />,
                         tabBarIcon: ({ color }) => (
                             <TabBarIcon name={'clockcircleo'} color={color} size={24} />
                         ),
@@ -57,13 +57,27 @@ export default function TabLayout() {
                     key="payments"
                     options={{
                         title: t("To'lovlar"),
-                        headerTitleAlign: 'center',
-                        headerLeft: () => <Logo />,
-                        headerRight: () => <Language color={'#9F9FA0'} right={15} />,
+                        headerTitleAlign: 'left',
+                        headerLeft: () => <TabBarIcon name={"bars"} style={{marginLeft: 15}} color={"#215ca0"} size={28} />,
+                        headerRight: () => <TabBarIcon name={"bells"} style={{marginRight: 15}} color={"#215ca0"} size={28} />,
                         tabBarIcon: ({ color }) => (
                             <TabBarIcon name={"creditcard"} color={color} size={24} />
                         ),
                         tabBarLabel: t("To'lovlar"),
+                    }}
+                />
+                <Tabs.Screen
+                    name="report"
+                    key="report"
+                    options={{
+                        title: t("Hisobot"),
+                        headerTitleAlign: 'left',
+                        headerLeft: () => <TabBarIcon name={"bars"} style={{marginLeft: 15}} color={"#215ca0"} size={28} />,
+                        headerRight: () => <TabBarIcon name={"bells"} style={{marginRight: 15}} color={"#215ca0"} size={28} />,
+                        tabBarIcon: ({ color }) => (
+                            <TabBarIcon name={"swap"} color={color} size={24} />
+                        ),
+                        tabBarLabel: t("Hisobot"),
                     }}
                 />
             </Tabs>
