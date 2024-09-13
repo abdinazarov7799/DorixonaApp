@@ -24,7 +24,7 @@ export const useInfiniteScroll = <T = unknown, F = object>({
         const { data } = await request.get<T[]>(url, {
             params: {
                 page: pageParam,
-                'per-page':limit,
+                size:limit,
                 ...filters,
             },
         });

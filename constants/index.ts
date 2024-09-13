@@ -4,8 +4,7 @@ export const ENDPOINTS = {
     signIn: 'api/app/auth/sign-in',
     signUp: 'api/app/auth/sign-up',
     orderAdd: 'api/app/orders/order-add',
-    get_order: 'api/app/orders/get',
-    order_get_mine: 'api/app/orders/get',
+    order_get_mine: 'api/app/orders/get-mine',
     get_product: 'api/app/products',
 }
 
@@ -14,7 +13,6 @@ export const KEYS = {
     signIn: 'signIn',
     signUp: 'signUp',
     orderAdd: 'orderAdd',
-    get_order: 'get_order',
     order_get_mine: 'order_get_mine',
     get_product: 'get_product',
 }

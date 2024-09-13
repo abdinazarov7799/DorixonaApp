@@ -18,7 +18,7 @@ const request = axios.create({
 
 request.interceptors.request.use(
     async (config) => {
-        const accessToken = useStore.getState().accessToken; // Hooks o'rniga getState ishlatish
+        const accessToken = useStore.getState().accessToken;
         if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;
         }
@@ -31,12 +31,14 @@ request.interceptors.request.use(
 
 const refreshToken = async () => {
     try {
-        const refreshToken = useStore.getState().refreshToken;
-        const response = await axios.post(`${BASE_URL}/api/refresh-token`, {}, {
+        const refreshToken = await useStore.getState().refreshToken;
+        console.log(refreshToken,'refreshToken')
+        const response = await axios.post(`${BASE_URL}api/refresh-token`, {}, {
             headers: {
                 'Authorization': `Bearer ${refreshToken}`
             }
         });
+        console.log(response,'response')
         const newToken = response?.data?.accessToken;
         const newRefreshToken = response?.data?.refreshToken;
         useStore.getState().setAccessToken(newToken);

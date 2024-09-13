@@ -44,7 +44,7 @@ export default function HomeScreen() {
 
     return (
         <View className={'px-4 pt-5 bg-white flex-1'}>
-            <View className={"bg-gray-100 p-2 rounded-full"}>
+            <View className={"bg-gray-100 p-2 rounded-full mb-2"}>
                 <Input
                     variant="unstyled"
                     className={"text-gray-500 text-[15px]"}
@@ -65,11 +65,6 @@ export default function HomeScreen() {
             {
                 isLoading ? <Loader /> : (
                     <>
-                        <Text
-                            className={"font-bold text-[20px] mt-5 mb-4"}
-                        >
-                            {t("Mahsulotlar roʻyxati")}
-                        </Text>
                         <FlatList
                             onEndReached={onEndReached}
                             data={data}
@@ -82,6 +77,13 @@ export default function HomeScreen() {
                             refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh}/>}
                             ListEmptyComponent={
                                 <Center className={'p-10 text-xl'}>{t("No data")}</Center>
+                            }
+                            ListHeaderComponent={
+                                <Text
+                                    className={"font-bold text-[20px] mt-3 mb-4"}
+                                >
+                                    {t("Mahsulotlar roʻyxati")}
+                                </Text>
                             }
                             ListFooterComponent={
                                 <View style={{
