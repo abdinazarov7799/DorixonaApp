@@ -3,7 +3,7 @@ import {View} from "react-native";
 
 const Report = () => {
     return (
-        <View>
+        <View className="flex-1 bg-white">
             
         </View>
     );

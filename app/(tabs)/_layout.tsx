@@ -3,7 +3,6 @@ import React from 'react';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { useTranslation } from "react-i18next";
 import useStore from "@/store";
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function TabLayout() {
     const { t } = useTranslation();
