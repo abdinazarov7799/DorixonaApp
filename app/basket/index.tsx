@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, RefreshControl, Image, ActivityIndicator, FlatList, ScrollView} from "react-native";
+import {View, Text, Image, ScrollView} from "react-native";
 import {AntDesign} from "@expo/vector-icons";
 import {useTranslation} from "react-i18next";
 import {router} from "expo-router";
-import {get, isEmpty, isEqual, isNil} from "lodash";
-import {Button, Center, Input} from "native-base";
+import {get, isNil} from "lodash";
+import {Button, Input} from "native-base";
 import useStore from "@/store";
 
 const Index = () => {
@@ -86,7 +86,7 @@ const Index = () => {
                         {Intl.NumberFormat('en-US').format(fullPrice)} {t("so'm")}
                     </Text>
                 </View>
-                <Button className={"bg-blue-500 w-full h-[44px] rounded-lg"} disabled={isNil(orders)} onPress={() => router.push('/basket')}>
+                <Button className={"bg-blue-500 w-full h-[44px] rounded-lg"} disabled={isNil(orders)} onPress={() => router.push('/basket/company')}>
                     <Text className={"text-white font-medium text-[16px]"}>
                         {t("Dorixonani belgilash")}
                     </Text>
