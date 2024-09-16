@@ -86,7 +86,7 @@ const Index = () => {
                         {Intl.NumberFormat('en-US').format(fullPrice)} {t("so'm")}
                     </Text>
                 </View>
-                <Button className={"bg-blue-500 w-full h-[44px] rounded-lg"} disabled={isNil(orders)} onPress={() => router.push('/basket/company')}>
+                <Button className={"bg-[#215ca0] w-full h-[44px] rounded-lg"} disabled={isNil(orders)} onPress={() => router.push('/basket/company')}>
                     <Text className={"text-white font-medium text-[16px]"}>
                         {t("Dorixonani belgilash")}
                     </Text>

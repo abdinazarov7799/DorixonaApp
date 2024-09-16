@@ -41,7 +41,7 @@ const Index = () => {
                         </Text>
                     </TouchableOpacity>
                 </View>
-                <Button onPress={handleContinue} className={'w-full p-4 text-lg bg-blue-500 rounded-lg'}>
+                <Button onPress={handleContinue} className={'w-full p-4 text-lg bg-[#215ca0] rounded-lg'}>
                     {t("Davom eting")}
                 </Button>
             </View>

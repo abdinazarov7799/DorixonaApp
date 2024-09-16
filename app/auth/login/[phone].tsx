@@ -107,7 +107,7 @@ const Login = () => {
                     {timerCount == 0 ? t("Kodni qayta yuborish") : t("Kodni qayta yuborish") + ": " + timerCount}
                 </Button>
                 <Button
-                    className={"bg-blue-500 p-4 rounded-lg"}
+                    className={"bg-[#215ca0] p-4 rounded-lg"}
                     isDisabled={isPending || !otp}
                     onPress={() => setOtp(otp)}
                 >

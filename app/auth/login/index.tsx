@@ -80,7 +80,7 @@ const Index = () => {
                                 </Text>
                             )}
                         </View>
-                        <Button className={'p-4 rounded-lg bg-blue-500'} onPress={handleSubmit}>
+                        <Button className={'p-4 rounded-lg bg-[#215ca0]'} onPress={handleSubmit}>
                             {t("Davom etish")}
                         </Button>
                     </View>

@@ -98,7 +98,7 @@ const SignUp = () => {
                         <Button
                             isDisabled={!values.firstName || !values.lastName}
                             className={clsx('mt-4 p-4 rounded-lg text-white', {
-                                'bg-blue-500': values.firstName && values.lastName,
+                                'bg-[#215ca0]': values.firstName && values.lastName,
                                 'bg-blue-300': !values.firstName || !values.lastName,
                             })}
                             onPress={handleSubmit}

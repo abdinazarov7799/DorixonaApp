@@ -111,7 +111,7 @@ export default function HomeScreen() {
             {
                 !isNil(fullPrice) && fullPrice > 0 && (
                     <View className={"absolute bottom-0 z-10 w-[100vw] h-[74px] p-[12px] bg-white"}>
-                        <Button className={"bg-blue-500 w-full h-full rounded-lg"} onPress={() => router.push('/basket')}>
+                        <Button className={"bg-[#215ca0] w-full h-full rounded-lg"} onPress={() => router.push('/basket')}>
                             <View className={"flex-row justify-between w-full items-center"}>
                                 <Text className={"text-white font-medium text-[16px]"}>
                                     {t("Savat")}
