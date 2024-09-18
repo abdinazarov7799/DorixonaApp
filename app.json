@@ -1,50 +1,52 @@
 {
-  "expo": {
-    "name": "Dorixona",
-    "slug": "jurabek-laboratories-mobile",
-    "version": "1.0.0",
-    "orientation": "default",
-    "icon": "./assets/images/splash.png",
-    "scheme": "myapp",
-    "userInterfaceStyle": "automatic",
-    "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#215ca0"
-    },
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.diyorbekabdinazarov.jurabeklab",
-      "requireFullScreen": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/splash.png",
-        "backgroundColor": "#215ca0"
-      },
-      "package": "com.diyorbekabdinazarov.jurabeklab"
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/splash.png"
-    },
-    "plugins": [
-      "expo-router",
-      "expo-screen-orientation",
-      "@config-plugins/react-native-blob-util",
-      "@config-plugins/react-native-pdf"
-    ],
-    "experiments": {
-      "typedRoutes": true
-    },
-    "extra": {
-      "router": {
-        "origin": false
-      },
-      "eas": {
-        "projectId": "be6d7146-b659-449b-8c9b-477e04bfd3dd"
-      }
-    }
-  }
+	"expo": {
+		"name": "Dorixona",
+		"slug": "jurabek-laboratories-mobile",
+		"version": "1.0.0",
+		"orientation": "default",
+		"icon": "./assets/images/splash.png",
+		"scheme": "myapp",
+		"userInterfaceStyle": "automatic",
+		"splash": {
+			"image": "./assets/images/splash.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#215ca0"
+		},
+		"ios": {
+			"supportsTablet": true,
+			"bundleIdentifier": "com.diyorbekabdinazarov.jurabeklab",
+			"requireFullScreen": true
+		},
+		"android": {
+			"windowSoftInputMode": "adjustPan",
+			"softwareKeyboardLayoutMode": "pan",
+			"adaptiveIcon": {
+				"foregroundImage": "./assets/images/splash.png",
+				"backgroundColor": "#215ca0"
+			},
+			"package": "com.diyorbekabdinazarov.jurabeklab"
+		},
+		"web": {
+			"bundler": "metro",
+			"output": "static",
+			"favicon": "./assets/images/splash.png"
+		},
+		"plugins": [
+			"expo-router",
+			"expo-screen-orientation",
+			"@config-plugins/react-native-blob-util",
+			"@config-plugins/react-native-pdf"
+		],
+		"experiments": {
+			"typedRoutes": true
+		},
+		"extra": {
+			"router": {
+				"origin": false
+			},
+			"eas": {
+				"projectId": "be6d7146-b659-449b-8c9b-477e04bfd3dd"
+			}
+		}
+	}
 }
