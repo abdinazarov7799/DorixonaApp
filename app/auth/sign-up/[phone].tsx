@@ -68,8 +68,9 @@ const SignUp = () => {
                                     placeholder={t("Ismingiz")}
                                     onChangeText={handleChange("firstName")}
                                     onBlur={handleBlur("firstName")}
-                                    className={clsx('p-4 bg-white', {
-                                        'border border-red-500': errors.firstName && touched.firstName,
+                                    variant={"unstyled"}
+                                    className={clsx('p-4 bg-white bg-gray-100 rounded-lg border border-gray-300', {
+                                        'border-red-500': errors.firstName && touched.firstName,
                                     })}
                                 />
                                 {errors.firstName && touched.firstName && (
@@ -84,8 +85,9 @@ const SignUp = () => {
                                 placeholder={t("Familyangiz")}
                                 onChangeText={handleChange("lastName")}
                                 onBlur={handleBlur("lastName")}
-                                className={clsx('p-4 bg-white', {
-                                    'border border-red-500': errors.lastName && touched.lastName,
+                                variant={"unstyled"}
+                                className={clsx('p-4 bg-white bg-gray-100 rounded-lg border border-gray-300', {
+                                    'border-red-500': errors.lastName && touched.lastName,
                                 })}
                             />
                             {errors.lastName && touched.lastName && (

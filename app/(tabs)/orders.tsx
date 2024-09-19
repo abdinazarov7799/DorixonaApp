@@ -1,7 +1,6 @@
-import {Button, Center, Flex, Icon, Input} from "native-base";
+import {Center} from "native-base";
 import {useTranslation} from "react-i18next";
-import {ActivityIndicator, FlatList, Image, RefreshControl, Text, View} from "react-native";
-import {Ionicons} from "@expo/vector-icons";
+import {ActivityIndicator, FlatList, RefreshControl, Text, View} from "react-native";
 import Loader from "@/components/shared/Loader";
 import React, {useState} from "react";
 import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
@@ -11,7 +10,7 @@ import {get} from "lodash";
 export default function TabOrdersScreen() {
     const { t } = useTranslation();
     const [search, setSearch] = useState(null);
-    const {  isRefreshing, onRefresh, onEndReached, isFetchingNextPage,isLoading } = useInfiniteScroll({
+    const { data, isRefreshing, onRefresh, onEndReached, isFetchingNextPage,isLoading } = useInfiniteScroll({
         key: KEYS.order_get_mine,
         url: ENDPOINTS.order_get_mine,
         limit: 15,
@@ -19,7 +18,7 @@ export default function TabOrdersScreen() {
             search
         }
     });
-    const data = [
+    const data1 = [
         {
             status: "Yuborildi",
             id: "89217315",
@@ -82,12 +81,11 @@ export default function TabOrdersScreen() {
         <View className={'px-4 pt-5 bg-white flex-1'}>
 
             {
-                // isLoading ? <Loader /> :
-                    (
+                isLoading ? <Loader /> : (
                     <>
                         <FlatList
                             onEndReached={onEndReached}
-                            data={data}
+                            data={data1}
                             initialNumToRender={10}
                             removeClippedSubviews={true}
                             keyExtractor={(item) => item?.id}

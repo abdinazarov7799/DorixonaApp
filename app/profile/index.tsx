@@ -2,7 +2,6 @@ import {BaseBottomSheet} from "@/components/shared/bottom-sheet";
 import useStore from "@/store";
 import {Ionicons} from "@expo/vector-icons";
 import {BottomSheetModal} from "@gorhom/bottom-sheet";
-import clsx from "clsx";
 import {useRouter} from "expo-router";
 import {Formik} from "formik";
 import {Button} from "native-base";
