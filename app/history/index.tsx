@@ -77,16 +77,17 @@ const data = [
 	},
 ];
 
-const Report = () => {
+const Index = () => {
+	const router = useRouter();
+	const {t} = useTranslation();
 	const [transaction, setTransaction] = useState<ActionItemProps | null>(null);
 	const minHeight = useWindowDimensions().height;
 	const sheetRef = useRef<BottomSheetModal>(null);
 
-	const handlePress =
-		(item: ActionItemProps) => () => {
-			setTransaction(item);
-			sheetRef.current?.present();
-		};
+	const handlePress = (item: ActionItemProps) => () => {
+		setTransaction(item);
+		sheetRef.current?.present();
+	};
 
 	const handleDismiss = () => {
 		sheetRef.current?.dismiss();
@@ -98,13 +99,29 @@ const Report = () => {
 				onClose={handleDismiss}
 				transaction={transaction}
 			/>
-			<View className="flex-1 bg-[#F5F6F7] relative pt-4" style={{minHeight}}>
+			<View
+				className="flex-1 bg-[#F5F6F7] relative pt-[90px] "
+				style={{minHeight}}
+			>
+				<View className="absolute top-0 w-[100vw] py-[17px] px-[20px] flex-row justify-between border-b border-[#919DA63D]">
+					<View className="flex-row items-center gap-4">
+						<Ionicons
+							name="arrow-back"
+							size={24}
+							color="#215ca0"
+							onPress={() => router.back()}
+						/>
+						<Text className={"ml-[16px] font-medium text-[18px]"}>
+							{t("Tarix")}
+						</Text>
+					</View>
+				</View>
 				<View className="flex-1 px-4">
 					<FlatList
 						data={data as ActionItemProps[]}
 						keyExtractor={item => item.id.toString()}
 						renderItem={({item}) => (
-							<ActionItem {...item} onPress={handlePress( item)} />
+							<ActionItem {...item} onPress={handlePress(item)} />
 						)}
 					/>
 				</View>
@@ -202,4 +219,4 @@ function ActionItem({
 	return ActionTypes[type];
 }
 
-export default Report;
+export default Index;
