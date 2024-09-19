@@ -6,7 +6,7 @@ import {useEffect} from "react";
 import "react-native-reanimated";
 import {useColorScheme} from "@/hooks/useColorScheme";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
-import {NativeBaseProvider} from "native-base";
+import {NativeBaseProvider, StatusBar} from "native-base";
 import "../lib/i18n";
 import {useTranslation} from "react-i18next";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -59,6 +59,10 @@ function RootLayoutNav() {
 						<ThemeProvider
 							value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
 						>
+							<StatusBar
+								barStyle={"dark-content"}
+								backgroundColor="transparent"
+							/>
 							<BottomSheetModalProvider>
 								<Stack>
 									<Stack.Screen name="(tabs)" options={{headerShown: false}} />
@@ -68,6 +72,12 @@ function RootLayoutNav() {
 										name="transfer"
 										options={{headerShown: false}}
 									/>
+									<Stack.Screen name="history" options={{headerShown: false}} />
+									<Stack.Screen
+										name="notification"
+										options={{headerShown: false}}
+									/>
+									<Stack.Screen name="profile" options={{headerShown: false}} />
 									<Stack.Screen name="+not-found" />
 									<Stack.Screen name="auth" options={{headerShown: false}} />
 								</Stack>

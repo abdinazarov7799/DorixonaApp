@@ -33,8 +33,13 @@ const cards = [
 	},
 ];
 
-const CardCarousel = () => {
-	const [activeIndex, setActiveIndex] = useState(0);
+type CardCarouselProps = {
+	activeIndex: number;
+	setActiveIndex: (index: number) => void;
+};
+
+const CardCarousel = ({activeIndex, setActiveIndex}: CardCarouselProps) => {
+	// const [activeIndex, setActiveIndex] = useState(0);
 	const scrollX = useRef(new Animated.Value(0)).current;
 
 	const onMomentumScrollEnd = (
@@ -78,11 +83,11 @@ const CardCarousel = () => {
 						</StyledView>
 						<StyledView className="max-h-8 h-8 max-w-12 w-12 ml-auto">
 							<StyledImage
-								resizeMode="cover"
+								resizeMode="contain"
 								className="h-full w-full"
 								source={
 									cardType === "uzcard"
-										? require("@/assets/images/uzcard.jpg")
+										? require("@/assets/images/uzcard.png")
 										: require("@/assets/images/humo.png")
 								}
 							/>

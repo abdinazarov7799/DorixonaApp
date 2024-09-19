@@ -109,7 +109,7 @@ const Card = ({
 					style={{height: "100%", width: "100%"}}
 					source={
 						cardType === "uzcard"
-							? require("@/assets/images/uzcard.jpg")
+							? require("@/assets/images/uzcard.png")
 							: require("@/assets/images/humo.png")
 					}
 				/>

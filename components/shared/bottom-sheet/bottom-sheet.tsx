@@ -10,12 +10,14 @@ import {PropsWithChildren, useCallback} from "react";
 type BottomSheetProps = {
 	bottomSheetRef: React.RefObject<BottomSheetModal>;
 	snap?: string;
+	backgroundColor?: string;
 } & PropsWithChildren<unknown>;
 
 export const BaseBottomSheet = ({
 	bottomSheetRef,
 	children,
 	snap = "45%",
+	backgroundColor = "white",
 }: BottomSheetProps) => {
 	const snapPoints = [snap];
 	const renderBackdrop = useCallback(
@@ -31,6 +33,7 @@ export const BaseBottomSheet = ({
 	return (
 		<>
 			<BottomSheetModal
+				backgroundStyle={{backgroundColor}}
 				ref={bottomSheetRef}
 				index={0}
 				snapPoints={snapPoints}

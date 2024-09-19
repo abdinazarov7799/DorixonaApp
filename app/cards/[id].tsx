@@ -3,7 +3,7 @@ import {Ionicons} from "@expo/vector-icons";
 import {BottomSheetModal} from "@gorhom/bottom-sheet";
 import {useLocalSearchParams, useRouter} from "expo-router";
 import {Button} from "native-base";
-import {useRef, useState} from "react";
+import {useRef} from "react";
 import {useTranslation} from "react-i18next";
 import {Image, Text, TextInput, View} from "react-native";
 

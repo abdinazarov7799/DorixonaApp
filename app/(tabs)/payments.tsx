@@ -48,13 +48,16 @@ export default function TabPaymentsScreen() {
 	const hasCards = cards.length > 0;
 
 	const handleAddCard = () => {
-		// router.push('/cards');
+		router.push("/cards/add");
 	};
 	const handleTransfer = () => {
 		router.push("/transfer");
 	};
 	const handleNavigateToCards = () => {
 		router.push("/cards");
+	};
+	const handleNavigateToHistory = () => {
+		router.push("/history");
 	};
 	return (
 		<View className="flex-1 bg-[#F5F6F7] pt-10">
@@ -100,7 +103,10 @@ export default function TabPaymentsScreen() {
 			<View className="bg-white flex-1 rounded-t-3xl mt-6 p-4">
 				<View className="flex-row justify-between items-center mb-6">
 					<Text className="text-xl font-bold">{t("Oxirgi amallar")}</Text>
-					<Button className="rounded-full py-1 bg-[#919DA63D] text-black">
+					<Button
+						onPress={handleNavigateToHistory}
+						className="rounded-full py-1 bg-[#919DA63D] text-black"
+					>
 						<View className="flex-row justify-between items-center gap-3">
 							<Text className="font-medium">{t("Barchasi")}</Text>
 							<FontAwesome5 name="chevron-right" size={16} color="black" />
