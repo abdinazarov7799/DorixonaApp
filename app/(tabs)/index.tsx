@@ -1,7 +1,15 @@
-import {View, Text, Image, FlatList, RefreshControl, ActivityIndicator} from 'react-native';
+import {
+    View,
+    Text,
+    Image,
+    FlatList,
+    RefreshControl,
+    ActivityIndicator,
+    TouchableOpacity
+} from 'react-native';
 import { KEYS, ENDPOINTS } from "@/constants";
 import Loader from "@/components/shared/Loader";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { useTranslation } from "react-i18next";
 import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
 import {Button, Center, Icon, Input} from "native-base";
@@ -9,13 +17,16 @@ import {AntDesign, Ionicons} from "@expo/vector-icons";
 import useStore from "@/store";
 import {get, isEmpty, isEqual, isNil} from "lodash";
 import {router} from "expo-router";
+import {BottomSheetModal} from "@gorhom/bottom-sheet";
+import {BaseBottomSheet} from "@/components/shared/bottom-sheet";
 
 export default function HomeScreen() {
     const { t } = useTranslation();
     const [search, setSearch] = useState(null);
     const [fullPrice, setFullPrice] = useState(0);
     const {orders,increment,decrement,addToOrder} = useStore();
-
+    const [selected, setSelected] = useState<object>({});
+    const viewBottomSheetRef = useRef<BottomSheetModal>(null);
     const { data, isRefreshing, onRefresh, onEndReached, isFetchingNextPage,isLoading } = useInfiniteScroll({
         key: KEYS.get_product,
         url: ENDPOINTS.get_product,
@@ -38,14 +49,23 @@ export default function HomeScreen() {
         return order ? order.count : 0;
     };
 
+    const handleOpenViewBottomSheet = (item) => {
+        setSelected(item)
+        viewBottomSheetRef.current?.present();
+    };
+
+    const handleCloseViewBottomSheet = () => {
+        viewBottomSheetRef.current?.dismiss();
+    };
+
     const renderProductCard = ({ item }) => {
         return (
             <View className="bg-gray-100 p-2 rounded-[16px] mb-4 w-[48%] flex justify-between">
-                <Image
-                    source={item?.imageUrl ? { uri: item?.imageUrl } : require("@/assets/images/no-photo.png")}
-                    style={{ width: '100%', height: 148, resizeMode: 'cover' }}
-                />
-                <View>
+                <TouchableOpacity onPress={() => handleOpenViewBottomSheet(item)}>
+                    <Image
+                        source={item?.imageUrl ? { uri: item?.imageUrl } : require("@/assets/images/no-photo.png")}
+                        style={{ width: '100%', height: 148, resizeMode: 'cover' }}
+                    />
                     <Text
                         className="mt-1 text-[13px] p-1"
                         numberOfLines={2}
@@ -54,7 +74,7 @@ export default function HomeScreen() {
                         {item?.name}
                     </Text>
                     <Text className="mt-1 p-1 mb-3 text-black text-[13px] font-medium">{item?.price} so'm</Text>
-                </View>
+                </TouchableOpacity>
                 {
                     !orders?.some(order => isEqual(get(order,"id"),get(item,"id"))) ? (
                         <Button className="py-2 bg-white rounded-[10px]" shadow={"1"} onPress={() => increment(item)}>
@@ -87,9 +107,21 @@ export default function HomeScreen() {
     };
 
 
-
     return (
         <View className={'px-4 pt-5 bg-white flex-1'}>
+            <BaseBottomSheet bottomSheetRef={viewBottomSheetRef} snap={"90%"}>
+                <View className="p-4">
+                    <Image
+                        source={selected?.imageUrl ? { uri: selected?.imageUrl } : require("@/assets/images/no-photo.png")}
+                        style={{width: "auto",height: 350, resizeMode: 'cover' }}
+                    />
+                    <Text
+                        className="mt-1 text-[24px] p-1 font-bold"
+                    >
+                        {selected?.name}
+                    </Text>
+                </View>
+            </BaseBottomSheet>
             <View className={"bg-gray-100 p-2 rounded-full mb-2"}>
                 <Input
                     variant="unstyled"
