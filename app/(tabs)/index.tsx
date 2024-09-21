@@ -23,8 +23,7 @@ import {BaseBottomSheet} from "@/components/shared/bottom-sheet";
 export default function HomeScreen() {
     const { t } = useTranslation();
     const [search, setSearch] = useState(null);
-    const [fullPrice, setFullPrice] = useState(0);
-    const {orders,increment,decrement,addToOrder} = useStore();
+    const {orders,increment,decrement,addToOrder,fullPrice} = useStore();
     const [selected, setSelected] = useState<object>({});
     const viewBottomSheetRef = useRef<BottomSheetModal>(null);
     const { data, isRefreshing, onRefresh, onEndReached, isFetchingNextPage,isLoading } = useInfiniteScroll({
@@ -35,14 +34,6 @@ export default function HomeScreen() {
             search
         }
     });
-
-    useEffect(() => {
-        let price = 0
-        orders?.map((order) => {
-            price += (get(order,'count') * get(order,'price'))
-        })
-        setFullPrice(price)
-    }, [orders]);
 
     const getCountForItem = (itemId) => {
         const order = orders.find((order) => order?.id === itemId);
@@ -110,16 +101,61 @@ export default function HomeScreen() {
     return (
         <View className={'px-4 pt-5 bg-white flex-1'}>
             <BaseBottomSheet bottomSheetRef={viewBottomSheetRef} snap={"90%"}>
-                <View className="p-4">
-                    <Image
-                        source={selected?.imageUrl ? { uri: selected?.imageUrl } : require("@/assets/images/no-photo.png")}
-                        style={{width: "auto",height: 350, resizeMode: 'cover' }}
-                    />
-                    <Text
-                        className="mt-1 text-[24px] p-1 font-bold"
-                    >
-                        {selected?.name}
-                    </Text>
+                <Button variant={"unstyled"} shadow={1} className={"absolute right-3 rounded-full bg-white"} onPress={handleCloseViewBottomSheet}>
+                    <AntDesign name="close" size={22} color="black" />
+                </Button>
+                <View className={"h-[87vh]"}>
+                    <View className="p-4">
+                        <Image
+                            source={selected?.imageUrl ? { uri: selected?.imageUrl } : require("@/assets/images/no-photo.png")}
+                            style={{width: "auto",height: 350, resizeMode: 'cover' }}
+                        />
+                        <Text
+                            className="mt-1 text-[24px] p-1 font-bold"
+                        >
+                            {selected?.name}
+                        </Text>
+                    </View>
+                    <View className={"absolute w-full p-4 bottom-0"}>
+                        {
+                            orders?.some(order => isEqual(get(order,"id"),get(selected,"id"))) ? (
+                                <View className={"flex-row justify-between items-center"}>
+                                    <View>
+                                        <Text className={"text-[#919DA6] text-[16px] mb-1"}>{t("Mahsulot narxi")}</Text>
+                                        <Text className={"text-[#292C30] text-[18px] font-bold"}>{selected?.price} {t("so'm")}</Text>
+                                    </View>
+                                    <View className={"flex-row justify-between items-center space-x-2"}>
+                                        <Button className="bg-white rounded-[10px]" shadow={"1"} onPress={() => decrement(get(selected,'id'))}>
+                                            <AntDesign name="minus" size={22} color="black" />
+                                        </Button>
+                                        <Input
+                                            variant={"unstyled"}
+                                            value={String(getCountForItem(get(selected, 'id')))}
+                                            onChangeText={(count) => addToOrder({...selected,count})}
+                                            type={"number"}
+                                            keyboardType={"number-pad"}
+                                            w={85}
+                                            textAlign={"center"}
+                                            className="rounded-[10px] border border-gray-200"
+                                        />
+                                        <Button className="bg-white rounded-[10px]" shadow={"1"} onPress={() => increment(selected)}>
+                                            <AntDesign name="plus" size={22} color="black" />
+                                        </Button>
+                                    </View>
+                                </View>
+                            ) : (
+                                <>
+                                    <View className={"flex-row justify-between items-center mb-3"}>
+                                        <Text className={"text-[#919DA6] text-[16px]"}>{t("Mahsulot narxi")}</Text>
+                                        <Text className={"text-[#292C30] text-[18px] font-bold"}>{selected?.price} {t("so'm")}</Text>
+                                    </View>
+                                    <Button className={"bg-[#215ca0] w-full h-[44px] rounded-lg"} shadow={"1"} onPress={() => increment(selected)}>
+                                        <Text className="text-center text-white text-[15px] font-medium">{t("Qo'shish")}</Text>
+                                    </Button>
+                                </>
+                            )
+                        }
+                    </View>
                 </View>
             </BaseBottomSheet>
             <View className={"bg-gray-100 p-2 rounded-full mb-2"}>

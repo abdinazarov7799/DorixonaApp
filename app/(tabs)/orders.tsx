@@ -18,35 +18,8 @@ export default function TabOrdersScreen() {
             search
         }
     });
-    const data1 = [
-        {
-            status: "Yuborildi",
-            id: "89217315",
-            totalPrice: "14 820 000",
-            pharmacy: "ФЕРУЗ ФАРМ-СЕРВИС ООО",
-            phoneNumber: "+998 90 000 00 00",
-            createdTime: "19:36",
-            acceptedTime: "17 августа, 19:24"
-        },
-        {
-            status: "Tasdiqlandi",
-            id: "37283193",
-            totalPrice: "14 820 000",
-            pharmacy: "Akmal Pharm",
-            phoneNumber: "+998 90 000 00 00",
-            createdTime: "19:36",
-            acceptedTime: "17 августа, 19:24"
-        },
-        {
-            status: "Bekor qilindi",
-            id: "89217315",
-            totalPrice: "14 820 000",
-            pharmacy: "ФЕРУЗ ФАРМ-СЕРВИС ООО",
-            phoneNumber: "+998 90 000 00 00",
-            createdTime: "19:36",
-            acceptedTime: "17 августа, 19:24"
-        },
-    ]
+    console.log(data,'data')
+
     const renderProductCard = ({ item }) => {
         let statusColor = ''
         switch (get(item,'status')) {
@@ -85,7 +58,7 @@ export default function TabOrdersScreen() {
                     <>
                         <FlatList
                             onEndReached={onEndReached}
-                            data={data1}
+                            data={data}
                             initialNumToRender={10}
                             removeClippedSubviews={true}
                             keyExtractor={(item) => item?.id}

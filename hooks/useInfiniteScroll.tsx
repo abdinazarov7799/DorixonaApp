@@ -37,7 +37,7 @@ export const useInfiniteScroll = <T = unknown, F = object>({
     const { data, hasNextPage, fetchNextPage, isFetchingNextPage, refetch,isLoading } = useInfiniteQuery({
         queryKey,
         queryFn,
-        initialPageParam: 1,
+        initialPageParam: 0,
         getNextPageParam: (lastPage, __, lastPageParam) => {
             if (_.get(lastPage,'data.data.pageable.pageNumber',0) >= _.get(lastPage,'data.totalPages',0)) {
                 return undefined;

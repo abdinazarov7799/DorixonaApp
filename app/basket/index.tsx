@@ -9,16 +9,7 @@ import useStore from "@/store";
 
 const Index = () => {
     const { t } = useTranslation();
-    const [fullPrice, setFullPrice] = useState(0);
-    const {orders,increment,decrement,addToOrder,setOrders} = useStore();
-
-    useEffect(() => {
-        let price = 0
-        orders?.map((order) => {
-            price += (get(order,'count') * get(order,'price'))
-        })
-        setFullPrice(price)
-    }, [orders]);
+    const {orders,increment,decrement,addToOrder,setOrders,fullPrice} = useStore();
 
     const getCountForItem = (itemId) => {
         const order = orders.find((order) => order?.id === itemId);

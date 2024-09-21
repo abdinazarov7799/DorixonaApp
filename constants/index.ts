@@ -3,9 +3,12 @@ export const ENDPOINTS = {
     getMe: 'api/app/auth/me',
     signIn: 'api/app/auth/sign-in',
     signUp: 'api/app/auth/sign-up',
-    orderAdd: 'api/app/orders/order-add',
+    orderAdd: 'api/app/orders/add',
     order_get_mine: 'api/app/orders/get-mine',
     get_product: 'api/app/products',
+    region_list: 'api/app/pharmacy/regions',
+    district_list: 'api/app/pharmacy/districts',
+    pharmacy_list: 'api/app/pharmacy/get',
 }
 
 export const KEYS = {
@@ -15,5 +18,8 @@ export const KEYS = {
     orderAdd: 'orderAdd',
     order_get_mine: 'order_get_mine',
     get_product: 'get_product',
+    region_list: "region_list",
+    district_list: "district_list",
+    pharmacy_list: "pharmacy_list"
 }
 export const LANGUAGES = [{lang:'uz',title:'UZ'},{lang:'kr',title:'KR'},{lang:'ru',title:'RU'}]

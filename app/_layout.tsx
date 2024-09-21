@@ -56,33 +56,29 @@ function RootLayoutNav() {
 			<QueryClientProvider client={queryClient}>
 				<GestureHandlerRootView>
 					<NativeBaseProvider>
-						<ThemeProvider
-							value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-						>
-							<StatusBar
-								barStyle={"dark-content"}
-								backgroundColor="transparent"
-							/>
-							<BottomSheetModalProvider>
-								<Stack>
-									<Stack.Screen name="(tabs)" options={{headerShown: false}} />
-									<Stack.Screen name="basket" options={{headerShown: false}} />
-									<Stack.Screen name="cards" options={{headerShown: false}} />
-									<Stack.Screen
-										name="transfer"
-										options={{headerShown: false}}
-									/>
-									<Stack.Screen name="history" options={{headerShown: false}} />
-									<Stack.Screen
-										name="notification"
-										options={{headerShown: false}}
-									/>
-									<Stack.Screen name="profile" options={{headerShown: false}} />
-									<Stack.Screen name="+not-found" />
-									<Stack.Screen name="auth" options={{headerShown: false}} />
-								</Stack>
-							</BottomSheetModalProvider>
-						</ThemeProvider>
+						<StatusBar
+							barStyle={"dark-content"}
+							backgroundColor="transparent"
+						/>
+						<BottomSheetModalProvider>
+							<Stack>
+								<Stack.Screen name="(tabs)" options={{headerShown: false}} />
+								<Stack.Screen name="basket" options={{headerShown: false}} />
+								<Stack.Screen name="cards" options={{headerShown: false}} />
+								<Stack.Screen
+									name="transfer"
+									options={{headerShown: false}}
+								/>
+								<Stack.Screen name="history" options={{headerShown: false}} />
+								<Stack.Screen
+									name="notification"
+									options={{headerShown: false}}
+								/>
+								<Stack.Screen name="profile" options={{headerShown: false}} />
+								<Stack.Screen name="+not-found" />
+								<Stack.Screen name="auth" options={{headerShown: false}} />
+							</Stack>
+						</BottomSheetModalProvider>
 					</NativeBaseProvider>
 				</GestureHandlerRootView>
 			</QueryClientProvider>
