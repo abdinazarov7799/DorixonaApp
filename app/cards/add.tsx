@@ -6,11 +6,25 @@ import {Button} from "native-base";
 import {useTranslation} from "react-i18next";
 import {Text, TextInput, View, useWindowDimensions} from "react-native";
 import MaskInput, {Masks} from "react-native-mask-input";
+import usePostQuery from "@/hooks/api/usePostQuery";
+import {ENDPOINTS} from "@/constants";
 
 export const AddCard = () => {
 	const minHeight = useWindowDimensions().height;
 	const router = useRouter();
 	const {t} = useTranslation();
+	const { mutate,isPending } = usePostQuery({})
+	const onSubmit = (values) => {
+		mutate({
+			endpoint: ENDPOINTS.card_add,
+			attributes: {
+				cardNumber: values?.cardNumber,
+				name: values?.cardName,
+			}
+		},{
+			onSuccess: () => {router.back()}
+		})
+	}
 	return (
 		<View
 			className="flex-1 bg-[#F5F6F7] relative pt-[90px] px-4 pb-6"
@@ -31,7 +45,7 @@ export const AddCard = () => {
 			</View>
 			<Formik
 				initialValues={{cardNumber: "", cardName: ""}}
-				onSubmit={values => console.log(values)}
+				onSubmit={onSubmit}
 				validateOnChange={false}
 				validationSchema={addCardSchema}
 			>
@@ -87,8 +101,9 @@ export const AddCard = () => {
 
 						<Button
 							onPress={() => handleSubmit()}
-							disabled={!isValid}
-							className="mt-auto rounded-lg bg-[#246BB2]"
+							isLoading={isPending}
+							isDisabled={!isValid && isPending}
+							className="mt-auto mb-4 rounded-lg bg-[#246BB2]"
 							style={{opacity: isValid ? 1 : 0.5}}
 						>
 							<Text className="text-[15px] text-white font-medium">

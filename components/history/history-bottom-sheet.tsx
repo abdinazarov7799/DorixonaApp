@@ -2,7 +2,6 @@ import {BottomSheetModal} from "@gorhom/bottom-sheet";
 import {useTranslation} from "react-i18next";
 import {View, Text, Image} from "react-native";
 import {BaseBottomSheet} from "../shared/bottom-sheet";
-import {Button} from "native-base";
 import {ActionItemProps} from "@/app/history";
 import {Ionicons} from "@expo/vector-icons";
 import {styled} from "nativewind";

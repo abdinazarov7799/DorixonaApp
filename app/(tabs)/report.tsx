@@ -1,86 +1,92 @@
 import {HistoryBottomSheet} from "@/components/history";
 import {FontAwesome5, Ionicons} from "@expo/vector-icons";
 import {BottomSheetModal} from "@gorhom/bottom-sheet";
-import {useRouter} from "expo-router";
-import {useMemo, useRef, useState} from "react";
+import React, {useMemo, useRef, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {
 	FlatList,
 	Text,
 	TouchableOpacity,
 	View,
-	useWindowDimensions,
+	useWindowDimensions, RefreshControl, ActivityIndicator,
 } from "react-native";
+import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
+import {ENDPOINTS, KEYS} from "@/constants";
 
-const data = [
-	{
-		id: 1,
-		createdAt: "2021-09-01T12:00:00",
-		status: "pending",
-		type: "transfer",
-		amount: -120000,
-		cardType: "Uzcard",
-		cardNumber: "9860010187569345",
-	},
-	{
-		id: 2,
-		createdAt: "2021-09-01T12:00:00",
-		status: "success",
-		type: "order",
-		orderNumber: "8921734",
-		sender: "Grandpharm",
-		cardType: "Uzcard",
-		amount: 1650000,
-		cardNumber: "9860010187569345",
-	},
-	{
-		id: 3,
-		createdAt: "2021-09-01T12:00:00",
-		status: "success",
-		type: "order",
-		orderNumber: "89249983",
-		sender: "OXY med",
-		amount: 110000,
-		cardType: "Uzcard",
-		cardNumber: "9860010187569345",
-	},
-	{
-		id: 4,
-		createdAt: "2021-09-01T12:00:00",
-		status: "success",
-		type: "order",
-		orderNumber: "8929382",
-		sender: "Grandpharm",
-		amount: 78000,
-		cardType: "Uzcard",
-		cardNumber: "9860010187569345",
-	},
-	{
-		id: 5,
-		createdAt: "2021-09-01T12:00:00",
-		status: "success",
-		type: "transfer",
-		amount: -460000,
-		cardType: "Humo",
-		cardNumber: "9860010143567489",
-	},
-	{
-		id: 6,
-		createdAt: "2021-09-01T12:00:00",
-		status: "success",
-		type: "order",
-		orderNumber: "8929382",
-		sender: "Grandpharm",
-		amount: 78000,
-		cardType: "Uzcard",
-		cardNumber: "9860010187569345",
-	},
-];
+// const data = [
+// 	{
+// 		id: 1,
+// 		createdAt: "2021-09-01T12:00:00",
+// 		status: "pending",
+// 		type: "transfer",
+// 		amount: -120000,
+// 		cardType: "Uzcard",
+// 		cardNumber: "9860010187569345",
+// 	},
+// 	{
+// 		id: 2,
+// 		createdAt: "2021-09-01T12:00:00",
+// 		status: "success",
+// 		type: "order",
+// 		orderNumber: "8921734",
+// 		sender: "Grandpharm",
+// 		cardType: "Uzcard",
+// 		amount: 1650000,
+// 		cardNumber: "9860010187569345",
+// 	},
+// 	{
+// 		id: 3,
+// 		createdAt: "2021-09-01T12:00:00",
+// 		status: "success",
+// 		type: "order",
+// 		orderNumber: "89249983",
+// 		sender: "OXY med",
+// 		amount: 110000,
+// 		cardType: "Uzcard",
+// 		cardNumber: "9860010187569345",
+// 	},
+// 	{
+// 		id: 4,
+// 		createdAt: "2021-09-01T12:00:00",
+// 		status: "success",
+// 		type: "order",
+// 		orderNumber: "8929382",
+// 		sender: "Grandpharm",
+// 		amount: 78000,
+// 		cardType: "Uzcard",
+// 		cardNumber: "9860010187569345",
+// 	},
+// 	{
+// 		id: 5,
+// 		createdAt: "2021-09-01T12:00:00",
+// 		status: "success",
+// 		type: "transfer",
+// 		amount: -460000,
+// 		cardType: "Humo",
+// 		cardNumber: "9860010143567489",
+// 	},
+// 	{
+// 		id: 6,
+// 		createdAt: "2021-09-01T12:00:00",
+// 		status: "success",
+// 		type: "order",
+// 		orderNumber: "8929382",
+// 		sender: "Grandpharm",
+// 		amount: 78000,
+// 		cardType: "Uzcard",
+// 		cardNumber: "9860010187569345",
+// 	},
+// ];
 
 const Report = () => {
 	const [transaction, setTransaction] = useState<ActionItemProps | null>(null);
 	const minHeight = useWindowDimensions().height;
 	const sheetRef = useRef<BottomSheetModal>(null);
+	const { data, isRefreshing, onRefresh, onEndReached, isFetchingNextPage,isLoading } = useInfiniteScroll({
+		key: KEYS.transaction_history_list,
+		url: ENDPOINTS.transaction_history_list,
+		limit: 15,
+	});
 
 	const handlePress =
 		(item: ActionItemProps) => () => {
@@ -102,10 +108,22 @@ const Report = () => {
 				<View className="flex-1 px-4">
 					<FlatList
 						data={data as ActionItemProps[]}
+						onEndReached={onEndReached}
+						refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh}/>}
 						keyExtractor={item => item.id.toString()}
 						renderItem={({item}) => (
 							<ActionItem {...item} onPress={handlePress( item)} />
 						)}
+						ListFooterComponent={
+							<View style={{
+								flexDirection: 'row',
+								height: 100,
+								justifyContent: 'center',
+								alignItems: 'center',
+							}}>
+								{isFetchingNextPage && <ActivityIndicator/>}
+							</View>
+						}
 					/>
 				</View>
 			</View>

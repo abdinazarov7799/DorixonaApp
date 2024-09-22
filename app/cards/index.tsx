@@ -1,31 +1,19 @@
 import {Ionicons} from "@expo/vector-icons";
 import {useRouter} from "expo-router";
 import {Button} from "native-base";
-import {useState} from "react";
 import {useTranslation} from "react-i18next";
 import {Image, Pressable, ScrollView, Text, View} from "react-native";
-
-const cards = [
-	{
-		cardType: "uzcard",
-		cardName: "Uzcard",
-		cardNumber: "9860010187569345",
-		id: 1,
-		balance: 12000000,
-	},
-	{
-		cardType: "humo",
-		cardName: "Humo",
-		cardNumber: "9860010143567489",
-		id: 2,
-		balance: 4600000,
-	},
-];
+import useFetchRequest from "@/hooks/api/useFetchRequest";
+import {ENDPOINTS, KEYS} from "@/constants";
 
 const Index = () => {
-	const [myCards] = useState(cards);
 	const router = useRouter();
 	const {t} = useTranslation();
+	const { data, isLoading } = useFetchRequest({
+		queryKey: KEYS.card_list,
+		endpoint: ENDPOINTS.card_list,
+	})
+
 	const handleNavigateToCard = (id: number) => () => {
 		router.push(`/cards/${id}`);
 	};
@@ -45,10 +33,11 @@ const Index = () => {
 				</View>
 			</View>
 			<ScrollView className="flex-1 px-4">
-				{myCards.map(card => (
+				{data?.map(card => (
 					<Card
 						key={card.id}
-						{...card}
+						cardNumber={card?.number}
+						cardName={card?.name}
 						onPress={handleNavigateToCard(card.id)}
 					/>
 				))}
@@ -59,7 +48,8 @@ const Index = () => {
 				}
 			>
 				<Button
-					disabled={myCards.length >= 2}
+					onPress={() => router.push('/cards/add')}
+					disabled={data?.length >= 2}
 					className={"bg-[#215ca0] w-full h-[44px] rounded-lg"}
 				>
 					<Text className={"text-white font-medium text-[16px]"}>
@@ -97,7 +87,7 @@ const Card = ({
 		>
 			<View>
 				<Text className="text-[13px] text-[#656E78]">
-					{cardName} ····{String(cardNumber).slice(-4)}
+					{cardName} ···· {String(cardNumber).slice(-4)}
 				</Text>
 				<Text className="text-[#292C30] font-medium text-[16px]">
 					{Number(balance).toLocaleString("ru-RU")} so'm
@@ -108,7 +98,7 @@ const Card = ({
 					resizeMode="contain"
 					style={{height: "100%", width: "100%"}}
 					source={
-						cardType === "uzcard"
+						String(cardNumber).substring(0,4) == "8600"
 							? require("@/assets/images/uzcard.png")
 							: require("@/assets/images/humo.png")
 					}
