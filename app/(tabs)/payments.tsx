@@ -6,15 +6,15 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import {useRouter} from "expo-router";
 import useFetchRequest from "@/hooks/api/useFetchRequest";
 import {ENDPOINTS, KEYS} from "@/constants";
+import {get} from "lodash";
 
 export default function TabPaymentsScreen() {
 	const router = useRouter();
 	const {t} = useTranslation();
 	const [cards] = useState([{}]);
-	const [myBalance] = useState(12000000);
 	const hasCards = cards.length > 0;
 
-	const { data, isLoading } = useFetchRequest({
+	const { data } = useFetchRequest({
 		queryKey: KEYS.transaction_info,
 		endpoint: ENDPOINTS.transaction_info
 	})
@@ -22,20 +22,20 @@ export default function TabPaymentsScreen() {
 		router.push("/cards/add");
 	};
 	const handleTransfer = () => {
-		router.push("/transfer");
+		router.push(`/transfer?balance=${get(data,'balance')}`);
 	};
 	const handleNavigateToCards = () => {
 		router.push("/cards");
 	};
 	const handleNavigateToHistory = () => {
-		router.push("/history");
+		router.push("/(tabs)/report");
 	};
 	return (
 		<View className="flex-1 bg-[#F5F6F7] pt-10">
 			<View className="px-4">
 				<Text>{t("Mening hisobim")}</Text>
 				<Text className="text-[28px] font-bold py-2">
-					{Number(myBalance).toLocaleString("ru-RU")} so'm
+					{Number(get(data,'balance')).toLocaleString("ru-RU")} so'm
 				</Text>
 				{!hasCards && (
 					<Text className="w-3/4 text-[13px] text-[#919DA6] mb-4">

@@ -1,6 +1,6 @@
 import CardCarousel from "@/components/shared/carousel/carousel";
 import {FontAwesome5, Ionicons} from "@expo/vector-icons";
-import {useRouter} from "expo-router";
+import {useLocalSearchParams, useRouter} from "expo-router";
 import {Button} from "native-base";
 import {useState} from "react";
 import {useTranslation} from "react-i18next";
@@ -20,7 +20,8 @@ const Index = () => {
 	const [activeIndex, setActiveIndex] = useState(0);
 	const [amount,setAmount] = useState(0);
 	const minHeight = useWindowDimensions().height;
-	const { data:myCards, isLoading } = useFetchRequest({
+	const {balance} = useLocalSearchParams()
+	const { data:myCards } = useFetchRequest({
 		queryKey: KEYS.card_list,
 		endpoint: ENDPOINTS.card_list,
 	})
@@ -55,7 +56,7 @@ const Index = () => {
 					<View>
 						<Text className="text-[#656E78] text-[13px]">Mening hisobim</Text>
 						<Text className="text-[#292C30] text-[16px] font-medium">
-							{Number(28000000).toLocaleString("ru-RU")} so'm
+							{Number(balance).toLocaleString("ru-RU")} so'm
 						</Text>
 					</View>
 					<View className="h-8 w-8 overflow-hidden ml-auto">
@@ -89,7 +90,6 @@ const Index = () => {
 			</View>
 			<View className="flex-1 bg-white px-4 py-6 mt-6 rounded-3xl">
 				<Text className="">{t("O'tkazma summasi")}</Text>
-				{/* <Text className="text-2xl font-semibold mt-4">{Number(0)} so'm</Text> */}
 				<View className="flex-row items-center mt-4 ">
 					<TextInput
 						onFocus={() => setFocused(true)}
@@ -122,7 +122,7 @@ const Index = () => {
 				<Button
 					onPress={() =>
 						router.push(
-							`/transfer/info?cardNumber=${myCards[activeIndex].number}&cardId=${myCards[activeIndex]?.id}`
+							`/transfer/info?cardNumber=${myCards[activeIndex].number}&cardId=${myCards[activeIndex]?.id}&amount=${amount}`
 						)
 					}
 					className={"bg-[#215ca0] w-full h-[48px] rounded-lg mt-auto"}
