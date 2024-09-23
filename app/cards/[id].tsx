@@ -1,9 +1,9 @@
 import {BaseBottomSheet} from "@/components/shared/bottom-sheet";
 import {Ionicons} from "@expo/vector-icons";
 import {BottomSheetModal} from "@gorhom/bottom-sheet";
-import {useLocalSearchParams, useRouter} from "expo-router";
+import {router, useLocalSearchParams, useRouter} from "expo-router";
 import {Button} from "native-base";
-import {useRef} from "react";
+import {useRef, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {Image, Text, TextInput, View} from "react-native";
 import useFetchRequest from "@/hooks/api/useFetchRequest";
@@ -20,6 +20,7 @@ const CardScreen = () => {
 		endpoint: ENDPOINTS.card_list,
 	})
 	const card = data?.find(card => card.id == id);
+	const [name,setName] = useState(card?.cardName);
 
 	const handleOpenDeleteBottomSheet = () => {
 		deleteBottomSheetRef.current?.present();
@@ -28,6 +29,10 @@ const CardScreen = () => {
 	const handleCloseDeleteBottomSheet = () => {
 		deleteBottomSheetRef.current?.dismiss();
 	};
+
+	const handleEditCard = () => {
+		request.patch(`${ENDPOINTS.card_edit}/${id}`,{name}).finally(() => router.back())
+	}
 
 	return (
 		<>
@@ -57,7 +62,7 @@ const CardScreen = () => {
 						<Text className="text-[13px] text-[#656E78]">
 							{t("Karta nomi (shart emas)")}
 						</Text>
-						<TextInput defaultValue={card?.cardName} />
+						<TextInput value={name} onChangeText={text => setName(text)} />
 					</View>
 				</View>
 
@@ -74,7 +79,7 @@ const CardScreen = () => {
 							{t("Kartani o'chirish")}
 						</Text>
 					</Button>
-					<Button className={"bg-[#215ca0] w-full h-[44px] rounded-lg"}>
+					<Button className={"bg-[#215ca0] w-full h-[44px] rounded-lg"} onPress={handleEditCard}>
 						<Text className={"text-white font-medium text-[16px]"}>
 							{t("O'zgarishni saqlash")}
 						</Text>
@@ -126,7 +131,7 @@ const DeleteBottomSheet = ({
 }: DeleteBottomSheetProps) => {
 	const {t} = useTranslation();
 	const handleDelete = () => {
-		request.delete(`${ENDPOINTS.card_delete}/${id}`).finally((e) => console.log(e))
+		request.delete(`${ENDPOINTS.card_delete}/${id}`).finally((e) => router.back())
 	}
 	return (
 		<BaseBottomSheet bottomSheetRef={bottomSheetRef} snap={"35%"}>

@@ -6,8 +6,7 @@ import {Image, Text, View} from "react-native";
 
 const Info = () => {
 	const router = useRouter();
-	const {cardNumber} = useLocalSearchParams();
-	console.log(cardNumber);
+	const {cardNumber,cardId} = useLocalSearchParams();
 	const {t} = useTranslation();
 	return (
 		<View className="flex-1 bg-[#F5F6F7] relative pt-[90px]">
@@ -34,7 +33,7 @@ const Info = () => {
 						<Text className="text-[15px] text-[#919DA6]">
 							{t("Qabul qiluvchi karta")}
 						</Text>
-						<Text className="text-[15px]">{t(cardNumber)}</Text>
+						<Text className="text-[15px]">{cardNumber}</Text>
 					</View>
 					<View className="flex-row justify-between w-full">
 						<Text className="text-[15px] text-[#919DA6]">

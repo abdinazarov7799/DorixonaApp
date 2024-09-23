@@ -10,34 +10,23 @@ import {
 	Text,
 	TextInput,
 	View,
-	useWindowDimensions,
+	useWindowDimensions, TouchableOpacity,
 } from "react-native";
-
-const cards = [
-	{
-		cardType: "uzcard",
-		cardName: "Uzcard",
-		cardNumber: "9860010187569345",
-		id: 1,
-		balance: 12000000,
-	},
-	{
-		cardType: "humo",
-		cardName: "Humo",
-		cardNumber: "9860010143567489",
-		id: 2,
-		balance: 4600000,
-	},
-];
+import useFetchRequest from "@/hooks/api/useFetchRequest";
+import {ENDPOINTS, KEYS} from "@/constants";
 
 const Index = () => {
 	const [focused, setFocused] = useState(false);
 	const [activeIndex, setActiveIndex] = useState(0);
+	const [amount,setAmount] = useState(0);
 	const minHeight = useWindowDimensions().height;
-	const [myCards] = useState(cards);
+	const { data:myCards, isLoading } = useFetchRequest({
+		queryKey: KEYS.card_list,
+		endpoint: ENDPOINTS.card_list,
+	})
 	const router = useRouter();
 	const {t} = useTranslation();
-	const hasCards = myCards.length > 0;
+	const hasCards = myCards?.length > 0;
 
 	return (
 		<View
@@ -80,11 +69,12 @@ const Index = () => {
 				</Text>
 				{hasCards ? (
 					<CardCarousel
+						myCards={myCards}
 						activeIndex={activeIndex}
 						setActiveIndex={index => setActiveIndex(index)}
 					/>
 				) : (
-					<View className="px-4">
+					<TouchableOpacity className="px-4" onPress={() => router.push('/cards/add')}>
 						<View className="px-4 py-6 flex-row bg-white mt-3 rounded-lg items-center justify-center">
 							<FontAwesome5 name={"plus-circle"} size={24} color="#292C30" />
 							<Text className="ml-4 text-[15px]">{t("Karta qo'shish")}</Text>
@@ -94,7 +84,7 @@ const Index = () => {
 								"Pul o'tkazishdan oldin pul o'tkazmoqchi bo'lgan kartangizni qo'shishingiz kerak"
 							)}
 						</Text>
-					</View>
+					</TouchableOpacity>
 				)}
 			</View>
 			<View className="flex-1 bg-white px-4 py-6 mt-6 rounded-3xl">
@@ -104,6 +94,8 @@ const Index = () => {
 					<TextInput
 						onFocus={() => setFocused(true)}
 						onBlur={() => setFocused(false)}
+						value={amount}
+						onChangeText={(amount) => setAmount(amount)}
 						keyboardType="numeric"
 						className="text-2xl font-semibold mr-auto"
 						placeholder="0 so'm"
@@ -130,7 +122,7 @@ const Index = () => {
 				<Button
 					onPress={() =>
 						router.push(
-							`/transfer/info?cardNumber=${myCards[activeIndex].cardNumber}`
+							`/transfer/info?cardNumber=${myCards[activeIndex].number}&cardId=${myCards[activeIndex]?.id}`
 						)
 					}
 					className={"bg-[#215ca0] w-full h-[48px] rounded-lg mt-auto"}

@@ -4,41 +4,8 @@ import {FlatList, Text, View} from "react-native";
 import React, {useMemo, useState} from "react";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import {useRouter} from "expo-router";
-
-const data = [
-	{
-		id: 1,
-		type: "transfer",
-		amount: -120000,
-		cardType: "Uzcard",
-		cardNumber: "9860010187569345",
-	},
-	{
-		id: 2,
-		type: "order",
-		orderNumber: "8921734",
-		amount: 1650000,
-	},
-	{
-		id: 3,
-		type: "order",
-		orderNumber: "89249983",
-		amount: 110000,
-	},
-	{
-		id: 4,
-		type: "order",
-		orderNumber: "8929382",
-		amount: 78000,
-	},
-	{
-		id: 5,
-		type: "transfer",
-		amount: -460000,
-		cardType: "Humo",
-		cardNumber: "9860010143567489",
-	},
-];
+import useFetchRequest from "@/hooks/api/useFetchRequest";
+import {ENDPOINTS, KEYS} from "@/constants";
 
 export default function TabPaymentsScreen() {
 	const router = useRouter();
@@ -47,6 +14,10 @@ export default function TabPaymentsScreen() {
 	const [myBalance] = useState(12000000);
 	const hasCards = cards.length > 0;
 
+	const { data, isLoading } = useFetchRequest({
+		queryKey: KEYS.transaction_info,
+		endpoint: ENDPOINTS.transaction_info
+	})
 	const handleAddCard = () => {
 		router.push("/cards/add");
 	};

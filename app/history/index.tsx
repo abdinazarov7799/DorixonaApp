@@ -2,15 +2,18 @@ import {HistoryBottomSheet} from "@/components/history";
 import {FontAwesome5, Ionicons} from "@expo/vector-icons";
 import {BottomSheetModal} from "@gorhom/bottom-sheet";
 import {useRouter} from "expo-router";
-import {useMemo, useRef, useState} from "react";
+import React, {useMemo, useRef, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {
 	FlatList,
 	Text,
 	TouchableOpacity,
 	View,
-	useWindowDimensions,
+	useWindowDimensions, RefreshControl, Image,
 } from "react-native";
+import {ENDPOINTS, KEYS} from "@/constants";
+import {Center} from "native-base";
+import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
 
 const data = [
 	{
@@ -82,8 +85,18 @@ const Index = () => {
 	const {t} = useTranslation();
 	const [transaction, setTransaction] = useState<ActionItemProps | null>(null);
 	const minHeight = useWindowDimensions().height;
+	const [type,setType] = useState(null)
 	const sheetRef = useRef<BottomSheetModal>(null);
 
+	const { data, isRefreshing, onRefresh, onEndReached, isFetchingNextPage,isLoading } = useInfiniteScroll({
+		key: KEYS.transaction_history_list,
+		url: ENDPOINTS.transaction_history_list,
+		limit: 15,
+		filters: {
+			type
+		}
+	});
+	console.log(data,'data')
 	const handlePress = (item: ActionItemProps) => () => {
 		setTransaction(item);
 		sheetRef.current?.present();
@@ -119,10 +132,22 @@ const Index = () => {
 				<View className="flex-1 px-4">
 					<FlatList
 						data={data as ActionItemProps[]}
-						keyExtractor={item => item.id.toString()}
+						keyExtractor={item => item?.id}
 						renderItem={({item}) => (
 							<ActionItem {...item} onPress={handlePress(item)} />
 						)}
+						onEndReached={onEndReached}
+						initialNumToRender={10}
+						removeClippedSubviews={true}
+						numColumns={2}
+						columnWrapperStyle={{ justifyContent: 'space-between' }}
+						refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh}/>}
+						ListEmptyComponent={
+							<Center className={'mt-24'}>
+								<Image source={require("@/assets/images/search-icon.png")} width={72} height={72}/>
+								<Text>{t("Товар не найден")}</Text>
+							</Center>
+						}
 					/>
 				</View>
 			</View>
