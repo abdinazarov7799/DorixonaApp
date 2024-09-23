@@ -6,30 +6,20 @@ import {Button} from "native-base";
 import {useRef} from "react";
 import {useTranslation} from "react-i18next";
 import {Image, Text, TextInput, View} from "react-native";
-
-const cards = [
-	{
-		cardType: "uzcard",
-		cardName: "Uzcard",
-		cardNumber: "9860010187569345",
-		id: 1,
-		balance: 12000000,
-	},
-	{
-		cardType: "humo",
-		cardName: "Humo",
-		cardNumber: "9860010143567489",
-		id: 2,
-		balance: 4600000,
-	},
-];
+import useFetchRequest from "@/hooks/api/useFetchRequest";
+import {ENDPOINTS, KEYS} from "@/constants";
+import {request} from "@/lib/api";
 
 const CardScreen = () => {
 	const router = useRouter();
 	const {id} = useLocalSearchParams();
 	const {t} = useTranslation();
 	const deleteBottomSheetRef = useRef<BottomSheetModal>(null);
-	const card = cards?.find(card => card.id === Number(id));
+	const { data } = useFetchRequest({
+		queryKey: KEYS.card_list,
+		endpoint: ENDPOINTS.card_list,
+	})
+	const card = data?.find(card => card.id == id);
 
 	const handleOpenDeleteBottomSheet = () => {
 		deleteBottomSheetRef.current?.present();
@@ -38,11 +28,13 @@ const CardScreen = () => {
 	const handleCloseDeleteBottomSheet = () => {
 		deleteBottomSheetRef.current?.dismiss();
 	};
+
 	return (
 		<>
 			<DeleteBottomSheet
 				bottomSheetRef={deleteBottomSheetRef}
 				onClose={handleCloseDeleteBottomSheet}
+				id={id}
 			/>
 			<View className="flex-1 bg-white relative pt-[80px] pb-[110px]">
 				<View className="absolute top-0 w-[100vw] py-[17px] px-[20px] flex-row justify-between border-b border-[#919DA63D]">
@@ -94,22 +86,17 @@ const CardScreen = () => {
 };
 
 type CardProps = {
-	cardType: string;
-	cardName: string;
-	cardNumber: string;
+	name: string;
+	number: string;
 	id: number;
-	balance: number;
 };
 
-const Card = ({balance, cardName, cardNumber, cardType}: CardProps) => {
+const Card = ({name, number}: CardProps) => {
 	return (
-		<View className="border border-[#919DA63D] rounded-lg px-4 py-3 flex-row mb-4">
+		<View className="border border-[#919DA63D] rounded-lg px-4 py-3 flex-row items-center mb-4">
 			<View>
 				<Text className="text-[13px] text-[#656E78]">
-					{cardName} ····{String(cardNumber).slice(-4)}
-				</Text>
-				<Text className="text-[#292C30] font-medium text-[16px]">
-					{Number(balance).toLocaleString("ru-RU")} so'm
+					{name}{name && " ····"}{String(number).slice(-4)}
 				</Text>
 			</View>
 			<View className="ml-auto max-h-8 h-8 max-w-12 w-12 ">
@@ -117,8 +104,8 @@ const Card = ({balance, cardName, cardNumber, cardType}: CardProps) => {
 					resizeMode="contain"
 					style={{height: "100%", width: "100%"}}
 					source={
-						cardType === "uzcard"
-							? require("@/assets/images/uzcard.jpg")
+						number?.substring(0,4) == "8600"
+							? require("@/assets/images/uzcard.png")
 							: require("@/assets/images/humo.png")
 					}
 				/>
@@ -130,12 +117,17 @@ const Card = ({balance, cardName, cardNumber, cardType}: CardProps) => {
 type DeleteBottomSheetProps = {
 	bottomSheetRef: React.RefObject<BottomSheetModal>;
 	onClose: () => void;
+	id: any
 };
 const DeleteBottomSheet = ({
 	bottomSheetRef,
 	onClose,
+	id
 }: DeleteBottomSheetProps) => {
 	const {t} = useTranslation();
+	const handleDelete = () => {
+		request.delete(`${ENDPOINTS.card_delete}/${id}`).finally((e) => console.log(e))
+	}
 	return (
 		<BaseBottomSheet bottomSheetRef={bottomSheetRef} snap={"35%"}>
 			<View className="p-4 ">
@@ -148,7 +140,7 @@ const DeleteBottomSheet = ({
 					)}
 				</Text>
 				<View className="flex flex-row gap-3 mt-6">
-					<Button className="flex-1 px-4 py-3 rounded-lg bg-[#E04917]">
+					<Button className="flex-1 px-4 py-3 rounded-lg bg-[#E04917]" onPress={handleDelete}>
 						<Text className="text-[15px] font-medium text-white">
 							{t("O'chirish")}
 						</Text>

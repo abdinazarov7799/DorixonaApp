@@ -103,7 +103,7 @@ export const AddCard = () => {
 							onPress={() => handleSubmit()}
 							isLoading={isPending}
 							isDisabled={!isValid && isPending}
-							className="mt-auto mb-4 rounded-lg bg-[#246BB2]"
+							className="mt-auto bg-[#215ca0] w-full h-[44px] rounded-lg"
 							style={{opacity: isValid ? 1 : 0.5}}
 						>
 							<Text className="text-[15px] text-white font-medium">

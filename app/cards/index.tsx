@@ -82,15 +82,12 @@ const Card = ({
 }: CardProps) => {
 	return (
 		<Pressable
-			className="border border-[#919DA63D] rounded-lg px-4 py-3 flex-row mb-4"
+			className="border border-[#919DA63D] rounded-lg px-4 py-3 flex-row items-center mb-4"
 			onPress={onPress}
 		>
 			<View>
 				<Text className="text-[13px] text-[#656E78]">
-					{cardName} ···· {String(cardNumber).slice(-4)}
-				</Text>
-				<Text className="text-[#292C30] font-medium text-[16px]">
-					{Number(balance).toLocaleString("ru-RU")} so'm
+					{cardName}{cardName && " ···· "}{String(cardNumber).slice(-4)}
 				</Text>
 			</View>
 			<View className="ml-auto max-h-8 h-8 max-w-12 w-12 ">

@@ -1,16 +1,17 @@
 import {Center} from "native-base";
 import {useTranslation} from "react-i18next";
-import {ActivityIndicator, FlatList, RefreshControl, Text, View} from "react-native";
+import {ActivityIndicator, FlatList, RefreshControl, Text, View, Image} from "react-native";
 import Loader from "@/components/shared/Loader";
 import React, {useState} from "react";
 import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
 import {ENDPOINTS, KEYS} from "@/constants";
 import {get} from "lodash";
+import dayjs from "dayjs";
 
 export default function TabOrdersScreen() {
     const { t } = useTranslation();
     const [search, setSearch] = useState(null);
-    const { data, isRefreshing, onRefresh, onEndReached, isFetchingNextPage,isLoading } = useInfiniteScroll({
+    const { data, isRefreshing, onRefresh, onEndReached, isFetchingNextPage, isLoading } = useInfiniteScroll({
         key: KEYS.order_get_mine,
         url: ENDPOINTS.order_get_mine,
         limit: 15,
@@ -18,33 +19,46 @@ export default function TabOrdersScreen() {
             search
         }
     });
-    console.log(data,'data')
+
+    const formatDate = (timestamp) => {
+        return dayjs(timestamp).format("HH:mm DD MMM");
+    };
 
     const renderProductCard = ({ item }) => {
-        let statusColor = ''
-        switch (get(item,'status')) {
-            case "Yuborildi": statusColor = '#248BF2'; break;
-            case "Tasdiqlandi": statusColor = '#00B268'; break;
-            case "Bekor qilindi": statusColor = '#E04917'; break;
-        }
+        const status = get(item, 'status');
+        const products = get(item, 'products', []); // Assuming products are in item.products array
+
         return (
-            <View className="bg-gray-100 p-[16px] rounded-[12px] mb-4 ">
+            <View className="bg-gray-100 p-[16px] rounded-[12px] mb-4">
                 <View className={"flex-row justify-between mb-4"}>
                     <View>
                         <Text className="text-[16px] font-medium mb-1">
-                            {t("Buyurtma") + "#" + get(item,'id')}
+                            {t("Buyurtma") + "#" + get(item, 'id')}
                         </Text>
                         <Text className="text-[13px] text-[#919DA6]">
-                            {get(item,'createdTime')} &middot; {get(item,'pharmacy')}
+                            {formatDate(get(item, 'createdTime'))} &middot; {get(item, 'pharmacy')}
                         </Text>
                     </View>
-                    <View className={`bg-[${statusColor}] text-white`}>
-                        <Text>{get(item, 'status')}</Text>
+                    <View
+                        className={`bg-[${status === "SENT" ? "#248BF2" : status === "CONFIRMED" ? "#00B268" : status === "REJECTED" ? "#E04917" : "#919DA6"}] rounded-[8px] py-1 px-2`}>
+                        <Text className="text-white text-[12px] font-medium">
+                            {status === "SENT" ? t("Yuborildi") : status === "CONFIRMED" ? t("Tasdiqlandi") : status === "REJECTED" ? t("Bekor qilindi") : t("Holat noaniq")}
+                        </Text>
                     </View>
+                </View>
+                <View className="flex-row items-center space-x-2 mb-4">
+                    {products.slice(0, 4).map((product, index) => (
+                        <Image key={index} source={{ uri: product.imageUrl }} className="w-[40px] h-[40px] rounded-md" />
+                    ))}
+                    {products.length > 4 && (
+                        <View className="w-[40px] h-[40px] rounded-md bg-gray-300 flex items-center justify-center">
+                            <Text className="text-gray-600">+{products.length - 4}</Text>
+                        </View>
+                    )}
                 </View>
                 <View className={"flex-row justify-between"}>
                     <Text className={"text-[#919DA6] text-[15px]"}>{t("Umumiy summasi")}</Text>
-                    <Text className={"text-[15px] font-medium"}>{get(item,'totalPrice')}</Text>
+                    <Text className={"text-[15px] font-medium"}>{get(item, 'totalPrice')} so'm</Text>
                 </View>
             </View>
         );
@@ -52,7 +66,6 @@ export default function TabOrdersScreen() {
 
     return (
         <View className={'px-4 pt-5 bg-white flex-1'}>
-
             {
                 isLoading ? <Loader /> : (
                     <>
@@ -61,9 +74,9 @@ export default function TabOrdersScreen() {
                             data={data}
                             initialNumToRender={10}
                             removeClippedSubviews={true}
-                            keyExtractor={(item) => item?.id}
+                            keyExtractor={(item) => item?.id.toString()}
                             renderItem={renderProductCard}
-                            refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh}/>}
+                            refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
                             ListEmptyComponent={
                                 <Center className={'p-10 text-xl'}>{t("No data")}</Center>
                             }
@@ -74,7 +87,7 @@ export default function TabOrdersScreen() {
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                 }}>
-                                    {isFetchingNextPage && <ActivityIndicator/>}
+                                    {isFetchingNextPage && <ActivityIndicator />}
                                 </View>
                             }
                         />

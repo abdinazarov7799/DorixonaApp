@@ -13,6 +13,8 @@ export const ENDPOINTS = {
     transaction_info: 'api/app/transactions/info',
     card_list: "api/app/transactions/cards",
     card_add: "api/app/transactions/add-card",
+    card_edit: "api/app/transactions/edit-card",
+    card_delete: "api/app/transactions/delete-card",
     withdraw: "api/app/transactions/withdraw",
 }
 
