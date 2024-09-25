@@ -24,6 +24,7 @@ const Info = () => {
 			}
 		});
 	},[amount])
+
 	return (
 		<View className="flex-1 bg-[#F5F6F7] relative pt-[90px]">
 			<View className="absolute top-0 w-[100vw] py-[17px] px-[20px] flex-row justify-between border-b border-[#919DA63D]">
@@ -69,7 +70,7 @@ const Info = () => {
 								<Text className="text-[15px] text-[#919DA6]">
 									{t("O'tkazma summasi")}
 								</Text>
-								<Text className="text-[15px]">{Number(amount).toLocaleString("en-US")} so'm</Text>
+								<Text className="text-[15px]">{Number(amount).toLocaleString("en-US")} {t("so'm")}</Text>
 							</View>
 						</View>
 						<Button

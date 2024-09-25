@@ -46,6 +46,7 @@ export default function HomeScreen() {
     };
 
     const handleCloseViewBottomSheet = () => {
+        setSelected({})
         viewBottomSheetRef.current?.dismiss();
     };
 
@@ -64,7 +65,7 @@ export default function HomeScreen() {
                     >
                         {item?.name}
                     </Text>
-                    <Text className="mt-1 p-1 mb-3 text-black text-[13px] font-medium">{item?.price} so'm</Text>
+                    <Text className="mt-1 p-1 mb-3 text-black text-[13px] font-medium">{item?.price} {t("so'm")}</Text>
                 </TouchableOpacity>
                 {
                     !orders?.some(order => isEqual(get(order,"id"),get(item,"id"))) ? (
@@ -101,8 +102,8 @@ export default function HomeScreen() {
     return (
         <View className={'px-4 pt-5 bg-white flex-1'}>
             <BaseBottomSheet bottomSheetRef={viewBottomSheetRef} snap={"90%"}>
-                <Button variant={"unstyled"} shadow={1} className={"absolute right-3 rounded-full bg-white"} onPress={handleCloseViewBottomSheet}>
-                    <AntDesign name="close" size={22} color="black" />
+                <Button variant={"unstyled"} shadow={1} className={"absolute right-3 rounded-full bg-white z-10"} onPress={handleCloseViewBottomSheet}>
+                    <AntDesign name="close" size={22} color="black" onPress={handleCloseViewBottomSheet}/>
                 </Button>
                 <View className={"h-[87vh]"}>
                     <View className="p-4">

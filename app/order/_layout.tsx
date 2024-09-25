@@ -2,7 +2,7 @@ import React from "react";
 import {Slot} from "expo-router";
 import {SafeAreaView} from "react-native-safe-area-context";
 
-const HistoryLayout = () => {
+const OrderViewLayout = () => {
 	return (
 		<SafeAreaView className={"flex-1"}>
 			<Slot />
@@ -10,4 +10,4 @@ const HistoryLayout = () => {
 	);
 };
 
-export default HistoryLayout;
+export default OrderViewLayout;

@@ -56,7 +56,7 @@ const Index = () => {
 					<View>
 						<Text className="text-[#656E78] text-[13px]">Mening hisobim</Text>
 						<Text className="text-[#292C30] text-[16px] font-medium">
-							{Number(balance).toLocaleString("ru-RU")} so'm
+							{Number(balance).toLocaleString("en-US")} {t("so'm")}
 						</Text>
 					</View>
 					<View className="h-8 w-8 overflow-hidden ml-auto">
@@ -98,7 +98,7 @@ const Index = () => {
 						onChangeText={(amount) => setAmount(amount)}
 						keyboardType="numeric"
 						className="text-2xl font-semibold mr-auto"
-						placeholder="0 so'm"
+						placeholder={`0 ${t("so'm")}`}
 						placeholderTextColor={"#292C30"}
 					/>
 					{focused && (
@@ -116,7 +116,7 @@ const Index = () => {
 				/>
 				<Text className="text-[13px] font-medium text-[#919DA6]">
 					{t("Maksimal summa - ")}
-					{Number(balance).toLocaleString("ru-RU")} so'm
+					{Number(balance).toLocaleString("en-US")} {t("so'm")}
 				</Text>
 
 				<Button
@@ -162,7 +162,7 @@ const Card = ({
 					{cardName} ····{String(cardNumber).slice(-4)}
 				</Text>
 				<Text className="text-[#292C30] font-medium text-[16px]">
-					{Number(balance).toLocaleString("ru-RU")} so'm
+					{Number(balance).toLocaleString("en-US")} {t("so'm")}
 				</Text>
 			</View>
 			<View className="ml-auto max-h-8 h-8 max-w-12 w-12 ">

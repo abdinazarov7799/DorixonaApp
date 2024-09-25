@@ -2,9 +2,9 @@ import {BottomSheetModal} from "@gorhom/bottom-sheet";
 import {useTranslation} from "react-i18next";
 import {View, Text, Image} from "react-native";
 import {BaseBottomSheet} from "../shared/bottom-sheet";
-import {ActionItemProps} from "@/app/history";
 import {Ionicons} from "@expo/vector-icons";
 import {styled} from "nativewind";
+import {ActionItemProps} from "@/app/(tabs)/report";
 
 const StyledView = styled(View);
 const StyledImage = styled(Image);
@@ -21,7 +21,7 @@ export const HistoryBottomSheet = ({
 	onClose,
 }: HistoryBottomSheetProps) => {
 	const {t} = useTranslation();
-	const isSuccessful = transaction?.status === "success";
+	const isSuccessful = transaction?.status === "DONE";
 	return (
 		<BaseBottomSheet
 			bottomSheetRef={bottomSheetRef}
@@ -50,7 +50,7 @@ export const HistoryBottomSheet = ({
 						)}
 					</StyledText>
 					<StyledText className="text-[28px] font-bold">
-						{Math.abs(Number(transaction?.amount)).toLocaleString("ru-RU")} so'm
+						{Math.abs(Number(transaction?.amount)).toLocaleString("en-US")} {t("so'm")}
 					</StyledText>
 					<StyledText className="text-[16px] text-[#656E78]">
 						{transaction?.cardType} ····
@@ -64,7 +64,7 @@ export const HistoryBottomSheet = ({
 								{t("Yuboruvchi")}
 							</StyledText>
 							<StyledText className="text-[15px]">
-								{t(transaction?.sender!)}
+								{t("Jasurbek LAB")}
 							</StyledText>
 						</StyledView>
 					)}
@@ -105,8 +105,8 @@ export const HistoryBottomSheet = ({
 							{t("O'tkazma summasi")}
 						</StyledText>
 						<StyledText className="text-[15px]">
-							{t(Math.abs(Number(transaction?.amount)).toLocaleString("ru-RU"))}{" "}
-							so'm
+							{t(Math.abs(Number(transaction?.amount)).toLocaleString("en-US"))}{" "}
+							{t("so'm")}
 						</StyledText>
 					</StyledView>
 				</StyledView>

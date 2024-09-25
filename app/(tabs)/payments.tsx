@@ -35,7 +35,7 @@ export default function TabPaymentsScreen() {
 			<View className="px-4">
 				<Text>{t("Mening hisobim")}</Text>
 				<Text className="text-[28px] font-bold py-2">
-					{Number(get(data,'balance')).toLocaleString("ru-RU")} so'm
+					{Number(get(data,'balance')).toLocaleString("en-US")} {t("so'm")}
 				</Text>
 				{!hasCards && (
 					<Text className="w-3/4 text-[13px] text-[#919DA6] mb-4">
@@ -127,7 +127,7 @@ function ActionItem({
 					</View>
 					<View className="ml-auto">
 						<Text className="text-[15px] text-[#292C30] font-medium">
-							{Number(amount).toLocaleString("ru-RU")} so'm
+							{Number(amount).toLocaleString("en-US")} {t("so'm")}
 						</Text>
 					</View>
 				</View>
@@ -146,7 +146,7 @@ function ActionItem({
 					</View>
 					<View className="ml-auto">
 						<Text className="text-[15px] text-[#00B268] font-medium">
-							{Number(amount).toLocaleString("ru-RU")} so'm
+							{Number(amount).toLocaleString("en-US")} {t("so'm")}
 						</Text>
 					</View>
 				</View>

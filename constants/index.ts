@@ -4,6 +4,7 @@ export const ENDPOINTS = {
     signIn: 'api/app/auth/sign-in',
     signUp: 'api/app/auth/sign-up',
     orderAdd: 'api/app/orders/add',
+    getOrder: 'api/app/orders/get',
     order_get_mine: 'api/app/orders/get-mine',
     get_product: 'api/app/products',
     region_list: 'api/app/pharmacy/regions',
@@ -20,6 +21,7 @@ export const ENDPOINTS = {
 
 export const KEYS = {
     getMe: 'getMe',
+    getOrder: "getOrder",
     signIn: 'signIn',
     signUp: 'signUp',
     orderAdd: 'orderAdd',

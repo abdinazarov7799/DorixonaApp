@@ -109,7 +109,7 @@ const Index = () => {
 							<View className="flex-row items-center">
 								<Text className="font-medium text-[15px]">{item.title}</Text>
 								<Text className="ml-auto mr-1 text-[13px] text-[#919DA6]">
-									{new Date(item.createdAt).toLocaleString("ru-RU", {
+									{new Date(item.createdAt).toLocaleString("en-US", {
 										hour: "2-digit",
 										minute: "2-digit",
 									})}

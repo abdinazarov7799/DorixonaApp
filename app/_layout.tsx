@@ -69,7 +69,7 @@ function RootLayoutNav() {
 									name="transfer"
 									options={{headerShown: false}}
 								/>
-								<Stack.Screen name="history" options={{headerShown: false}} />
+								<Stack.Screen name="order" options={{headerShown: false}} />
 								<Stack.Screen
 									name="notification"
 									options={{headerShown: false}}

@@ -41,7 +41,7 @@ const Index = () => {
                                         >
                                             {item?.name}
                                         </Text>
-                                        <Text className="mt-1 p-1 mb-3 text-black text-[13px] font-medium">{item?.price} so'm</Text>
+                                        <Text className="mt-1 p-1 mb-3 text-black text-[13px] font-medium">{item?.price} {t("so'm")}</Text>
                                     </View>
                                     <View className={"flex-row justify-between items-center space-x-1"}>
                                         <Button className="bg-gray-100 rounded-[10px]" shadow={"1"} onPress={() => decrement(get(item,'id'))}>
