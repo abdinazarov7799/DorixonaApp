@@ -5,12 +5,13 @@ import {useEffect} from "react";
 import "react-native-reanimated";
 import {useColorScheme} from "@/hooks/useColorScheme";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
-import {NativeBaseProvider, StatusBar} from "native-base";
+import {NativeBaseProvider} from "native-base";
 import "../lib/i18n";
 import {useTranslation} from "react-i18next";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
+import {StatusBar} from "expo-status-bar";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -58,10 +59,7 @@ function RootLayoutNav() {
 			<QueryClientProvider client={queryClient}>
 				<GestureHandlerRootView>
 					<NativeBaseProvider>
-						<StatusBar
-							barStyle={"dark-content"}
-							backgroundColor="transparent"
-						/>
+						<StatusBar style={"inverted"} />
 						<BottomSheetModalProvider>
 							<Stack>
 								<Stack.Screen name="(tabs)" options={{headerShown: false}} />
