@@ -86,8 +86,10 @@ const Login = () => {
 
                 <ReactNativeOtpTextinput
                     inputCount={4}
+                    autoFocus={true}
                     handleTextChange={(otp) => setOtp(otp)}
                     tintColor={"#246BB2"}
+
                 />
 
                 {isError && (

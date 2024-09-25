@@ -116,7 +116,7 @@ const Index = () => {
 				/>
 				<Text className="text-[13px] font-medium text-[#919DA6]">
 					{t("Maksimal summa - ")}
-					{Number(28000000).toLocaleString("ru-RU")} so'm
+					{Number(balance).toLocaleString("ru-RU")} so'm
 				</Text>
 
 				<Button

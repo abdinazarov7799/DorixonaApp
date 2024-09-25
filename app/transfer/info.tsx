@@ -18,10 +18,12 @@ const Info = () => {
 		mutate({ endpoint: ENDPOINTS.withdraw, attributes: {cardId,amount}},{
 			onSuccess: (res) => {
 				setData(res)
+			},
+			onError: (res) => {
+				setData(res)
 			}
 		});
 	},[amount])
-
 	return (
 		<View className="flex-1 bg-[#F5F6F7] relative pt-[90px]">
 			<View className="absolute top-0 w-[100vw] py-[17px] px-[20px] flex-row justify-between border-b border-[#919DA63D]">
