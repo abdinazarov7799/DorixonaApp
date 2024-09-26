@@ -3,7 +3,6 @@ import axios from "axios";
 import useStore from "@/store";
 import {router} from "expo-router";
 
-// Axios instans yaratish
 const request = axios.create({
 	baseURL: BASE_URL,
 	headers: {
@@ -32,7 +31,6 @@ request.interceptors.request.use(
 const refreshToken = async () => {
 	try {
 		const refreshToken = await useStore.getState().refreshToken;
-		// console.log(refreshToken, "refreshToken");
 		const response = await axios.post(
 			`${BASE_URL}api/refresh-token`,
 			{},
@@ -42,7 +40,6 @@ const refreshToken = async () => {
 				},
 			}
 		);
-		// console.log(response, "response");
 		const newToken = response?.data?.accessToken;
 		const newRefreshToken = response?.data?.refreshToken;
 		useStore.getState().setAccessToken(newToken);
@@ -63,7 +60,6 @@ request.interceptors.response.use(
 		if (statusCode === 401) {
 			const originalRequest = error.config;
 			const newToken = await refreshToken();
-			// console.log(newToken, "newToken");
 			if (newToken) {
 				originalRequest.headers.Authorization = `Bearer ${newToken}`;
 				return axios(originalRequest);
