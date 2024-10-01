@@ -55,7 +55,7 @@ const SignUp = () => {
                   }) => (
                     <View className={'flex-1 bg-white justify-between w-full p-6 max-w-[576px]'}>
                         <View className={"mt-24 mb-10 w-full"}>
-                            <Text className={'text-[28px] font-bold mb-4 mt-6 text-center'}>
+                            <Text className={'text-[28px] font-ALSSiriusBold mb-4 mt-6 text-center'}>
                                 {t("Shaxsiy ma’lumotlar")}
                             </Text>
                             <Text className={'text-[15px] text-gray-500 mb-8 text-center'}>

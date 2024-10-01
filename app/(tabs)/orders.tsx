@@ -41,7 +41,7 @@ export default function TabOrdersScreen() {
         return (
             <View>
                 {showDateHeader && (
-                    <Text className="font-bold text-[20px] px-[8px] mb-[16px] text-[#919DA6]">
+                    <Text className="font-ALSSiriusBold text-[20px] px-[8px] mb-[16px] text-[#919DA6]">
                         {formattedDate}
                     </Text>
                 )}
@@ -49,7 +49,7 @@ export default function TabOrdersScreen() {
                 <TouchableOpacity className="bg-gray-100 p-[16px] rounded-[12px] mb-4" onPress={() => router.push(`/order?id=${get(item,'id')}`)}>
                     <View className={"flex-row justify-between mb-6"}>
                         <View className={'max-w-[75%]'}>
-                            <Text className="text-[16px] font-medium mb-1">
+                            <Text className="text-[16px] font-ALSSiriusMedium mb-1">
                                 {t("Buyurtma") + "#" + get(item, 'id')}
                             </Text>
                             <Text className="text-[13px] text-[#919DA6]">
@@ -58,7 +58,7 @@ export default function TabOrdersScreen() {
                         </View>
                         <View
                             className={`rounded-full py-[3px] px-[8px] h-[24px]`} style={{backgroundColor: `${status === "SENT" ? "#248BF2" : status === "CONFIRMED" ? "#00B268" : status === "REJECTED" ? "#E04917" : "#919DA6"}`}}>
-                            <Text className="text-white text-[11px] font-medium">
+                            <Text className="text-white text-[11px] font-ALSSiriusMedium">
                                 {t(status)}
                             </Text>
                         </View>
@@ -66,7 +66,7 @@ export default function TabOrdersScreen() {
 
                     <View className={"flex-row justify-between"}>
                         <Text className={"text-[#919DA6] text-[15px]"}>{t("Umumiy summasi")}</Text>
-                        <Text className={"text-[15px] font-medium"}>{Number(get(item, 'totalPrice')).toLocaleString('en-US')} {t("so'm")}</Text>
+                        <Text className={"text-[15px] font-ALSSiriusMedium"}>{Number(get(item, 'totalPrice')).toLocaleString('en-US')} {t("so'm")}</Text>
                     </View>
                 </TouchableOpacity>
             </View>

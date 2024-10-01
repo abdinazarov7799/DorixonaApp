@@ -77,7 +77,7 @@ const Info = () => {
 							className="mt-auto w-full rounded-lg bg-[#B4C0CC29]"
 							onPress={() => router.replace("/payments")}
 						>
-							<Text className="text-[15px] text-[#292C30] font-medium">
+							<Text className="text-[15px] text-[#292C30] font-ALSSiriusMedium">
 								{t("Bosh oynaga qaytish")}
 							</Text>
 						</Button>

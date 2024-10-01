@@ -65,7 +65,7 @@ export default function HomeScreen() {
                     >
                         {item?.name}
                     </Text>
-                    <Text className="mt-1 p-1 mb-3 text-black text-[13px] font-medium">{item?.price} {t("so'm")}</Text>
+                    <Text className="mt-1 p-1 mb-3 text-black text-[13px] font-ALSSiriusMedium">{item?.price} {t("so'm")}</Text>
                 </TouchableOpacity>
                 {
                     !orders?.some(order => isEqual(get(order,"id"),get(item,"id"))) ? (
@@ -112,7 +112,7 @@ export default function HomeScreen() {
                             style={{width: "auto",height: 350, resizeMode: 'cover' }}
                         />
                         <Text
-                            className="mt-1 text-[24px] p-1 font-bold"
+                            className="mt-1 text-[24px] p-1 font-ALSSiriusBold"
                         >
                             {selected?.name}
                         </Text>
@@ -123,7 +123,7 @@ export default function HomeScreen() {
                                 <View className={"flex-row justify-between items-center"}>
                                     <View>
                                         <Text className={"text-[#919DA6] text-[16px] mb-1"}>{t("Mahsulot narxi")}</Text>
-                                        <Text className={"text-[#292C30] text-[18px] font-bold"}>{selected?.price} {t("so'm")}</Text>
+                                        <Text className={"text-[#292C30] text-[18px] font-ALSSiriusBold"}>{selected?.price} {t("so'm")}</Text>
                                     </View>
                                     <View className={"flex-row justify-between items-center space-x-2"}>
                                         <Button className="bg-white rounded-[10px]" shadow={"1"} onPress={() => decrement(get(selected,'id'))}>
@@ -148,10 +148,10 @@ export default function HomeScreen() {
                                 <>
                                     <View className={"flex-row justify-between items-center mb-3"}>
                                         <Text className={"text-[#919DA6] text-[16px]"}>{t("Mahsulot narxi")}</Text>
-                                        <Text className={"text-[#292C30] text-[18px] font-bold"}>{selected?.price} {t("so'm")}</Text>
+                                        <Text className={"text-[#292C30] text-[18px] font-ALSSiriusBold"}>{selected?.price} {t("so'm")}</Text>
                                     </View>
                                     <Button className={"bg-[#215ca0] w-full h-[44px] rounded-lg"} shadow={"1"} onPress={() => increment(selected)}>
-                                        <Text className="text-center text-white text-[15px] font-medium">{t("Qo'shish")}</Text>
+                                        <Text className="text-center text-white text-[15px] font-ALSSiriusMedium">{t("Qo'shish")}</Text>
                                     </Button>
                                 </>
                             )
@@ -182,10 +182,10 @@ export default function HomeScreen() {
                     <View className={"absolute bottom-0 z-10 w-[100vw] h-[74px] p-[12px] bg-white"}>
                         <Button className={"bg-[#215ca0] w-full h-full rounded-lg"} onPress={() => router.push('/basket')}>
                             <View className={"flex-row justify-between w-full items-center"}>
-                                <Text className={"text-white font-medium text-[16px]"}>
+                                <Text className={"text-white font-ALSSiriusMedium text-[16px]"}>
                                     {t("Savat")}
                                 </Text>
-                                <Text className={"text-white font-medium text-[16px]"}>
+                                <Text className={"text-white font-ALSSiriusMedium text-[16px]"}>
                                     {Intl.NumberFormat('en-US').format(fullPrice)} {t("so'm")}
                                 </Text>
                             </View>
@@ -215,7 +215,7 @@ export default function HomeScreen() {
                         ListHeaderComponent={
                             isEmpty(data) ? <></> : (
                                 <Text
-                                    className={"font-bold text-[20px] mt-3 mb-4"}
+                                    className={"font-ALSSiriusBold text-[20px] mt-3 mb-4"}
                                 >
                                     {t("Mahsulotlar roʻyxati")}
                                 </Text>

@@ -37,7 +37,7 @@ const OrderView = () => {
                 />
             </View>
             <View className={"px-[16px] py-[12px] bg-white space-y-[6px]"}>
-                <Text className={'text-center font-bold text-[22px]'}>
+                <Text className={'text-center font-ALSSiriusBold text-[22px]'}>
                     {t("Buyurtma")} {`#${id}`}
                 </Text>
                 <Text className={'text-center text-[15px] mt-[4px] max-w-[80%] mx-auto mb-[16px]'}>
@@ -47,7 +47,7 @@ const OrderView = () => {
                     <Text className={"text-[15px] text-[#919DA6]"}>{t("Status")}</Text>
                     <View
                         className={`rounded-full py-[3px] px-[8px]`} style={{backgroundColor: `${get(data,'status') === "SENT" ? "#248BF2" : get(data,'status') === "CONFIRMED" ? "#00B268" : get(data,'status') === "REJECTED" ? "#E04917" : "#919DA6"}`}}>
-                        <Text className="text-white text-[11px] font-medium">
+                        <Text className="text-white text-[11px] font-ALSSiriusMedium">
                             {t(get(data,'status'))}
                         </Text>
                     </View>
@@ -66,7 +66,7 @@ const OrderView = () => {
                 </View>
             </View>
             <View className={"px-[16px] py-[16px] bg-white space-y-[6px] my-[6px]"}>
-                <Text className={'text-[20px] font-bold'}>{t("Список продуктов")}</Text>
+                <Text className={'text-[20px] font-ALSSiriusBold'}>{t("Список продуктов")}</Text>
                 <ScrollView>
                     {
                         get(products,'content',[])?.map(product => {
@@ -84,7 +84,7 @@ const OrderView = () => {
                                         </Text>
                                     </View>
                                     <View>
-                                        <Text className={"text-[15px font-medium] ml-auto"}>
+                                        <Text className={"text-[15px font-ALSSiriusMedium] ml-auto"}>
                                             {get(product,'price').toLocaleString("en-US")} {t("so'm")}
                                         </Text>
                                         <Text className={"text-[13px] text-[#919DA6] ml-auto"}>
@@ -101,7 +101,7 @@ const OrderView = () => {
             <View className={"px-[16px] py-[18px] bg-white space-y-[6px] my-[6px]"}>
                 <View className={"flex-row justify-between items-center"}>
                     <Text className={"text-[15px]"}>{t("Общая сумма")}</Text>
-                    <Text className="text-[15px] font-medium">
+                    <Text className="text-[15px] font-ALSSiriusMedium">
                         {get(data,'totalPrice').toLocaleString("en-US")} {t("so'm")}
                     </Text>
                 </View>

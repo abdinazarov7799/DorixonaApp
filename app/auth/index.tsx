@@ -20,29 +20,29 @@ const Index = () => {
                 <View>
                     <View className={"mt-20 mb-16 w-full"}>
                         <Image source={require('@/assets/images/lang-icon.png')} style={{width: 80, height: 80, margin: "auto"}}/>
-                        <Text className={'text-[28px] font-bold mb-4 mt-6 text-center'}>{t("Ilova tili")}</Text>
-                        <Text className={'text-[15px] text-gray-500 mb-6 text-center'}>
+                        <Text className={'text-[28px] font-ALSSiriusBold mb-4 mt-6 text-center'}>{t("Ilova tili")}</Text>
+                        <Text className={'text-[15px] text-gray-500 mb-6 text-center font-ALSSiriusRegular'}>
                             {t("O'zingizga qulay bo'lgan tilni tanlang.")}
                         </Text>
                     </View>
                     <TouchableOpacity onPress={() => setSelectedLanguage('uzLatin')}>
-                        <Text className={`text-lg w-full p-4 rounded-2xl ${selectedLanguage === 'uzLatin' && 'font-bold bg-gray-100'}`}>
+                        <Text className={`text-lg w-full p-4 rounded-2xl ${selectedLanguage === 'uzLatin' && 'font-ALSSiriusBold bg-gray-100'}`}>
                             O‘zbek tili
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => setSelectedLanguage('uzCyrillic')}>
-                        <Text className={`text-lg w-full p-4 rounded-2xl ${selectedLanguage === 'uzCyrillic' && 'font-bold bg-gray-100'}`}>
+                        <Text className={`text-lg w-full p-4 rounded-2xl ${selectedLanguage === 'uzCyrillic' && 'font-ALSSiriusBold bg-gray-100'}`}>
                             Ўзбек тили
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => setSelectedLanguage('ru')}>
-                        <Text className={`text-lg w-full p-4 rounded-2xl ${selectedLanguage === 'ru' && 'font-bold bg-gray-100'}`}>
+                        <Text className={`text-lg w-full p-4 rounded-2xl ${selectedLanguage === 'ru' && 'font-ALSSiriusBold bg-gray-100'}`}>
                             Русский язык
                         </Text>
                     </TouchableOpacity>
                 </View>
-                <Button onPress={handleContinue} className={'w-full p-4 text-lg bg-[#215ca0] rounded-lg'}>
-                    {t("Davom eting")}
+                <Button onPress={handleContinue} className={'w-full p-4 bg-[#215ca0] rounded-lg'}>
+                    <Text className={"font-ALSSiriusRegular text-lg text-white"}>{t("Davom eting")}</Text>
                 </Button>
             </View>
         </>

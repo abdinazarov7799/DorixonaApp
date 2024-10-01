@@ -15,7 +15,6 @@ const Index = () => {
     const { t } = useTranslation();
     const router = useRouter();
     const { mutate, isPending } = usePostQuery({});
-
     const onSubmit = ({ phone }: any) => {
         mutate({ endpoint: ENDPOINTS.signIn, attributes: { phoneNumber:phone } }, {
             onSuccess: ({ data: response }) => {
@@ -50,15 +49,15 @@ const Index = () => {
                                 source={require('@/assets/images/phone-icon.png')}
                                 style={{ width: 80, height: 80, margin: "auto" }}
                             />
-                            <Text className={'text-[28px] font-bold mb-4 mt-6 text-center'}>
+                            <Text className={'text-[28px] font-ALSSiriusBold mb-4 mt-6 text-center'}>
                                 {t("Telefon raqamingiz")}
                             </Text>
-                            <Text className={'text-[15px] text-gray-500 mb-6 text-center'}>
+                            <Text className={'text-[15px] text-gray-500 mb-6 text-center font-ALSSiriusRegular'}>
                                 {t("Ro‘yxatdan o‘tish uchun telefon raqamingizni kiriting")}
                             </Text>
                             <MaskInput
                                 className={clsx(
-                                    'py-3 px-4 mt-4 rounded-lg text-base bg-gray-100 border',
+                                    'py-3 px-4 mt-4 rounded-lg text-base bg-gray-100 border font-ALSSiriusRegular',
                                     {
                                         'border-gray-300': !errors.phone && !touched.phone,
                                         'border-red-500': errors.phone && touched.phone,
@@ -80,8 +79,8 @@ const Index = () => {
                                 </Text>
                             )}
                         </View>
-                        <Button className={'p-4 rounded-lg bg-[#215ca0]'} onPress={handleSubmit}>
-                            {t("Davom etish")}
+                        <Button onPress={handleSubmit} className={'w-full p-4 bg-[#215ca0] rounded-lg'} isLoading={isPending}>
+                            <Text className={"font-ALSSiriusRegular text-lg text-white"}>{t("Davom eting")}</Text>
                         </Button>
                     </View>
                 )}

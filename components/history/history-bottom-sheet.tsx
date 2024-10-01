@@ -49,7 +49,7 @@ export const HistoryBottomSheet = ({
 								: "Pul o'tkazish kutilmoqda"
 						)}
 					</StyledText>
-					<StyledText className="text-[28px] font-bold">
+					<StyledText className="text-[28px] font-ALSSiriusBold">
 						{Math.abs(Number(transaction?.amount)).toLocaleString("en-US")} {t("so'm")}
 					</StyledText>
 					<StyledText className="text-[16px] text-[#656E78]">

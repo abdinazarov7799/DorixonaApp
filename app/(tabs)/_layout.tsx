@@ -58,7 +58,6 @@ export default function TabLayout() {
 						headerTitleAlign: "left",
 						headerLeft: () => <Bars onPress={openProfile} />,
 						headerRight: Bell,
-
 						tabBarIcon: ({color}) => (
 							<TabBarIcon name={"home"} color={color} size={24} />
 						),

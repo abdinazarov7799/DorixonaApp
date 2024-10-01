@@ -34,7 +34,7 @@ export default function TabPaymentsScreen() {
 		<View className="flex-1 bg-[#F5F6F7] pt-10">
 			<View className="px-4">
 				<Text>{t("Mening hisobim")}</Text>
-				<Text className="text-[28px] font-bold py-2">
+				<Text className="text-[28px] font- py-2">
 					{Number(get(data,'balance')).toLocaleString("en-US")} {t("so'm")}
 				</Text>
 				{!hasCards && (
@@ -73,13 +73,13 @@ export default function TabPaymentsScreen() {
 			</View>
 			<View className="bg-white flex-1 rounded-t-3xl mt-6 p-4">
 				<View className="flex-row justify-between items-center mb-6">
-					<Text className="text-xl font-bold">{t("Oxirgi amallar")}</Text>
+					<Text className="text-xl font-ALSSiriusBold">{t("Oxirgi amallar")}</Text>
 					<Button
 						onPress={handleNavigateToHistory}
 						className="rounded-full py-1 bg-[#919DA63D] text-black"
 					>
 						<View className="flex-row justify-between items-center gap-3">
-							<Text className="font-medium">{t("Barchasi")}</Text>
+							<Text className="font-ALSSiriusMedium">{t("Barchasi")}</Text>
 							<FontAwesome5 name="chevron-right" size={16} color="black" />
 						</View>
 					</Button>
@@ -126,7 +126,7 @@ function ActionItem({
 						</Text>
 					</View>
 					<View className="ml-auto">
-						<Text className="text-[15px] text-[#292C30] font-medium">
+						<Text className="text-[15px] text-[#292C30] font-ALSSiriusMedium">
 							{Number(amount).toLocaleString("en-US")} {t("so'm")}
 						</Text>
 					</View>
@@ -145,7 +145,7 @@ function ActionItem({
 						<Text className="text-[13px] text-[#919DA6]">{t("Tushum")}</Text>
 					</View>
 					<View className="ml-auto">
-						<Text className="text-[15px] text-[#00B268] font-medium">
+						<Text className="text-[15px] text-[#00B268] font-ALSSiriusMedium">
 							{Number(amount).toLocaleString("en-US")} {t("so'm")}
 						</Text>
 					</View>

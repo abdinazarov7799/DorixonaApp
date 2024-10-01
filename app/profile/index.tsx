@@ -43,7 +43,7 @@ const Index = () => {
 							color="#215ca0"
 							onPress={() => router.back()}
 						/>
-						<Text className={"ml-[16px] font-medium text-[18px]"}>
+						<Text className={"ml-[16px] font-ALSSiriusMedium text-[18px]"}>
 							{t("Profil sozlamalari")}
 						</Text>
 					</View>
@@ -130,7 +130,7 @@ const Index = () => {
 							>
 								<Ionicons name="trash" size={24} color="#E04917" />
 								<Text
-									className="text-[15px] text-[#E04917] font-medium ml-2"
+									className="text-[15px] text-[#E04917] font-ALSSiriusMedium ml-2"
 									style={{color: "#E04917"}}
 								>
 									{t("Akkauntni o'chirish")}
@@ -140,7 +140,7 @@ const Index = () => {
 								className="mt-auto w-full rounded-lg bg-[#246BB2] py-3"
 								onPress={() => handleSubmit()}
 							>
-								<Text className="text-[15px] text-white font-medium">
+								<Text className="text-[15px] text-white font-ALSSiriusMedium">
 									{t("O'zgarishlarni saqlash")}
 								</Text>
 							</Button>
@@ -164,7 +164,7 @@ const DeleteBottomSheet = ({
 	return (
 		<BaseBottomSheet bottomSheetRef={bottomSheetRef} snap={"40%"}>
 			<View className="p-4 ">
-				<Text className="text-2xl font-bold mb-2">
+				<Text className="text-2xl font-ALSSiriusBold mb-2">
 					{t("Akkountingizni o'chirmoqchimisiz?")}
 				</Text>
 				<Text className="text-[15px] text-[#919DA6]">
@@ -174,7 +174,7 @@ const DeleteBottomSheet = ({
 				</Text>
 				<View className="flex flex-row gap-3 mt-6">
 					<Button className="flex-1 px-4 py-3 rounded-lg bg-[#E04917]">
-						<Text className="text-[15px] font-medium text-white">
+						<Text className="text-[15px] font-ALSSiriusMedium text-white">
 							{t("O'chirish")}
 						</Text>
 					</Button>
@@ -182,7 +182,7 @@ const DeleteBottomSheet = ({
 						className="flex-1 px-4 py-3 rounded-lg bg-[#B4C0CC29]"
 						onPress={onClose}
 					>
-						<Text className="text-[15px] font-medium text-[#292C30]">
+						<Text className="text-[15px] font-ALSSiriusMedium text-[#292C30]">
 							{t("Bekor qilish")}
 						</Text>
 					</Button>

@@ -27,7 +27,7 @@ const Index = () => {
 						color="#215ca0"
 						onPress={() => router.back()}
 					/>
-					<Text className={"ml-[16px] font-medium text-[18px]"}>
+					<Text className={"ml-[16px] font-ALSSiriusMedium text-[18px]"}>
 						{t("Kartalarim")}
 					</Text>
 				</View>
@@ -52,7 +52,7 @@ const Index = () => {
 					disabled={data?.length >= 2}
 					className={"bg-[#215ca0] w-full h-[44px] rounded-lg"}
 				>
-					<Text className={"text-white font-medium text-[16px]"}>
+					<Text className={"text-white font-ALSSiriusMedium text-[16px]"}>
 						{t("Yangi karta qo'shish")}
 					</Text>
 				</Button>

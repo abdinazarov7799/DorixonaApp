@@ -4,12 +4,11 @@
 		"slug": "jurabek-laboratories-mobile",
 		"version": "1.0.0",
 		"orientation": "default",
-		"icon": "./assets/images/splash.png",
+		"icon": "./assets/images/icon.png",
 		"scheme": "myapp",
 		"userInterfaceStyle": "automatic",
 		"splash": {
 			"image": "./assets/images/splash.png",
-			"resizeMode": "cover",
 			"backgroundColor": "#fff"
 		},
 		"ios": {
@@ -21,7 +20,7 @@
 			"windowSoftInputMode": "adjustPan",
 			"softwareKeyboardLayoutMode": "pan",
 			"adaptiveIcon": {
-				"foregroundImage": "./assets/images/splash.png",
+				"foregroundImage": "./assets/images/icon.png",
 				"backgroundColor": "#215ca0"
 			},
 			"package": "com.diyorbekabdinazarov.jurabeklab"

@@ -27,6 +27,7 @@ const Login = () => {
         let interval = setInterval(() => {
             setTimer(lastTimerCount => {
                 if (lastTimerCount == 0) {
+                    return 0;
                 } else {
                     lastTimerCount <= 1 && clearInterval(interval)
                     return lastTimerCount - 1
@@ -75,12 +76,11 @@ const Login = () => {
             }
         });
     }
-
     return (
         <View className={'flex-1 bg-white justify-between w-full p-6 max-w-[576px]'}>
             <View className={"mt-28 mb-5 w-full max-w-[300px] mx-auto"}>
-                <Text className={'text-[28px] font-bold mb-4 mt-6 text-center'}>{t("Tasdiqlash kodini kiriting")}</Text>
-                <Text className={'text-[15px] text-gray-500 mb-6 text-center'}>
+                <Text className={'text-[28px] font-ALSSiriusBold mb-4 mt-6 text-center'}>{t("Tasdiqlash kodini kiriting")}</Text>
+                <Text className={'text-[15px] text-gray-500 mb-6 text-center font-ALSSiriusRegular'}>
                     {t(`Kiritilgan ${phone} telefon raqamingizga maxsus tasdiqlash kodini SMS tarzda yubordik`)}
                 </Text>
 
@@ -93,7 +93,7 @@ const Login = () => {
                 />
 
                 {isError && (
-                    <Text className={"text-red-500 text-center"}>
+                    <Text className={"text-red-500 text-center font-ALSSiriusRegular"}>
                         {t("Noto‘g‘ri kod kiritdingiz, qaytadan urunib ko‘ring")}
                     </Text>
                 )}
@@ -106,18 +106,16 @@ const Login = () => {
                     className={"mb-2 text-gray-200"}
                     onPress={reSendOtp}
                 >
-                    {timerCount == 0 ? t("Kodni qayta yuborish") : t("Kodni qayta yuborish") + ": " + timerCount}
+                    <Text className={"font-ALSSiriusRegular"}>
+                        {timerCount == 0 ? t("Kodni qayta yuborish") : t("Kodni qayta yuborish") + ": " + timerCount}
+                    </Text>
                 </Button>
                 <Button
                     className={"bg-[#215ca0] p-4 rounded-lg"}
                     isDisabled={isPending || !otp}
                     onPress={() => setOtp(otp)}
                 >
-                    {isPending ? (
-                        <ActivityIndicator color="white" />
-                    ) : (
-                        t("Tasdiqlash")
-                    )}
+                    <Text className={'font-ALSSiriusRegular text-white text-lg'}>{t("Tasdiqlash")}</Text>
                 </Button>
             </View>
         </View>

@@ -151,7 +151,7 @@ const Company = () => {
         <View className="flex-1 bg-white relative p-[16px]">
             <BaseBottomSheet bottomSheetRef={regionRef} snap={"90%"}>
                 <View className={"p-4"}>
-                    <Text className={"font-bold text-[20px] mb-2"}>{t("Viloyatni tanlang")}</Text>
+                    <Text className={"font-ALSSiriusBold text-[20px] mb-2"}>{t("Viloyatni tanlang")}</Text>
                     <FlatList
                         data={data}
                         renderItem={({item}) => <RenderedItem item={item} />}
@@ -161,7 +161,7 @@ const Company = () => {
             </BaseBottomSheet>
             <BaseBottomSheet bottomSheetRef={districtRef} snap={"90%"}>
                 <View className={"p-4"}>
-                    <Text className={"font-bold text-[20px] mb-2"}>{t("Tumanni tanlang")}</Text>
+                    <Text className={"font-ALSSiriusBold text-[20px] mb-2"}>{t("Tumanni tanlang")}</Text>
                     <FlatList
                         data={districts}
                         renderItem={({item}) => <RenderedItem item={item} />}
@@ -280,7 +280,7 @@ const Company = () => {
                         isLoading={isPending}
                         isDisabled={isPending}
                     >
-                        <Text className={"text-white font-medium text-[16px]"}>
+                        <Text className={"text-white font-ALSSiriusMedium text-[16px]"}>
                             {t("Arizani yuborish")}
                         </Text>
                     </Button>

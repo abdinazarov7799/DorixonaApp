@@ -103,7 +103,7 @@ function ActionItem({
 						<Text className="text-[13px] text-[#919DA6]">{t("Tushum")}</Text>
 					</View>
 					<View className="ml-auto">
-						<Text className="text-[15px] text-[#00B268] font-medium">
+						<Text className="text-[15px] text-[#00B268] font-ALSSiriusMediumm">
 							{Number(amount).toLocaleString("en-US")} {t("so'm")}
 						</Text>
 						{updatedTime && (
@@ -129,7 +129,7 @@ function ActionItem({
 						<Text className="text-[13px] text-[#919DA6]">{t("Chiqim")}</Text>
 					</View>
 					<View className="ml-auto">
-						<Text className="text-[15px] text-[#292C30] font-medium">
+						<Text className="text-[15px] text-[#292C30] font-ALSSiriusMedium">
 							{Number(amount).toLocaleString("en-US")} {t("so'm")}
 						</Text>
 						{updatedTime && (

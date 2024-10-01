@@ -21,7 +21,7 @@ const Index = () => {
             <View className="absolute top-0 w-[100vw] py-[17px] px-[20px] flex-row justify-between border-b border-[#919DA63D]">
                 <View className="flex-row items-center">
                     <AntDesign name="close" size={24} color="black" onPress={() => router.push("/")} />
-                    <Text className={"ml-[16px] font-medium text-[18px]"}>{t("Mahsulotlar roʻyxati")}</Text>
+                    <Text className={"ml-[16px] font-ALSSiriusMedium text-[18px]"}>{t("Mahsulotlar roʻyxati")}</Text>
                 </View>
                 <AntDesign name="delete" size={24} color="black" onPress={() => setOrders([])} />
             </View>
@@ -41,7 +41,7 @@ const Index = () => {
                                         >
                                             {item?.name}
                                         </Text>
-                                        <Text className="mt-1 p-1 mb-3 text-black text-[13px] font-medium">{item?.price} {t("so'm")}</Text>
+                                        <Text className="mt-1 p-1 mb-3 text-black text-[13px] font-ALSSiriusMedium">{item?.price} {t("so'm")}</Text>
                                     </View>
                                     <View className={"flex-row justify-between items-center space-x-1"}>
                                         <Button className="bg-gray-100 rounded-[10px]" shadow={"1"} onPress={() => decrement(get(item,'id'))}>
@@ -73,12 +73,12 @@ const Index = () => {
                     <Text className={"text-[16px] text-[#656E78]"}>
                         {t("Umumiy narxi")}
                     </Text>
-                    <Text className={"font-bold text-[18px]"}>
+                    <Text className={"font-ALSSiriusBold text-[18px]"}>
                         {Intl.NumberFormat('en-US').format(fullPrice)} {t("so'm")}
                     </Text>
                 </View>
                 <Button className={"bg-[#215ca0] w-full h-[44px] rounded-lg"} disabled={isNil(orders)} onPress={() => router.push('/basket/company')}>
-                    <Text className={"text-white font-medium text-[16px]"}>
+                    <Text className={"text-white font-ALSSiriusMedium text-[16px]"}>
                         {t("Dorixonani belgilash")}
                     </Text>
                 </Button>

@@ -50,7 +50,7 @@ const CardScreen = () => {
 							color="#215ca0"
 							onPress={() => router.back()}
 						/>
-						<Text className={"ml-[16px] font-medium text-[18px]"}>
+						<Text className={"ml-[16px] font-ALSSiriusMedium text-[18px]"}>
 							{t("Karta sozlamalari")}
 						</Text>
 					</View>
@@ -75,12 +75,12 @@ const CardScreen = () => {
 						className={"bg-[#B4C0CC29] w-full h-[44px] rounded-lg"}
 						onPress={handleOpenDeleteBottomSheet}
 					>
-						<Text className={"text-[#292C30] font-medium text-[16px]"}>
+						<Text className={"text-[#292C30] font-ALSSiriusMedium text-[16px]"}>
 							{t("Kartani o'chirish")}
 						</Text>
 					</Button>
 					<Button className={"bg-[#215ca0] w-full h-[44px] rounded-lg"} onPress={handleEditCard}>
-						<Text className={"text-white font-medium text-[16px]"}>
+						<Text className={"text-white font-ALSSiriusMediumm text-[16px]"}>
 							{t("O'zgarishni saqlash")}
 						</Text>
 					</Button>
@@ -136,7 +136,7 @@ const DeleteBottomSheet = ({
 	return (
 		<BaseBottomSheet bottomSheetRef={bottomSheetRef} snap={"35%"}>
 			<View className="p-4 ">
-				<Text className="text-2xl font-bold mb-2">
+				<Text className="text-2xl font-ALSSiriusBold mb-2">
 					{t("Kartangizni o'chirmoqchimisiz?")}
 				</Text>
 				<Text className="text-[15px] text-[#919DA6]">
@@ -146,7 +146,7 @@ const DeleteBottomSheet = ({
 				</Text>
 				<View className="flex flex-row gap-3 mt-6">
 					<Button className="flex-1 px-4 py-3 rounded-lg bg-[#E04917]" onPress={handleDelete}>
-						<Text className="text-[15px] font-medium text-white">
+						<Text className="text-[15px] font-ALSSiriusMedium text-white">
 							{t("O'chirish")}
 						</Text>
 					</Button>
@@ -154,7 +154,7 @@ const DeleteBottomSheet = ({
 						className="flex-1 px-4 py-3 rounded-lg bg-[#B4C0CC29]"
 						onPress={onClose}
 					>
-						<Text className="text-[15px] font-medium text-[#292C30]">
+						<Text className="text-[15px] font-ALSSiriusMedium text-[#292C30]">
 							{t("Bekor qilish")}
 						</Text>
 					</Button>

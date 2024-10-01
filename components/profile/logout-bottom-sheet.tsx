@@ -20,7 +20,7 @@ export const LogoutBottomSheet = ({
 	return (
 		<BaseBottomSheet bottomSheetRef={bottomSheetRef} snap={"35%"}>
 			<StyledView className="p-4 ">
-				<StyledText className="text-2xl font-bold mb-2">
+				<StyledText className="text-2xl font-ALSSiriusBold mb-2">
 					{t("Dasturdan chiqmoqchimisiz?")}
 				</StyledText>
 				<StyledText className="text-[15px] text-[#919DA6]">
@@ -30,7 +30,7 @@ export const LogoutBottomSheet = ({
 				</StyledText>
 				<StyledView className="flex flex-row gap-3 mt-6">
 					<StyledButton className="flex-1 px-4 py-3 rounded-lg bg-[#E04917]">
-						<StyledText className="text-[15px] font-medium text-white">
+						<StyledText className="text-[15px] font-ALSSiriusMedium text-white">
 							{t("Chiqish")}
 						</StyledText>
 					</StyledButton>
@@ -38,7 +38,7 @@ export const LogoutBottomSheet = ({
 						className="flex-1 px-4 py-3 rounded-lg bg-[#B4C0CC29]"
 						onPress={onClose}
 					>
-						<StyledText className="text-[15px] font-medium text-[#292C30]">
+						<StyledText className="text-[15px] font-ALSSiriusMedium text-[#292C30]">
 							{t("Bekor qilish")}
 						</StyledText>
 					</StyledButton>

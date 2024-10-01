@@ -88,7 +88,7 @@ const Index = () => {
 						color="#215ca0"
 						onPress={() => router.back()}
 					/>
-					<Text className={"ml-[16px] font-medium text-[18px]"}>
+					<Text className={"ml-[16px] font-ALSSiriusMedium text-[18px]"}>
 						{t("Xabarnomalar")}
 					</Text>
 				</View>
@@ -107,7 +107,7 @@ const Index = () => {
 						</View>
 						<View className="flex-1">
 							<View className="flex-row items-center">
-								<Text className="font-medium text-[15px]">{item.title}</Text>
+								<Text className="font-ALSSiriusMedium text-[15px]">{item.title}</Text>
 								<Text className="ml-auto mr-1 text-[13px] text-[#919DA6]">
 									{new Date(item.createdAt).toLocaleString("en-US", {
 										hour: "2-digit",

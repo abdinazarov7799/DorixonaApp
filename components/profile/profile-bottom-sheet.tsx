@@ -40,7 +40,7 @@ export const ProfileBottomSheet = ({
 				<StyledView className="px-4">
 					<StyledView className="w-full flex-row items-center justify-between">
 						<Ionicons name="close" size={28} color="black" onPress={onClose} />
-						<StyledText className="font-medium">{t("Profil")}</StyledText>
+						<StyledText className="font-ALSSiriusMedium">{t("Profil")}</StyledText>
 						<MaterialCommunityIcons
 							name="pencil-outline"
 							size={22}
@@ -49,7 +49,7 @@ export const ProfileBottomSheet = ({
 						/>
 					</StyledView>
 					<StyledView className="py-6">
-						<StyledText className="text-[#292C30] text-2xl text-center font-bold">
+						<StyledText className="text-[#292C30] text-2xl text-center font-ALSSiriusBold">
 							{user?.firstName} {user?.lastName}
 						</StyledText>
 						<StyledText className="text-[#919DA6] text-center text-base">
@@ -59,7 +59,7 @@ export const ProfileBottomSheet = ({
 					<StyledView className="px-4 py-2 rounded-2xl bg-white">
 						<StyledTouchable className="flex-row items-center gap-3 pb-2 py-2">
 							<Feather name="globe" size={24} color="#246BB2" />
-							<StyledText className="text-[15px] font-medium mr-auto">
+							<StyledText className="text-[15px] font-ALSSiriusMedium mr-auto">
 								{t("Ilova tili")}
 							</StyledText>
 							<StyledView className="ml-auto flex-row items-center">
@@ -75,7 +75,7 @@ export const ProfileBottomSheet = ({
 						/>
 						<StyledView className="flex-row items-center gap-3 py-2">
 							<Feather name="bell" size={24} color="#246BB2" />
-							<StyledText className="text-[1  5px] font-medium mr-auto">
+							<StyledText className="text-[1  5px] font-ALSSiriusMedium mr-auto">
 								{t("Xabarnoma")}
 							</StyledText>
 							<StyledView className="ml-auto flex-row items-center">
@@ -90,7 +90,7 @@ export const ProfileBottomSheet = ({
 						<Feather name="log-out" size={24} color="#E04917" />
 
 						<StyledText
-							className="text-[15px] font-medium text-[#E04917]"
+							className="text-[15px] font-ALSSiriusMedium text-[#E04917]"
 							style={{marginLeft: 12, color: "#E04917"}}
 						>
 							{t("Dasturdan chiqish")}

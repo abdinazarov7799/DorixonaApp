@@ -42,20 +42,20 @@ const Index = () => {
 						color="#215ca0"
 						onPress={() => router.back()}
 					/>
-					<Text className={"ml-[16px] font-medium text-[18px]"}>
+					<Text className={"ml-[16px] font-ALSSiriusMedium text-[18px]"}>
 						{t("Kartaga pul o'tkazish")}
 					</Text>
 				</View>
 			</View>
 
 			<View className="px-4 mb-5">
-				<Text className="text-[13px] font-medium text-[#919DA6]">
+				<Text className="text-[13px] font-ALSSiriusMedium text-[#919DA6]">
 					{t("Qayerdan")}
 				</Text>
 				<View className="p-4 flex-row bg-white mt-3 rounded-lg items-center">
 					<View>
 						<Text className="text-[#656E78] text-[13px]">Mening hisobim</Text>
-						<Text className="text-[#292C30] text-[16px] font-medium">
+						<Text className="text-[#292C30] text-[16px] font-ALSSiriusMedium">
 							{Number(balance).toLocaleString("en-US")} {t("so'm")}
 						</Text>
 					</View>
@@ -65,7 +65,7 @@ const Index = () => {
 				</View>
 			</View>
 			<View>
-				<Text className="text-[13px] font-medium text-[#919DA6] px-4">
+				<Text className="text-[13px] font-ALSSiriusMedium text-[#919DA6] px-4">
 					{t("Qayerga")}
 				</Text>
 				{hasCards ? (
@@ -80,7 +80,7 @@ const Index = () => {
 							<FontAwesome5 name={"plus-circle"} size={24} color="#292C30" />
 							<Text className="ml-4 text-[15px]">{t("Karta qo'shish")}</Text>
 						</View>
-						<Text className="text-[13px] font-medium text-[#919DA6] mt-3">
+						<Text className="text-[13px] font-ALSSiriusMedium text-[#919DA6] mt-3">
 							{t(
 								"Pul o'tkazishdan oldin pul o'tkazmoqchi bo'lgan kartangizni qo'shishingiz kerak"
 							)}
@@ -114,7 +114,7 @@ const Index = () => {
 					className="w-full border-t my-4"
 					style={{borderTopColor: focused ? "#246BB2" : "#e2e8f0"}}
 				/>
-				<Text className="text-[13px] font-medium text-[#919DA6]">
+				<Text className="text-[13px] font-ALSSiriusMedium text-[#919DA6]">
 					{t("Maksimal summa - ")}
 					{Number(balance).toLocaleString("en-US")} {t("so'm")}
 				</Text>
@@ -127,7 +127,7 @@ const Index = () => {
 					}
 					className={"bg-[#215ca0] w-full h-[48px] rounded-lg mt-auto"}
 				>
-					<Text className={"text-white font-medium text-[16px]"}>
+					<Text className={"text-white font-ALSSiriusMedium text-[16px]"}>
 						{t("Pulni o'tkazish")}
 					</Text>
 				</Button>
@@ -161,7 +161,7 @@ const Card = ({
 				<Text className="text-[13px] text-[#656E78]">
 					{cardName} ····{String(cardNumber).slice(-4)}
 				</Text>
-				<Text className="text-[#292C30] font-medium text-[16px]">
+				<Text className="text-[#292C30] font-ALSSiriusMedium text-[16px]">
 					{Number(balance).toLocaleString("en-US")} {t("so'm")}
 				</Text>
 			</View>

@@ -38,7 +38,7 @@ export const AddCard = () => {
 						color="#215ca0"
 						onPress={() => router.back()}
 					/>
-					<Text className={"ml-[16px] font-medium text-[18px]"}>
+					<Text className={"ml-[16px] ALSSiriusMedium text-[18px]"}>
 						{t("Karta qo'shish")}
 					</Text>
 				</View>
@@ -106,7 +106,7 @@ export const AddCard = () => {
 							className="mt-auto bg-[#215ca0] w-full h-[44px] rounded-lg"
 							style={{opacity: isValid ? 1 : 0.5}}
 						>
-							<Text className="text-[15px] text-white font-medium">
+							<Text className="text-[15px] text-white ALSSiriusMedium">
 								{t("Kartani qo'shish")}
 							</Text>
 						</Button>
