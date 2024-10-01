@@ -10,6 +10,9 @@ import {useTranslation} from "react-i18next";
 import {Text, TouchableOpacity, View, useWindowDimensions} from "react-native";
 import {TextInput} from "react-native-gesture-handler";
 import MaskInput from "react-native-mask-input";
+import {request} from "@/lib/api";
+import {ENDPOINTS} from "@/constants";
+import {get} from "lodash";
 
 const Index = () => {
 	const sheetRef = useRef<BottomSheetModal>(null);
@@ -17,6 +20,7 @@ const Index = () => {
 	const router = useRouter();
 	const minHeight = useWindowDimensions().height;
 	const user = useStore(state => (state as any).user);
+
 	const handleOpenDeleteBottomSheet = () => {
 		sheetRef.current?.present();
 	};
@@ -24,6 +28,13 @@ const Index = () => {
 	const handleCloseDeleteBottomSheet = () => {
 		sheetRef.current?.dismiss();
 	};
+
+	const handleEditProfile = (values) => {
+		request.patch(`${ENDPOINTS.profile_edit}/${get(user,'id')}`,{
+			firstName: values.firstName,
+			lastName: values.lastName,
+		}).finally(() => router.back())
+	}
 
 	return (
 		<>
@@ -49,7 +60,7 @@ const Index = () => {
 					</View>
 				</View>
 				<Formik
-					onSubmit={values => console.log(values)}
+					onSubmit={values => handleEditProfile(values)}
 					validateOnChange={false}
 					initialValues={{
 						phone: user?.phoneNumber,
@@ -137,7 +148,7 @@ const Index = () => {
 								</Text>
 							</TouchableOpacity>
 							<Button
-								className="mt-auto w-full rounded-lg bg-[#246BB2] py-3"
+								className="mt-auto mb-[17%] w-full rounded-lg bg-[#246BB2] py-3"
 								onPress={() => handleSubmit()}
 							>
 								<Text className="text-[15px] text-white font-ALSSiriusMedium">

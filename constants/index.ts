@@ -15,6 +15,7 @@ export const ENDPOINTS = {
     card_list: "api/app/transactions/cards",
     card_add: "api/app/transactions/add-card",
     card_edit: "api/app/transactions/edit-card",
+    profile_edit: "api/app/user-profile/edit",
     card_delete: "api/app/transactions/delete-card",
     withdraw: "api/app/transactions/withdraw",
 }

@@ -3,7 +3,6 @@ import {Stack} from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import {useEffect} from "react";
 import "react-native-reanimated";
-import {useColorScheme} from "@/hooks/useColorScheme";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {NativeBaseProvider} from "native-base";
 import "../lib/i18n";
@@ -39,7 +38,6 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
 	const queryClient = new QueryClient();
-	const colorScheme = useColorScheme();
 	const {i18n} = useTranslation();
 	const loadLanguage = async () => {
 		try {
@@ -59,7 +57,7 @@ function RootLayoutNav() {
 			<QueryClientProvider client={queryClient}>
 				<GestureHandlerRootView>
 					<NativeBaseProvider>
-						<StatusBar style={"inverted"} />
+						<StatusBar style={"dark"} />
 						<BottomSheetModalProvider>
 							<Stack>
 								<Stack.Screen name="(tabs)" options={{headerShown: false}} />

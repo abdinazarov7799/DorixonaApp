@@ -64,7 +64,7 @@ export const HistoryBottomSheet = ({
 								{t("Yuboruvchi")}
 							</StyledText>
 							<StyledText className="text-[15px]">
-								{t("Jasurbek LAB")}
+								{t("Jurabek LAB")}
 							</StyledText>
 						</StyledView>
 					)}
