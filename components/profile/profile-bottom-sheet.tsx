@@ -2,11 +2,13 @@ import {BottomSheetModal} from "@gorhom/bottom-sheet";
 import {useTranslation} from "react-i18next";
 import {View, Text, Image, TouchableOpacity} from "react-native";
 import {BaseBottomSheet} from "../shared/bottom-sheet";
-import {Button, Switch} from "native-base";
+import {Button, Modal, Radio, Switch} from "native-base";
 import {Feather, Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
 import {styled} from "nativewind";
 import useStore from "@/store";
 import {Link, useRouter} from "expo-router";
+import {useState} from "react";
+import {LANGUAGES} from "@/constants";
 
 const StyledView = styled(View);
 const StyledImage = styled(Image);
@@ -25,11 +27,19 @@ export const ProfileBottomSheet = ({
 }: ProfileBottomSheetProps) => {
 	const router = useRouter();
 	const user = useStore(state => (state as any).user);
-	const {t} = useTranslation();
+	const {t,i18n} = useTranslation();
+	const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
+	const [isModalOpen, setModalOpen] = useState(false);
 	const handleNavigateToProfileEdit = () => {
 		router.push("/profile");
 		onClose();
 	};
+	const handleLanguageChange = (code: string) => {
+		setSelectedLanguage(code);
+		i18n.changeLanguage(code);
+		onClose();
+	};
+
 	return (
 		<>
 			<BaseBottomSheet
@@ -57,7 +67,7 @@ export const ProfileBottomSheet = ({
 						</StyledText>
 					</StyledView>
 					<StyledView className="px-4 py-2 rounded-2xl bg-white">
-						<StyledTouchable className="flex-row items-center gap-3 pb-2 py-2">
+						<StyledTouchable className="flex-row items-center gap-3 pb-2 py-2" onPress={() => setModalOpen(true)} >
 							<Feather name="globe" size={24} color="#246BB2" />
 							<StyledText className="text-[15px] font-ALSSiriusMedium mr-auto">
 								{t("Ilova tili")}
@@ -75,7 +85,7 @@ export const ProfileBottomSheet = ({
 						/>
 						<StyledView className="flex-row items-center gap-3 py-2">
 							<Feather name="bell" size={24} color="#246BB2" />
-							<StyledText className="text-[1  5px] font-ALSSiriusMedium mr-auto">
+							<StyledText className="text-[15px] font-ALSSiriusMedium mr-auto">
 								{t("Xabarnoma")}
 							</StyledText>
 							<StyledView className="ml-auto flex-row items-center">
@@ -103,6 +113,37 @@ export const ProfileBottomSheet = ({
 						{t("Talqin 1.0.0")}
 					</StyledText>
 				</StyledView>
+				<Modal isOpen={isModalOpen} onClose={onClose} size="md">
+					<Modal.Content maxWidth="400px" minWidth="300px" borderRadius="15px">
+						<Modal.CloseButton />
+						<Modal.Header _text={{ fontSize: '18px', fontWeight: 'bold' }}>{t('Ilova tili')}</Modal.Header>
+						<Modal.Body>
+							<Radio.Group
+								name="languageGroup"
+								value={selectedLanguage}
+								onChange={handleLanguageChange}
+							>
+								{LANGUAGES.map((lang) => (
+									<Radio
+										key={lang.lang}
+										value={lang.lang}
+										my={1}
+										_text={{ fontSize: '16px' }}
+										size="md"
+										colorScheme="blue"
+									>
+										{lang.title}
+									</Radio>
+								))}
+							</Radio.Group>
+						</Modal.Body>
+						<Modal.Footer>
+							<Button onPress={onClose} _text={{ fontSize: '14px' }}>
+								{t('Orqaga')}
+							</Button>
+						</Modal.Footer>
+					</Modal.Content>
+				</Modal>
 			</BaseBottomSheet>
 		</>
 	);
