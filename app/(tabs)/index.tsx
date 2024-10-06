@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { KEYS, ENDPOINTS } from "@/constants";
 import Loader from "@/components/shared/Loader";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import { useTranslation } from "react-i18next";
 import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
 import {Button, Center, Icon, Input} from "native-base";

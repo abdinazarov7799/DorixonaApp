@@ -80,7 +80,7 @@ const CardScreen = () => {
 						</Text>
 					</Button>
 					<Button className={"bg-[#215ca0] w-full h-[44px] rounded-lg"} onPress={handleEditCard}>
-						<Text className={"text-white font-ALSSiriusMediumm text-[16px]"}>
+						<Text className={"text-white font-ALSSiriusMedium text-[16px]"}>
 							{t("O'zgarishni saqlash")}
 						</Text>
 					</Button>

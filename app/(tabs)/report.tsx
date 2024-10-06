@@ -103,7 +103,7 @@ function ActionItem({
 						<Text className="text-[13px] text-[#919DA6]">{t("Tushum")}</Text>
 					</View>
 					<View className="ml-auto">
-						<Text className="text-[15px] text-[#00B268] font-ALSSiriusMediumm">
+						<Text className="text-[15px] text-[#00B268] font-ALSSiriusMedium">
 							{Number(amount).toLocaleString("en-US")} {t("so'm")}
 						</Text>
 						{updatedTime && (

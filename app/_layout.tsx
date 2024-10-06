@@ -7,16 +7,17 @@ import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {NativeBaseProvider} from "native-base";
 import "../lib/i18n";
 import {useTranslation} from "react-i18next";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {StatusBar} from "expo-status-bar";
+import useStore from "@/store";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
 	const [loaded] = useFonts({
+		regular: require("../assets/fonts/ALSSirius-Regular.ttf"),
 		ALSSiriusRegular: require("../assets/fonts/ALSSirius-Regular.ttf"),
 		ALSSiriusBold: require("../assets/fonts/ALSSirius-Bold.otf"),
 		ALSSiriusBlack: require("../assets/fonts/ALSSirius-Black.ttf"),
@@ -39,11 +40,12 @@ export default function RootLayout() {
 function RootLayoutNav() {
 	const queryClient = new QueryClient();
 	const {i18n} = useTranslation();
+	const {lang} = useStore()
+
 	const loadLanguage = async () => {
 		try {
-			const storedLanguage = await AsyncStorage.getItem("lang");
-			if (storedLanguage) {
-				i18n.changeLanguage(storedLanguage);
+			if (lang) {
+				i18n.changeLanguage(lang);
 			}
 		} catch (e) {
 			console.log(e);
@@ -52,6 +54,7 @@ function RootLayoutNav() {
 	useEffect(() => {
 		loadLanguage();
 	}, []);
+
 	return (
 		<>
 			<QueryClientProvider client={queryClient}>

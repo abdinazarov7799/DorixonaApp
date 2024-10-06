@@ -29,11 +29,15 @@ const Index = () => {
 		sheetRef.current?.dismiss();
 	};
 
+	const deleteAccount = () => {
+		request.delete(`${ENDPOINTS.profile_delete}/${get(user,'id')}`).then(handleCloseDeleteBottomSheet)
+	}
+
 	const handleEditProfile = (values) => {
 		request.patch(`${ENDPOINTS.profile_edit}/${get(user,'id')}`,{
 			firstName: values.firstName,
 			lastName: values.lastName,
-		}).finally(() => router.back())
+		}).then(() => router.back())
 	}
 
 	return (

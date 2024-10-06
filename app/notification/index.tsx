@@ -22,7 +22,7 @@ const Index = () => {
 		url: ENDPOINTS.notification_get_mine,
 		limit: 20,
 	});
-
+	console.log(data,'data')
 	return (
 		<View
 			className="flex-1  bg-[#F5F6F7] relative pt-[60px] "

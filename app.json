@@ -1,6 +1,6 @@
 {
 	"expo": {
-		"name": "Dorixona",
+		"name": "Jurabek LAB",
 		"slug": "jurabek-laboratories-mobile",
 		"version": "1.0.0",
 		"orientation": "default",
@@ -9,7 +9,7 @@
 		"userInterfaceStyle": "automatic",
 		"splash": {
 			"image": "./assets/images/splash.png",
-			"backgroundColor": "#fff"
+			"backgroundColor": "#ffffff"
 		},
 		"ios": {
 			"supportsTablet": true,
@@ -21,7 +21,7 @@
 			"softwareKeyboardLayoutMode": "pan",
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/images/icon.png",
-				"backgroundColor": "#215ca0"
+				"backgroundColor": "#ffffff"
 			},
 			"package": "com.diyorbekabdinazarov.jurabeklab"
 		},
@@ -32,9 +32,7 @@
 		},
 		"plugins": [
 			"expo-router",
-			"expo-screen-orientation",
-			"@config-plugins/react-native-blob-util",
-			"@config-plugins/react-native-pdf"
+			"expo-screen-orientation"
 		],
 		"experiments": {
 			"typedRoutes": true
@@ -44,7 +42,7 @@
 				"origin": false
 			},
 			"eas": {
-				"projectId": "be6d7146-b659-449b-8c9b-477e04bfd3dd"
+				"projectId": "c4b3c75e-832f-45de-8048-1c00018ff8e8"
 			}
 		}
 	}

@@ -1,6 +1,23 @@
+import { MMKV } from 'react-native-mmkv';
 import { create } from 'zustand';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persist } from 'zustand/middleware';
+
+const storage = new MMKV();
+
+const mmkvStorage = {
+    getItem: (key) => {
+        const value = storage.getString(key);
+        return Promise.resolve(value || null);
+    },
+    setItem: (key, value) => {
+        storage.set(key, value);
+        return Promise.resolve();
+    },
+    removeItem: (key) => {
+        storage.delete(key);
+        return Promise.resolve();
+    }
+};
 
 const calculateFullPrice = (orders) => {
     return orders.reduce((total, order) => total + (order.count * order.price), 0);
@@ -10,12 +27,15 @@ const useStore = create(
     persist(
         (set, get) => ({
             user: null,
+            lang: null,
             accessToken: null,
             refreshToken: null,
             orders: [],
             fullPrice: 0,
 
             setUser: (user) => set((state) => ({ ...state, user })),
+
+            setLang: (lang) => set((state) => ({ ...state, lang })),
 
             setAccessToken: (accessToken) => set((state) => ({ ...state, accessToken })),
 
@@ -77,9 +97,7 @@ const useStore = create(
         }),
         {
             name: 'store-storage',
-            storage: AsyncStorage,
-            serialize: (state) => JSON.stringify(state),
-            deserialize: (str) => JSON.parse(str),
+            getStorage: () => mmkvStorage,
         }
     )
 );

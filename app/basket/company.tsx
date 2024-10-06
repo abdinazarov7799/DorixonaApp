@@ -56,21 +56,23 @@ const Company = () => {
             productId: order.id,
             quantity: order.count
         }))
-        mutate({
-            endpoint: ENDPOINTS.orderAdd,
-            attributes: {
-                pharmacyPhoneNumber,
-                pharmacyId: pharmacy?.id,
-                totalPrice: fullPrice,
-                products
-            }
-        },{
-            onSuccess: (res) => {
-                setOrders([])
-                router.push("/orders");
-            },
-            onError: (err) => {console.log(err,'err')},
-        })
+        if (products && products?.length > 0) {
+            mutate({
+                endpoint: ENDPOINTS.orderAdd,
+                attributes: {
+                    pharmacyPhoneNumber,
+                    pharmacyId: pharmacy?.id,
+                    totalPrice: fullPrice,
+                    products
+                }
+            },{
+                onSuccess: (res) => {
+                    setOrders([])
+                    router.push("/orders");
+                },
+                onError: (err) => {console.log(err,'err')},
+            })
+        }
     }
     const handleOpenRegionSheet = () => {
         setOpenRegion(true)

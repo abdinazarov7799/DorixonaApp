@@ -1,15 +1,15 @@
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import I18NextHttpBackend from "i18next-http-backend";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {BASE_URL} from "@/constants";
+import useStore from "@/store";
 
 i18n
     .use({
         type: 'languageDetector',
         async: true,
         detect: async (cb: (lng: string) => void) => {
-            const lng = await AsyncStorage.getItem('lang') || 'ru';
+            const lng = await useStore.getState().lang || 'ru';
             cb(lng);
         },
     })
@@ -27,8 +27,8 @@ i18n
             escapeValue: false
         },
         backend: {
-            loadPath: `${BASE_URL}api/v1/site/translations/{{lng}}/react`,
-            addPath: `${BASE_URL}api/v1/site/translations`,
+            loadPath: `${BASE_URL}api/admin/language/by-lang/{{lng}}`,
+            addPath: `${BASE_URL}api/admin/language/create-key`,
         },
     });
 

@@ -12,7 +12,7 @@ const Index = () => {
 
     const handleContinue = () => {
         i18n.changeLanguage(selectedLanguage);
-        router.push('auth/login');
+        router.push('/auth/login');
     };
     return (
         <>

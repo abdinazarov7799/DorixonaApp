@@ -1,5 +1,5 @@
 import {useRouter} from "expo-router";
-import {TabBarIcon} from "./TabBarIcon";
+import {Feather} from "@expo/vector-icons";
 
 export const Bell = () => {
 	const router = useRouter();
@@ -7,11 +7,11 @@ export const Bell = () => {
 		router.push("/notification");
 	};
 	return (
-		<TabBarIcon
-			name={"bells"}
-			style={{marginRight: 15}}
-			color={"#215ca0"}
+		<Feather
 			size={28}
+			style={{ marginBottom: -3, marginRight: 15 }}
+			name={"bell"}
+			color={"#215ca0"}
 			onPress={handleNavigate}
 		/>
 	);

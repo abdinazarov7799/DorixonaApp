@@ -7,7 +7,6 @@ import {useRouter} from "expo-router";
 import useFetchRequest from "@/hooks/api/useFetchRequest";
 import {ENDPOINTS, KEYS} from "@/constants";
 import {get} from "lodash";
-import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
 
 export default function TabPaymentsScreen() {
 	const router = useRouter();
@@ -20,7 +19,7 @@ export default function TabPaymentsScreen() {
 		endpoint: ENDPOINTS.transaction_info
 	})
 	const { data } = useFetchRequest({
-		queryKey: KEYS.transaction_history_list,
+		queryKey: `${KEYS.transaction_history_list}_get_10`,
 		endpoint: ENDPOINTS.transaction_history_list,
 		params: {
 			pageSize: 10,
@@ -44,7 +43,7 @@ export default function TabPaymentsScreen() {
 			<View className="px-4">
 				<Text>{t("Mening hisobim")}</Text>
 				<Text className="text-[28px] font- py-2">
-					{Number(get(balance,'balance')).toLocaleString("en-US")} {t("so'm")}
+					{Number(get(balance,'balance',0)).toLocaleString("en-US")} {t("so'm")}
 				</Text>
 				{!hasCards && (
 					<Text className="w-3/4 text-[13px] text-[#919DA6] mb-4">
@@ -140,7 +139,7 @@ function ActionItem({
 						<Text className="text-[13px] text-[#919DA6]">{t("Tushum")}</Text>
 					</View>
 					<View className="ml-auto">
-						<Text className="text-[15px] text-[#00B268] font-ALSSiriusMediumm">
+						<Text className="text-[15px] text-[#00B268] font-ALSSiriusMedium">
 							{Number(amount).toLocaleString("en-US")} {t("so'm")}
 						</Text>
 						{updatedTime && (
