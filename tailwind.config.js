@@ -4,8 +4,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'sans': ['ALSSiriusRegular', 'sans-serif'],
-        'serif': ['ALSSiriusRegular', 'serif'],
+        'normal': ['ALSSiriusRegular', 'sans-serif'],
         'regular': ['ALSSiriusRegular', 'sans-serif'],
         'ALSSiriusRegular': ['ALSSiriusRegular', 'sans-serif'],
         'ALSSiriusBold': ['ALSSiriusBold', 'sans-serif'],

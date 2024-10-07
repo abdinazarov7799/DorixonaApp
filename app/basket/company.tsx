@@ -29,22 +29,19 @@ const Company = () => {
     const {data} = useFetchRequest({
         queryKey: KEYS.region_list,
         endpoint: ENDPOINTS.region_list,
-        enabled: openRegion
     })
     const {data:districts} = useFetchRequest({
         queryKey: `${KEYS.district_list}_${region?.id}`,
         endpoint: `${ENDPOINTS.district_list}/${region?.id}`,
-        enabled: openDistrict && !!region
+        enabled: !!region
     })
     const {data:pharmacies,refetch} = useFetchRequest({
         queryKey: `${KEYS.pharmacy_list}_${district?.id}`,
         endpoint: `${ENDPOINTS.pharmacy_list}/${district?.id}`,
-        params: {
-            search
-        },
-        enabled: openPharmacy && !!district
+        params: {search},
+        enabled: !!district
     })
-
+    console.log(district)
     useEffect(() => {
         refetch()
     }, [search]);
@@ -52,9 +49,9 @@ const Company = () => {
     const {mutate,isPending} = usePostQuery({})
 
     const handleSubmit = () => {
-        const products = orders?.map(order => ({
-            productId: order.id,
-            quantity: order.count
+        const products = Object.values(orders)?.map(order => ({
+            productId: order?.id,
+            quantity: order?.count
         }))
         if (products && products?.length > 0) {
             mutate({
@@ -67,7 +64,7 @@ const Company = () => {
                 }
             },{
                 onSuccess: (res) => {
-                    setOrders([])
+                    setOrders({})
                     router.push("/orders");
                 },
                 onError: (err) => {console.log(err,'err')},
@@ -201,8 +198,8 @@ const Company = () => {
             <>
                 <Ionicons name="arrow-back" size={24} color="#215ca0" onPress={() => router.back()} />
                 <View style={{ marginTop: 12 }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 24, marginBottom: 4 }}>{t("Dorixonani haqida")}</Text>
-                    <Text style={{ fontSize: 15, color: '#656E78' }}>
+                    <Text style={{ fontWeight: 'bold', fontSize: 24, marginBottom: 4 }} className={'font-ALSSiriusBold'}>{t("Dorixonani haqida")}</Text>
+                    <Text style={{ fontSize: 15, color: '#656E78' }} className={'font-ALSSiriusRegular'}>
                         {t("Dorixonaga tegishli boʻlgan maʻlumotlar bilan maydonlarni toʻldiring")}
                     </Text>
                 </View>
@@ -236,17 +233,17 @@ const Company = () => {
                         />
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={handleOpenPharmacySheet}>
+                    <TouchableOpacity>
                         <Input
                             className={"h-[56px] p-[16px]"}
                             placeholder={t("Dorixona nomi")}
                             value={pharmacy?.name}
+                            onChangeText={(text) => setPharmacy(text)}
                             variant="unstyled"
                             backgroundColor="#B4C0CC29"
                             borderRadius={10}
                             marginBottom={4}
-                            isReadOnly
-                            InputRightElement={<Ionicons name="chevron-forward" size={20} style={{marginRight: 18}} />}
+                            InputRightElement={<Ionicons onPress={handleOpenPharmacySheet} name="chevron-forward" size={20} style={{marginRight: 18}} />}
                         />
                     </TouchableOpacity>
 
@@ -257,7 +254,16 @@ const Company = () => {
                         variant="unstyled"
                         backgroundColor="#B4C0CC29"
                         borderRadius={10}
-                        isReadOnly
+                        marginBottom={4}
+                    />
+
+                    <Input
+                        className={"h-[56px] p-[16px]"}
+                        placeholder={t("Dorixona inn")}
+                        value={pharmacy?.inn}
+                        variant="unstyled"
+                        backgroundColor="#B4C0CC29"
+                        borderRadius={10}
                         marginBottom={4}
                     />
 

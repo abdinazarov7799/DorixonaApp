@@ -12,6 +12,7 @@ import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
 import {ENDPOINTS, KEYS} from "@/constants";
 import {get} from "lodash";
 import React from "react";
+import {request} from "@/lib/api";
 
 const Index = () => {
 	const {t} = useTranslation();
@@ -22,7 +23,11 @@ const Index = () => {
 		url: ENDPOINTS.notification_get_mine,
 		limit: 20,
 	});
-	console.log(data)
+
+	const viewNotification = (item) => {
+		request.get(`${ENDPOINTS.notification_get_mine}/${get(item,'id')}`)
+		router.push(`/order?id=${get(item,'orderId')}`)
+	}
 	return (
 		<View
 			className="flex-1  bg-[#F5F6F7] relative pt-[60px] "
@@ -57,11 +62,11 @@ const Index = () => {
 					</View>
 				}
 				renderItem={({item}) => (
-					<TouchableOpacity className="p-4 pl-0 border-b border-[#919DA63D] flex-row">
+					<TouchableOpacity className="p-4 pl-0 border-b border-[#919DA63D] flex-row" onPress={() => viewNotification(item)}>
 						<View className="w-2 justify-center items-center px-3">
 							<View
 								className={`w-2 h-2 rounded-full ${
-									get(item,'viewed') && "bg-[#215CA0]"
+									!get(item,'viewed') && "bg-[#215CA0]"
 								}`}
 							/>
 						</View>
@@ -76,9 +81,6 @@ const Index = () => {
 								</Text>
 								<Ionicons name="chevron-forward" size={14} color="#215ca0" />
 							</View>
-							<Text className="text-[13px] text-[#919DA6]">
-								{get(item,'description')}
-							</Text>
 						</View>
 					</TouchableOpacity>
 				)}

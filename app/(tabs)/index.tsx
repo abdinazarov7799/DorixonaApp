@@ -36,8 +36,7 @@ export default function HomeScreen() {
     });
 
     const getCountForItem = (itemId) => {
-        const order = orders.find((order) => order?.id === itemId);
-        return order ? order.count : 0;
+        return orders[itemId] ? orders[itemId]?.count : 0;
     };
 
     const handleOpenViewBottomSheet = (item) => {
@@ -68,7 +67,7 @@ export default function HomeScreen() {
                     <Text className="mt-1 p-1 mb-3 text-black text-[13px] font-ALSSiriusMedium">{item?.price} {t("so'm")}</Text>
                 </TouchableOpacity>
                 {
-                    !orders?.some(order => isEqual(get(order,"id"),get(item,"id"))) ? (
+                    !orders[get(item,"id")] ? (
                         <Button className="py-2 bg-white rounded-[10px]" shadow={"1"} onPress={() => increment(item)}>
                             <Text className="text-center text-[13px]">{t("Qo'shish")}</Text>
                         </Button>
@@ -119,7 +118,7 @@ export default function HomeScreen() {
                     </View>
                     <View className={"absolute w-full p-4 bottom-0"}>
                         {
-                            orders?.some(order => isEqual(get(order,"id"),get(selected,"id"))) ? (
+                            orders[get(selected,"id")] ? (
                                 <View className={"flex-row justify-between items-center"}>
                                     <View>
                                         <Text className={"text-[#919DA6] text-[16px] mb-1"}>{t("Mahsulot narxi")}</Text>

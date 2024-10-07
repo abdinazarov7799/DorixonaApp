@@ -18,6 +18,7 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
 	const [loaded] = useFonts({
 		regular: require("../assets/fonts/ALSSirius-Regular.ttf"),
+		normal: require("../assets/fonts/ALSSirius-Regular.ttf"),
 		ALSSiriusRegular: require("../assets/fonts/ALSSirius-Regular.ttf"),
 		ALSSiriusBold: require("../assets/fonts/ALSSirius-Bold.otf"),
 		ALSSiriusBlack: require("../assets/fonts/ALSSirius-Black.ttf"),

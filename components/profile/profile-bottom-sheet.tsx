@@ -96,11 +96,7 @@ export const ProfileBottomSheet = ({
 						</StyledText>
 					</StyledTouchable>
 					<StyledText className="text-[#919DA6] text-center text-[13px] mt-4">
-						{t("O'zbekiston Respublikasi")}
 						{t("Jurabek LAB")}
-					</StyledText>
-					<StyledText className="text-[#919DA6] text-center text-[13px] mt-2">
-						{t("Adliya vazirligi")}
 					</StyledText>
 					<StyledText className="text-[#919DA6] text-center text-[13px] mt-2">
 						{t("Talqin 1.0.0")}

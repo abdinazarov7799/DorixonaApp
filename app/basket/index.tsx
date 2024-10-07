@@ -10,10 +10,9 @@ import useStore from "@/store";
 const Index = () => {
     const { t } = useTranslation();
     const {orders,increment,decrement,addToOrder,setOrders,fullPrice} = useStore();
-
+    const ordersList = Object.values(orders);
     const getCountForItem = (itemId) => {
-        const order = orders.find((order) => order?.id === itemId);
-        return order ? order.count : 0;
+        return orders[itemId] ? orders[itemId]?.count : 0;
     };
 
     return (
@@ -27,8 +26,8 @@ const Index = () => {
             </View>
             <ScrollView className={"divide-y divide-[#919DA63D]"}>
                 {
-                    orders && (
-                        orders?.map(item => {
+                    ordersList && (
+                        ordersList?.map(item => {
                             return (
                                 <View className="p-2 flex-row justify-between items-center space-x-2" key={item?.id}>
                                     <Image
