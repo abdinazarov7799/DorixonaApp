@@ -61,6 +61,7 @@ const Index = () => {
 			<DeleteBottomSheet
 				bottomSheetRef={sheetRef}
 				onClose={handleCloseDeleteBottomSheet}
+				deleteAccount={deleteAccount}
 			/>
 			<View
 				className="flex-1 bg-[#F5F6F7] relative pt-[90px] px-4 pb-6"
@@ -186,10 +187,12 @@ const Index = () => {
 type DeleteBottomSheetProps = {
 	bottomSheetRef: React.RefObject<BottomSheetModal>;
 	onClose: () => void;
+	deleteAccount: () => void;
 };
 const DeleteBottomSheet = ({
-	bottomSheetRef,
-	onClose,
+							   bottomSheetRef,
+							   onClose,
+							   deleteAccount
 }: DeleteBottomSheetProps) => {
 	const {t} = useTranslation();
 	return (
@@ -204,7 +207,7 @@ const DeleteBottomSheet = ({
 					)}
 				</Text>
 				<View className="flex flex-row gap-3 mt-6">
-					<Button className="flex-1 px-4 py-3 rounded-lg bg-[#E04917]">
+					<Button className="flex-1 px-4 py-3 rounded-lg bg-[#E04917]" onPress={deleteAccount}>
 						<Text className="text-[15px] font-ALSSiriusMedium text-white">
 							{t("O'chirish")}
 						</Text>
