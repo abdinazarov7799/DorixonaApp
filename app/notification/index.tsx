@@ -22,7 +22,7 @@ const Index = () => {
 		url: ENDPOINTS.notification_get_mine,
 		limit: 20,
 	});
-	console.log(data,'data')
+	console.log(data)
 	return (
 		<View
 			className="flex-1  bg-[#F5F6F7] relative pt-[60px] "
@@ -61,15 +61,15 @@ const Index = () => {
 						<View className="w-2 justify-center items-center px-3">
 							<View
 								className={`w-2 h-2 rounded-full ${
-									get(item,'read') && "bg-[#215CA0]"
+									get(item,'viewed') && "bg-[#215CA0]"
 								}`}
 							/>
 						</View>
 						<View className="flex-1">
 							<View className="flex-row items-center">
-								<Text className="font-ALSSiriusMedium text-[15px]">{get(item,'title')}</Text>
+								<Text className="font-ALSSiriusMedium text-[15px]">{t(get(item,'type'))}</Text>
 								<Text className="ml-auto mr-1 text-[13px] text-[#919DA6]">
-									{new Date(get(item,'createdAt')).toLocaleString("en-US", {
+									{new Date(get(item,'createdTime')).toLocaleString("en-US", {
 										hour: "2-digit",
 										minute: "2-digit",
 									})}

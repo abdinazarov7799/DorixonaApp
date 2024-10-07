@@ -1,6 +1,6 @@
 export const BASE_URL = "https://jurabek-lab.medias.uz/";
 export const ENDPOINTS = {
-    getMe: 'api/app/auth/me',
+    getMe: 'api/admin/users/get-me',
     signIn: 'api/app/auth/sign-in',
     signUp: 'api/app/auth/sign-up',
     orderAdd: 'api/app/orders/add',

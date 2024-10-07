@@ -5,14 +5,15 @@ import {BottomSheetModal} from "@gorhom/bottom-sheet";
 import {useRouter} from "expo-router";
 import {Formik} from "formik";
 import {Button} from "native-base";
-import {useRef} from "react";
+import {useEffect, useRef} from "react";
 import {useTranslation} from "react-i18next";
 import {Text, TouchableOpacity, View, useWindowDimensions} from "react-native";
 import {TextInput} from "react-native-gesture-handler";
 import MaskInput from "react-native-mask-input";
 import {request} from "@/lib/api";
-import {ENDPOINTS} from "@/constants";
+import {ENDPOINTS, KEYS} from "@/constants";
 import {get} from "lodash";
+import useFetchRequest from "@/hooks/api/useFetchRequest";
 
 const Index = () => {
 	const sheetRef = useRef<BottomSheetModal>(null);
@@ -20,6 +21,18 @@ const Index = () => {
 	const router = useRouter();
 	const minHeight = useWindowDimensions().height;
 	const user = useStore(state => (state as any).user);
+	const setUser = useStore(state => (state as any).setUser);
+	const {data,refetch} = useFetchRequest({
+		endpoint: ENDPOINTS.getMe,
+		queryKey: KEYS.getMe,
+		enabled: false
+	})
+
+	useEffect(() => {
+		if (data){
+			setUser(data)
+		}
+	}, [data]);
 
 	const handleOpenDeleteBottomSheet = () => {
 		sheetRef.current?.present();
@@ -37,7 +50,10 @@ const Index = () => {
 		request.patch(`${ENDPOINTS.profile_edit}/${get(user,'id')}`,{
 			firstName: values.firstName,
 			lastName: values.lastName,
-		}).then(() => router.back())
+		}).then(() => {
+			refetch()
+			router.back()
+		})
 	}
 
 	return (

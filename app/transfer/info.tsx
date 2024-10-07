@@ -62,12 +62,6 @@ const Info = () => {
 							</View>
 							<View className="flex-row justify-between w-full">
 								<Text className="text-[15px] text-[#919DA6]">
-									{t("Tranzaksiya raqami")}
-								</Text>
-								<Text className="text-[15px]">{t("38941831")}</Text>
-							</View>
-							<View className="flex-row justify-between w-full">
-								<Text className="text-[15px] text-[#919DA6]">
 									{t("O'tkazma summasi")}
 								</Text>
 								<Text className="text-[15px]">{Number(amount).toLocaleString("en-US")} {t("so'm")}</Text>

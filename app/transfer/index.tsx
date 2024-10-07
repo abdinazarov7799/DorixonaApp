@@ -125,6 +125,7 @@ const Index = () => {
 							`/transfer/info?cardNumber=${myCards[activeIndex].number}&cardId=${myCards[activeIndex]?.id}&amount=${amount}`
 						)
 					}
+					isDisabled={amount < 1000}
 					className={"bg-[#215ca0] w-full h-[48px] rounded-lg mt-auto"}
 				>
 					<Text className={"text-white font-ALSSiriusMedium text-[16px]"}>
