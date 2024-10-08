@@ -9,7 +9,7 @@ import {ENDPOINTS, KEYS} from "@/constants";
 const Index = () => {
 	const router = useRouter();
 	const {t} = useTranslation();
-	const { data, isLoading } = useFetchRequest({
+	const { data } = useFetchRequest({
 		queryKey: KEYS.card_list,
 		endpoint: ENDPOINTS.card_list,
 	})
@@ -74,10 +74,8 @@ type CardProps = {
 };
 
 const Card = ({
-	balance,
 	cardName,
 	cardNumber,
-	cardType,
 	onPress,
 }: CardProps) => {
 	return (
@@ -86,7 +84,7 @@ const Card = ({
 			onPress={onPress}
 		>
 			<View>
-				<Text className="text-[13px] text-[#656E78]">
+				<Text className="text-[13px] text-[#656E78] font-ALSSiriusRegular">
 					{cardName}{cardName && " ···· "}{String(cardNumber).slice(-4)}
 				</Text>
 			</View>

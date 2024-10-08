@@ -54,7 +54,7 @@ const Index = () => {
 				</Text>
 				<View className="p-4 flex-row bg-white mt-3 rounded-lg items-center">
 					<View>
-						<Text className="text-[#656E78] text-[13px]">Mening hisobim</Text>
+						<Text className="text-[#656E78] text-[13px] font-ALSSiriusRegular">{t("Mening hisobim")}</Text>
 						<Text className="text-[#292C30] text-[16px] font-ALSSiriusMedium">
 							{Number(balance).toLocaleString("en-US")} {t("so'm")}
 						</Text>
@@ -78,7 +78,7 @@ const Index = () => {
 					<TouchableOpacity className="px-4" onPress={() => router.push('/cards/add')}>
 						<View className="px-4 py-6 flex-row bg-white mt-3 rounded-lg items-center justify-center">
 							<FontAwesome5 name={"plus-circle"} size={24} color="#292C30" />
-							<Text className="ml-4 text-[15px]">{t("Karta qo'shish")}</Text>
+							<Text className="ml-4 text-[15px] font-ALSSiriusRegular">{t("Karta qo'shish")}</Text>
 						</View>
 						<Text className="text-[13px] font-ALSSiriusMedium text-[#919DA6] mt-3">
 							{t(
@@ -97,7 +97,7 @@ const Index = () => {
 						value={amount}
 						onChangeText={(amount) => setAmount(amount)}
 						keyboardType="numeric"
-						className="text-2xl font-semibold mr-auto"
+						className="text-2xl font-ALSSiriusBold mr-auto"
 						placeholder={`0 ${t("so'm")}`}
 						placeholderTextColor={"#292C30"}
 					/>
@@ -134,50 +134,6 @@ const Index = () => {
 				</Button>
 			</View>
 		</View>
-	);
-};
-
-type CardProps = {
-	cardType: string;
-	cardName: string;
-	cardNumber: string;
-	id: number;
-	onPress?: () => void;
-	balance: number;
-};
-
-const Card = ({
-	balance,
-	cardName,
-	cardNumber,
-	cardType,
-	onPress,
-}: CardProps) => {
-	return (
-		<Pressable
-			className="border border-[#919DA63D] rounded-lg px-4 py-3 flex-row mb-4"
-			onPress={onPress}
-		>
-			<View>
-				<Text className="text-[13px] text-[#656E78]">
-					{cardName} ····{String(cardNumber).slice(-4)}
-				</Text>
-				<Text className="text-[#292C30] font-ALSSiriusMedium text-[16px]">
-					{Number(balance).toLocaleString("en-US")} {t("so'm")}
-				</Text>
-			</View>
-			<View className="ml-auto max-h-8 h-8 max-w-12 w-12 ">
-				<Image
-					resizeMode="contain"
-					style={{height: "100%", width: "100%"}}
-					source={
-						cardType === "uzcard"
-							? require("@/assets/images/uzcard.jpg")
-							: require("@/assets/images/humo.png")
-					}
-				/>
-			</View>
-		</Pressable>
 	);
 };
 

@@ -56,7 +56,6 @@ export const AddCard = () => {
 					values,
 					errors,
 					isValid,
-					touched,
 				}) => (
 					<>
 						<View className="">
@@ -75,13 +74,13 @@ export const AddCard = () => {
 								/>
 							</View>
 							{errors.cardNumber && (
-								<Text className="text-red-500 font-normal text-xs mt-1">
+								<Text className="text-red-500 font-ALSSiriusRegular text-xs mt-1">
 									{t(errors.cardNumber)}
 								</Text>
 							)}
-							<Text className="mt-2 text-[13px] text-[#919DA6] mb-4">
+							<Text className="mt-2 text-[13px] text-[#919DA6] font-ALSSiriusRegular mb-4">
 								{t(
-									"Boshlangʻich 4 ta raqami 9860, 8600, 6440 boʻlgan kartalarni qoʻshishingiz mumkin"
+									"Boshlangʻich 4 ta raqami 9860, 8600, 5614, 6440 boʻlgan kartalarni qoʻshishingiz mumkin"
 								)}
 							</Text>
 							<View className="bg-[#B4C0CC29] p-4 rounded-lg">
@@ -94,7 +93,7 @@ export const AddCard = () => {
 									placeholderTextColor={"#919DA6"}
 								/>
 							</View>
-							<Text className="mt-2 text-[13px] text-[#919DA6]">
+							<Text className="mt-2 text-[13px] text-[#919DA6] font-ALSSiriusRegular">
 								{t("Masalan: Asosiy")}
 							</Text>
 						</View>

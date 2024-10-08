@@ -17,7 +17,7 @@ i18n
     .use(I18NextHttpBackend)
     .init({
         fallbackLng: 'ru',
-        saveMissing: false,
+        saveMissing: true,
         defaultNS: 'main',
         compatibilityJSON: 'v3',
         react: {
@@ -27,7 +27,7 @@ i18n
             escapeValue: false
         },
         backend: {
-            loadPath: `${BASE_URL}api/admin/language/by-lang/{{lng}}`,
+            loadPath: `${BASE_URL}api/admin/language/by-lang?language={{lng}}`,
             addPath: `${BASE_URL}api/admin/language/create-key`,
         },
     });

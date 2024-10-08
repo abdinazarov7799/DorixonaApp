@@ -1,5 +1,5 @@
 import {HistoryBottomSheet} from "@/components/history";
-import {FontAwesome5, Ionicons} from "@expo/vector-icons";
+import {FontAwesome5} from "@expo/vector-icons";
 import {BottomSheetModal} from "@gorhom/bottom-sheet";
 import React, {useMemo, useRef, useState} from "react";
 import {useTranslation} from "react-i18next";
@@ -17,7 +17,7 @@ const Report = () => {
 	const [transaction, setTransaction] = useState<ActionItemProps | null>(null);
 	const minHeight = useWindowDimensions().height;
 	const sheetRef = useRef<BottomSheetModal>(null);
-	const { data, isRefreshing, onRefresh, onEndReached, isFetchingNextPage, isLoading } = useInfiniteScroll({
+	const { data, isRefreshing, onRefresh, onEndReached, isFetchingNextPage } = useInfiniteScroll({
 		key: KEYS.transaction_history_list,
 		url: ENDPOINTS.transaction_history_list,
 		limit: 20,
@@ -46,7 +46,7 @@ const Report = () => {
 						data={data as ActionItemProps[]}
 						onEndReached={onEndReached}
 						refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
-						keyExtractor={(item) => item?.id}
+						keyExtractor={(item) => item?.number}
 						renderItem={({ item }) => (
 							<ActionItem {...item} onPress={handlePress(item)} />
 						)}
@@ -81,9 +81,7 @@ export type ActionItemProps = {
 function ActionItem({
 						type,
 						amount,
-						number,
 						pharmacy,
-						status,
 						updatedTime,
 						onPress,
 					}: ActionItemProps) {
@@ -97,17 +95,17 @@ function ActionItem({
 						<FontAwesome5 name="arrow-down" size={18} color="#292C30" />
 					</View>
 					<View>
-						<Text className="text-[15px] max-w-[80%]" numberOfLines={1} ellipsizeMode="tail">
+						<Text className="text-[15px] max-w-[80%] font-ALSSiriusRegular" numberOfLines={1} ellipsizeMode="tail">
 							{t(pharmacy)}
 						</Text>
-						<Text className="text-[13px] text-[#919DA6]">{t("Tushum")}</Text>
+						<Text className="text-[13px] text-[#919DA6] font-ALSSiriusRegular">{t("Tushum")}</Text>
 					</View>
 					<View className="ml-auto">
 						<Text className="text-[15px] text-[#00B268] font-ALSSiriusMedium">
 							{Number(amount).toLocaleString("en-US")} {t("so'm")}
 						</Text>
 						{updatedTime && (
-							<Text className="text-[13px] text-[#919DA6] text-right">
+							<Text className="text-[13px] text-[#919DA6] text-right font-ALSSiriusRegular">
 								{new Date(updatedTime).toLocaleString("en-US", {
 									hour: "2-digit",
 									minute: "2-digit",
@@ -123,17 +121,17 @@ function ActionItem({
 						<FontAwesome5 name="arrow-up" size={18} color="#292C30" />
 					</View>
 					<View>
-						<Text className="text-[15px]">
+						<Text className="text-[15px] max-w-[80%] font-ALSSiriusRegular" numberOfLines={1} ellipsizeMode="tail">
 							{t(pharmacy)}
 						</Text>
-						<Text className="text-[13px] text-[#919DA6]">{t("Chiqim")}</Text>
+						<Text className="text-[13px] text-[#919DA6] font-ALSSiriusRegular">{t("Chiqim")}</Text>
 					</View>
 					<View className="ml-auto">
 						<Text className="text-[15px] text-[#292C30] font-ALSSiriusMedium">
 							{Number(amount).toLocaleString("en-US")} {t("so'm")}
 						</Text>
 						{updatedTime && (
-							<Text className="text-[13px] text-[#919DA6] text-right">
+							<Text className="text-[13px] text-[#919DA6] text-right font-ALSSiriusRegular">
 								{new Date(updatedTime).toLocaleString("en-US", {
 									hour: "2-digit",
 									minute: "2-digit",

@@ -63,7 +63,7 @@ const Company = () => {
                     products
                 }
             },{
-                onSuccess: (res) => {
+                onSuccess: () => {
                     setOrders({})
                     router.push("/orders");
                 },
@@ -122,9 +122,9 @@ const Company = () => {
                 className={"py-[10px]  border-b border-[#919DA63D] flex-row items-center justify-between"}
             >
                 <View>
-                    <Text className={"text-[15px]"}>{item?.name}</Text>
+                    <Text className={"text-[15px] font-ALSSiriusRegular"}>{item?.name}</Text>
                     {
-                        item?.address && <Text className={'text-[#919DA6] text-[13px]'}>{item?.address}</Text>
+                        item?.address && <Text className={'text-[#919DA6] font-ALSSiriusRegular text-[13px]'}>{item?.address}</Text>
                     }
                 </View>
                 {

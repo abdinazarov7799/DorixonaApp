@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {View, Text, Image, ScrollView} from "react-native";
 import {AntDesign} from "@expo/vector-icons";
 import {useTranslation} from "react-i18next";
@@ -69,7 +69,7 @@ const Index = () => {
             </ScrollView>
             <View className={"absolute bottom-0 z-10 w-[100vw] h-[114px] p-[12px] bg-white border-t border-[#919DA63D]"}>
                 <View className={"flex-row justify-between items-center mb-[16px]"}>
-                    <Text className={"text-[16px] text-[#656E78]"}>
+                    <Text className={"text-[16px] font-ALSSiriusRegular text-[#656E78]"}>
                         {t("Umumiy narxi")}
                     </Text>
                     <Text className={"font-ALSSiriusBold text-[18px]"}>

@@ -12,17 +12,9 @@ const Info = () => {
 	const router = useRouter();
 	const {cardNumber,cardId,amount} = useLocalSearchParams();
 	const {t} = useTranslation();
-	const [data, setData] = useState({});
 	const {mutate,isPending} = usePostQuery({})
 	useEffect(() => {
-		mutate({ endpoint: ENDPOINTS.withdraw, attributes: {cardId,amount}},{
-			onSuccess: (res) => {
-				setData(res)
-			},
-			onError: (res) => {
-				setData(res)
-			}
-		});
+		mutate({ endpoint: ENDPOINTS.withdraw, attributes: {cardId,amount}});
 	},[amount])
 
 	return (
@@ -42,29 +34,29 @@ const Info = () => {
 					<View className="flex-1 items-center pt-20 pb-6 px-6">
 						<Image
 							source={require("@/assets/images/exclamation.png")}
-							className="w-20 h-20"
+							className="w-20 h-20 mb-4"
 						/>
-						<Text className="text-xl text-center w-3/4 font-semibold">
+						<Text className="text-xl text-center w-3/4 font-ALSSiriusBold">
 							{t("So'rov yuborildi, pul o'tkazish kutilmoqda")}
 						</Text>
 						<View className="pt-10 gap-3">
 							<View className="flex-row justify-between w-full">
-								<Text className="text-[15px] text-[#919DA6]">
+								<Text className="text-[15px] text-[#919DA6] font-ALSSiriusRegular">
 									{t("Qabul qiluvchi karta")}
 								</Text>
-								<Text className="text-[15px]">{cardNumber}</Text>
+								<Text className="text-[15px] font-ALSSiriusRegular">{cardNumber}</Text>
 							</View>
+							{/*<View className="flex-row justify-between w-full">*/}
+							{/*	<Text className="text-[15px] text-[#919DA6] font-ALSSiriusRegular">*/}
+							{/*		{t("So'rov yuborilgan vaqti")}*/}
+							{/*	</Text>*/}
+							{/*	<Text className="text-[15px]">{t("18-avgust, 09:28")}</Text>*/}
+							{/*</View>*/}
 							<View className="flex-row justify-between w-full">
-								<Text className="text-[15px] text-[#919DA6]">
-									{t("So'rov yuborilgan vaqti")}
-								</Text>
-								<Text className="text-[15px]">{t("18-avgust, 09:28")}</Text>
-							</View>
-							<View className="flex-row justify-between w-full">
-								<Text className="text-[15px] text-[#919DA6]">
+								<Text className="text-[15px] text-[#919DA6] font-ALSSiriusRegular">
 									{t("O'tkazma summasi")}
 								</Text>
-								<Text className="text-[15px]">{Number(amount).toLocaleString("en-US")} {t("so'm")}</Text>
+								<Text className="text-[15px] font-ALSSiriusRegular">{Number(amount).toLocaleString("en-US")} {t("so'm")}</Text>
 							</View>
 						</View>
 						<Button

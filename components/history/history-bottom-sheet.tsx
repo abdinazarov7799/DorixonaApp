@@ -22,6 +22,7 @@ export const HistoryBottomSheet = ({
 }: HistoryBottomSheetProps) => {
 	const {t} = useTranslation();
 	const isSuccessful = transaction?.status === "DONE";
+
 	return (
 		<BaseBottomSheet
 			bottomSheetRef={bottomSheetRef}
@@ -42,7 +43,7 @@ export const HistoryBottomSheet = ({
 							}
 						/>
 					</StyledView>
-					<StyledText className="text-lg font-semibold">
+					<StyledText className="text-lg font-ALSSiriusBold">
 						{t(
 							isSuccessful
 								? "Kartaga pul oʻtkazildi"
@@ -51,10 +52,6 @@ export const HistoryBottomSheet = ({
 					</StyledText>
 					<StyledText className="text-[28px] font-ALSSiriusBold">
 						{Math.abs(Number(transaction?.amount)).toLocaleString("en-US")} {t("so'm")}
-					</StyledText>
-					<StyledText className="text-[16px] text-[#656E78]">
-						{transaction?.cardType} ····
-						{String(transaction?.cardNumber).slice(-4)}
 					</StyledText>
 				</StyledView>
 				<StyledView className="pt-10 gap-3">
@@ -68,14 +65,6 @@ export const HistoryBottomSheet = ({
 							</StyledText>
 						</StyledView>
 					)}
-					<StyledView className="flex-row justify-between flex-1">
-						<StyledText className="text-[15px] text-[#919DA6]">
-							{t("Qabul qiluvchi")}
-						</StyledText>
-						<StyledText className="text-[15px]">
-							{t(transaction?.cardNumber!)}
-						</StyledText>
-					</StyledView>
 					<StyledView className="flex-row justify-between flex-1">
 						<StyledText className="text-[15px] text-[#919DA6]">
 							{t("So'rov yuborilgan vaqti")}
@@ -98,7 +87,7 @@ export const HistoryBottomSheet = ({
 						<StyledText className="text-[15px] text-[#919DA6]">
 							{t("Tranzaksiya raqami")}
 						</StyledText>
-						<StyledText className="text-[15px]">{t("38941831")}</StyledText>
+						<StyledText className="text-[15px]">{transaction?.number}</StyledText>
 					</StyledView>
 					<StyledView className="flex-row justify-between flex-1">
 						<StyledText className="text-[15px] text-[#919DA6]">

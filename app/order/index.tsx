@@ -40,11 +40,11 @@ const OrderView = () => {
                 <Text className={'text-center font-ALSSiriusBold text-[22px]'}>
                     {t("Buyurtma")} {`#${id}`}
                 </Text>
-                <Text className={'text-center text-[15px] mt-[4px] max-w-[80%] mx-auto mb-[16px]'}>
+                <Text className={'text-center text-[15px] mt-[4px] max-w-[80%] mx-auto mb-[16px] font-ALSSiriusRegular'}>
                     {get(data,'pharmacy')}
                 </Text>
                 <View className={"flex-row justify-between items-center"}>
-                    <Text className={"text-[15px] text-[#919DA6]"}>{t("Status")}</Text>
+                    <Text className={"text-[15px] text-[#919DA6] font-ALSSiriusRegular"}>{t("Status")}</Text>
                     <View
                         className={`rounded-full py-[3px] px-[8px]`} style={{backgroundColor: `${get(data,'status') === "SENT" ? "#248BF2" : get(data,'status') === "CONFIRMED" ? "#00B268" : get(data,'status') === "REJECTED" ? "#E04917" : "#919DA6"}`}}>
                         <Text className="text-white text-[11px] font-ALSSiriusMedium">
@@ -53,14 +53,14 @@ const OrderView = () => {
                     </View>
                 </View>
                 <View className={"flex-row justify-between items-center"}>
-                    <Text className={"text-[15px] text-[#919DA6]"}>{t("Время отправки")}</Text>
-                    <Text className="text-[15px]">
+                    <Text className={"text-[15px] text-[#919DA6] font-ALSSiriusRegular"}>{t("Время отправки")}</Text>
+                    <Text className="text-[15px] font-ALSSiriusRegular">
                         {dayjs(get(data,'createdTime'))?.format("DD-MMMM, HH:mm")}
                     </Text>
                 </View>
                 <View className={"flex-row justify-between items-center"}>
-                    <Text className={"text-[15px] text-[#919DA6]"}>{t("Время отправки")}</Text>
-                    <Text className="text-[15px]">
+                    <Text className={"text-[15px] text-[#919DA6] font-ALSSiriusRegular"}>{t("Время отправки")}</Text>
+                    <Text className="text-[15px] font-ALSSiriusRegular">
                         {get(data,'phoneNumber')}
                     </Text>
                 </View>
@@ -78,7 +78,7 @@ const OrderView = () => {
                                     />
                                     <View className={"w-[45%]"}>
                                         <Text
-                                            className="text-[13px]"
+                                            className="text-[13px] font-ALSSiriusRegular"
                                         >
                                             {get(product,'name')}
                                         </Text>
@@ -87,7 +87,7 @@ const OrderView = () => {
                                         <Text className={"text-[15px font-ALSSiriusMedium] ml-auto"}>
                                             {get(product,'price').toLocaleString("en-US")} {t("so'm")}
                                         </Text>
-                                        <Text className={"text-[13px] text-[#919DA6] ml-auto"}>
+                                        <Text className={"text-[13px] text-[#919DA6] font-ALSSiriusRegular ml-auto"}>
                                             {get(product,'pricePerProduct').toLocaleString("en-US")}
                                             {" x "}{get(product,'quantity')} {t("шт")}
                                         </Text>
@@ -100,7 +100,7 @@ const OrderView = () => {
             </View>
             <View className={"px-[16px] py-[18px] bg-white space-y-[6px] my-[6px]"}>
                 <View className={"flex-row justify-between items-center"}>
-                    <Text className={"text-[15px]"}>{t("Общая сумма")}</Text>
+                    <Text className={"text-[15px] font-ALSSiriusRegular"}>{t("Общая сумма")}</Text>
                     <Text className="text-[15px] font-ALSSiriusMedium">
                         {get(data,'totalPrice').toLocaleString("en-US")} {t("so'm")}
                     </Text>

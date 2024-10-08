@@ -11,15 +11,11 @@ import {router} from "expo-router";
 
 export default function TabOrdersScreen() {
     const { t } = useTranslation();
-    const [search, setSearch] = useState(null);
     const lastDateRef = useRef(null);
     const { data, isRefreshing, onRefresh, onEndReached, isFetchingNextPage, isLoading } = useInfiniteScroll({
         key: KEYS.order_get_mine,
         url: ENDPOINTS.order_get_mine,
         limit: 15,
-        filters: {
-            search
-        }
     });
 
     const formatDateHeader = (timestamp) => {
@@ -52,12 +48,12 @@ export default function TabOrdersScreen() {
                             <Text className="text-[16px] font-ALSSiriusMedium mb-1">
                                 {t("Buyurtma") + "#" + get(item, 'id')}
                             </Text>
-                            <Text className="text-[13px] text-[#919DA6]">
+                            <Text className="text-[13px] text-[#919DA6] font-ALSSiriusRegular">
                                 {dayjs(get(item, 'createdTime')).format("HH:mm")} &middot; {get(item, 'pharmacy')}
                             </Text>
                         </View>
                         <View
-                            className={`rounded-full py-[3px] px-[8px] h-[24px]`} style={{backgroundColor: `${status === "SENT" ? "#248BF2" : status === "CONFIRMED" ? "#00B268" : status === "REJECTED" ? "#E04917" : "#919DA6"}`}}>
+                            className={`rounded-full py-[3px] px-[8px] h-[22px]`} style={{backgroundColor: `${status === "SENT" ? "#248BF2" : status === "CONFIRMED" ? "#00B268" : status === "REJECTED" ? "#E04917" : "#919DA6"}`}}>
                             <Text className="text-white text-[11px] font-ALSSiriusMedium">
                                 {t(status)}
                             </Text>
@@ -65,7 +61,7 @@ export default function TabOrdersScreen() {
                     </View>
 
                     <View className={"flex-row justify-between"}>
-                        <Text className={"text-[#919DA6] text-[15px]"}>{t("Umumiy summasi")}</Text>
+                        <Text className={"text-[#919DA6] text-[15px] font-ALSSiriusRegular"}>{t("Umumiy summasi")}</Text>
                         <Text className={"text-[15px] font-ALSSiriusMedium"}>{Number(get(item, 'totalPrice')).toLocaleString('en-US')} {t("so'm")}</Text>
                     </View>
                 </TouchableOpacity>
@@ -86,7 +82,7 @@ export default function TabOrdersScreen() {
                         renderItem={renderProductCard}
                         refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
                         ListEmptyComponent={
-                            <Center className={'p-10 text-xl'}>{t("No data")}</Center>
+                            <Center className={'p-10 text-xl font-ALSSiriusRegular'}>{t("No order")}</Center>
                         }
                         ListFooterComponent={
                             <View style={{

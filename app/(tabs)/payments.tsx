@@ -41,12 +41,12 @@ export default function TabPaymentsScreen() {
 	return (
 		<View className="flex-1 bg-[#F5F6F7] pt-10">
 			<View className="px-4">
-				<Text>{t("Mening hisobim")}</Text>
-				<Text className="text-[28px] font- py-2">
+				<Text className={"font-ALSSiriusRegular"}>{t("Mening hisobim")}</Text>
+				<Text className="text-[28px] font-ALSSiriusRegular py-2">
 					{Number(get(balance,'balance',0)).toLocaleString("en-US")} {t("so'm")}
 				</Text>
 				{!hasCards && (
-					<Text className="w-3/4 text-[13px] text-[#919DA6] mb-4">
+					<Text className="w-3/4 text-[13px] text-[#919DA6] font-ALSSiriusRegular mb-4">
 						{t("Hisobingizdagi pulni o'tkazish uchun sizda karta mavjud emas")}
 					</Text>
 				)}
@@ -58,7 +58,7 @@ export default function TabPaymentsScreen() {
 					>
 						<View className="w-full flex-row items-center gap-3">
 							<FontAwesome5 name="arrow-circle-up" size={24} color="white" />
-							<Text className="text-white">{t("Pul o'tkazish")}</Text>
+							<Text className="text-white font-ALSSiriusRegular">{t("Pul o'tkazish")}</Text>
 						</View>
 					</Button>
 					<Button
@@ -72,7 +72,7 @@ export default function TabPaymentsScreen() {
 								size={24}
 								color="white"
 							/>
-							<Text className="text-white">
+							<Text className="text-white font-ALSSiriusRegular">
 								{hasCards ? t("Kartalarim") : t("Karta qo'shish")}
 							</Text>
 						</View>
@@ -95,7 +95,7 @@ export default function TabPaymentsScreen() {
 				<FlatList
 					showsVerticalScrollIndicator={false}
 					data={get(data,'content',[]) as ActionItemProps[] & {id: number}[]}
-					keyExtractor={item => String(item.id)}
+					keyExtractor={item => String(item?.number)}
 					renderItem={({item: {id, ...action}}) => <ActionItem {...action} />}
 				/>
 			</View>
@@ -117,9 +117,7 @@ type ActionItemProps = {
 function ActionItem({
 						type,
 						amount,
-						number,
 						pharmacy,
-						status,
 						updatedTime,
 						onPress,
 					}: ActionItemProps) {
@@ -133,17 +131,17 @@ function ActionItem({
 						<FontAwesome5 name="arrow-down" size={18} color="#292C30" />
 					</View>
 					<View>
-						<Text className="text-[15px] max-w-[80%]" numberOfLines={1} ellipsizeMode="tail">
+						<Text className="text-[15px] max-w-[80%] font-ALSSiriusRegular" numberOfLines={1} ellipsizeMode="tail">
 							{t(pharmacy)}
 						</Text>
-						<Text className="text-[13px] text-[#919DA6]">{t("Tushum")}</Text>
+						<Text className="text-[13px] text-[#919DA6] font-ALSSiriusRegular">{t("Tushum")}</Text>
 					</View>
 					<View className="ml-auto">
 						<Text className="text-[15px] text-[#00B268] font-ALSSiriusMedium">
 							{Number(amount).toLocaleString("en-US")} {t("so'm")}
 						</Text>
 						{updatedTime && (
-							<Text className="text-[13px] text-[#919DA6] text-right">
+							<Text className="text-[13px] text-[#919DA6] text-right font-ALSSiriusRegular">
 								{new Date(updatedTime).toLocaleString("en-US", {
 									hour: "2-digit",
 									minute: "2-digit",
@@ -159,17 +157,17 @@ function ActionItem({
 						<FontAwesome5 name="arrow-up" size={18} color="#292C30" />
 					</View>
 					<View>
-						<Text className="text-[15px]">
+						<Text className="text-[15px] max-w-[80%] font-ALSSiriusRegular" numberOfLines={1} ellipsizeMode="tail">
 							{t(pharmacy)}
 						</Text>
-						<Text className="text-[13px] text-[#919DA6]">{t("Chiqim")}</Text>
+						<Text className="text-[13px] text-[#919DA6] font-ALSSiriusRegular">{t("Chiqim")}</Text>
 					</View>
 					<View className="ml-auto">
 						<Text className="text-[15px] text-[#292C30] font-ALSSiriusMedium">
 							{Number(amount).toLocaleString("en-US")} {t("so'm")}
 						</Text>
 						{updatedTime && (
-							<Text className="text-[13px] text-[#919DA6] text-right">
+							<Text className="text-[13px] text-[#919DA6] text-right font-ALSSiriusRegular">
 								{new Date(updatedTime).toLocaleString("en-US", {
 									hour: "2-digit",
 									minute: "2-digit",

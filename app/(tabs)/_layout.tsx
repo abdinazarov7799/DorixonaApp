@@ -47,7 +47,8 @@ export default function TabLayout() {
 					tabBarActiveTintColor: "#215ca0",
 					tabBarStyle: {paddingBottom: 4,paddingTop: 2, backgroundColor: "#fff"},
 					headerTintColor: "#000",
-					tabBarLabelStyle: {fontSize: 11},
+					headerTitleStyle: {fontFamily: 'ALSSiriusMedium' },
+					tabBarLabelStyle: {fontSize: 12, fontFamily: 'ALSSiriusMedium' ,},
 				}}
 			>
 				<Tabs.Screen

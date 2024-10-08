@@ -59,7 +59,7 @@ const CardScreen = () => {
 				<View className="px-4">
 					<Card key={card?.id!} {...card!} />
 					<View className="rounded-lg px-4 py-3 bg-[#B4C0CC29]">
-						<Text className="text-[13px] text-[#656E78]">
+						<Text className="text-[13px] font-ALSSiriusRegular text-[#656E78]">
 							{t("Karta nomi (shart emas)")}
 						</Text>
 						<TextInput value={name} onChangeText={text => setName(text)} />
@@ -100,7 +100,7 @@ const Card = ({name, number}: CardProps) => {
 	return (
 		<View className="border border-[#919DA63D] rounded-lg px-4 py-3 flex-row items-center mb-4">
 			<View>
-				<Text className="text-[13px] text-[#656E78]">
+				<Text className="text-[13px] font-ALSSiriusRegular text-[#656E78]">
 					{name}{name && " ····"}{String(number).slice(-4)}
 				</Text>
 			</View>
@@ -131,7 +131,7 @@ const DeleteBottomSheet = ({
 }: DeleteBottomSheetProps) => {
 	const {t} = useTranslation();
 	const handleDelete = () => {
-		request.delete(`${ENDPOINTS.card_delete}/${id}`).finally((e) => router.back())
+		request.delete(`${ENDPOINTS.card_delete}/${id}`).finally(() => router.back())
 	}
 	return (
 		<BaseBottomSheet bottomSheetRef={bottomSheetRef} snap={"35%"}>
@@ -139,7 +139,7 @@ const DeleteBottomSheet = ({
 				<Text className="text-2xl font-ALSSiriusBold mb-2">
 					{t("Kartangizni o'chirmoqchimisiz?")}
 				</Text>
-				<Text className="text-[15px] text-[#919DA6]">
+				<Text className="text-[15px] font-ALSSiriusRegular text-[#919DA6]">
 					{t(
 						"Chindan ham kartangizni oʻchirmoqchimisiz? Ehtimol behosdan bosilib ketgan boʻlishi mumkin."
 					)}

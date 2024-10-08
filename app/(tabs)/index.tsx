@@ -15,7 +15,7 @@ import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
 import {Button, Center, Icon, Input} from "native-base";
 import {AntDesign, Ionicons} from "@expo/vector-icons";
 import useStore from "@/store";
-import {get, isEmpty, isEqual, isNil} from "lodash";
+import {get, isEmpty, isNil} from "lodash";
 import {router} from "expo-router";
 import {BottomSheetModal} from "@gorhom/bottom-sheet";
 import {BaseBottomSheet} from "@/components/shared/bottom-sheet";
@@ -26,6 +26,7 @@ export default function HomeScreen() {
     const {orders,increment,decrement,addToOrder,fullPrice} = useStore();
     const [selected, setSelected] = useState<object>({});
     const viewBottomSheetRef = useRef<BottomSheetModal>(null);
+    const inputRefs = useRef({});
     const { data, isRefreshing, onRefresh, onEndReached, isFetchingNextPage,isLoading } = useInfiniteScroll({
         key: KEYS.get_product,
         url: ENDPOINTS.get_product,
@@ -49,6 +50,12 @@ export default function HomeScreen() {
         viewBottomSheetRef.current?.dismiss();
     };
 
+    const handleFocusInput = (itemId) => {
+        if (inputRefs.current[itemId]) {
+            inputRefs.current[itemId].focus();
+        }
+    };
+
     const renderProductCard = ({ item }) => {
         return (
             <View className="bg-gray-100 p-2 rounded-[16px] mb-4 w-[48%] flex justify-between">
@@ -68,7 +75,10 @@ export default function HomeScreen() {
                 </TouchableOpacity>
                 {
                     !orders[get(item,"id")] ? (
-                        <Button className="py-2 bg-white rounded-[10px]" shadow={"1"} onPress={() => increment(item)}>
+                        <Button className="py-2 bg-white rounded-[10px]" shadow={"1"} onPress={() => {
+                            increment(item)
+                            handleFocusInput(get(item, 'id'))
+                        }}>
                             <Text className="text-center text-[13px]">{t("Qo'shish")}</Text>
                         </Button>
                     ) : (
@@ -78,6 +88,7 @@ export default function HomeScreen() {
                             </Button>
                             <Input
                                 variant={"unstyled"}
+                                ref={ref => inputRefs.current[get(item, 'id')] = ref}
                                 value={String(getCountForItem(get(item, 'id')))}
                                 onChangeText={(count) => addToOrder({...item,count})}
                                 type={"number"}
@@ -116,12 +127,12 @@ export default function HomeScreen() {
                             {selected?.name}
                         </Text>
                     </View>
-                    <View className={"absolute w-full p-4 bottom-0"}>
+                    <View className={"w-full p-4 mt-auto"}>
                         {
                             orders[get(selected,"id")] ? (
                                 <View className={"flex-row justify-between items-center"}>
                                     <View>
-                                        <Text className={"text-[#919DA6] text-[16px] mb-1"}>{t("Mahsulot narxi")}</Text>
+                                        <Text className={"text-[#919DA6] text-[16px] mb-1 font-ALSSiriusRegular"}>{t("Mahsulot narxi")}</Text>
                                         <Text className={"text-[#292C30] text-[18px] font-ALSSiriusBold"}>{selected?.price} {t("so'm")}</Text>
                                     </View>
                                     <View className={"flex-row justify-between items-center space-x-2"}>
@@ -207,8 +218,8 @@ export default function HomeScreen() {
                         ListEmptyComponent={
                             <Center className={'mt-24'}>
                                 <Image source={require("@/assets/images/search-icon.png")} width={72} height={72}/>
-                                <Text>{t("Товар не найден")}</Text>
-                                <Text>{t("Повторите запрос")}</Text>
+                                <Text className={"font-ALSSiriusRegular"}>{t("Товар не найден")}</Text>
+                                <Text className={"font-ALSSiriusRegular"}>{t("Повторите запрос")}</Text>
                             </Center>
                         }
                         ListHeaderComponent={

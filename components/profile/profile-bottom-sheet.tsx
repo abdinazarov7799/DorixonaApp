@@ -29,6 +29,7 @@ export const ProfileBottomSheet = ({
 		router.push("/profile");
 		onClose();
 	};
+
 	return (
 		<>
 			<BaseBottomSheet
