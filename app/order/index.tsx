@@ -85,10 +85,10 @@ const OrderView = () => {
                                     </View>
                                     <View>
                                         <Text className={"text-[15px font-ALSSiriusMedium] ml-auto"}>
-                                            {get(product,'price').toLocaleString("en-US")} {t("so'm")}
+                                            {get(product,'price')?.toLocaleString("en-US")} {t("so'm")}
                                         </Text>
                                         <Text className={"text-[13px] text-[#919DA6] font-ALSSiriusRegular ml-auto"}>
-                                            {get(product,'pricePerProduct').toLocaleString("en-US")}
+                                            {get(product,'pricePerProduct')?.toLocaleString("en-US")}
                                             {" x "}{get(product,'quantity')} {t("шт")}
                                         </Text>
                                     </View>
@@ -102,7 +102,7 @@ const OrderView = () => {
                 <View className={"flex-row justify-between items-center"}>
                     <Text className={"text-[15px] font-ALSSiriusRegular"}>{t("Общая сумма")}</Text>
                     <Text className="text-[15px] font-ALSSiriusMedium">
-                        {get(data,'totalPrice').toLocaleString("en-US")} {t("so'm")}
+                        {get(data,'totalPrice')?.toLocaleString("en-US")} {t("so'm")}
                     </Text>
                 </View>
             </View>

@@ -2,7 +2,7 @@ import {Center} from "native-base";
 import {useTranslation} from "react-i18next";
 import {ActivityIndicator, FlatList, RefreshControl, Text, View, TouchableOpacity} from "react-native";
 import Loader from "@/components/shared/Loader";
-import React, {useState, useRef} from "react";
+import React, {useRef} from "react";
 import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
 import {ENDPOINTS, KEYS} from "@/constants";
 import {get} from "lodash";
@@ -62,7 +62,7 @@ export default function TabOrdersScreen() {
 
                     <View className={"flex-row justify-between"}>
                         <Text className={"text-[#919DA6] text-[15px] font-ALSSiriusRegular"}>{t("Umumiy summasi")}</Text>
-                        <Text className={"text-[15px] font-ALSSiriusMedium"}>{Number(get(item, 'totalPrice')).toLocaleString('en-US')} {t("so'm")}</Text>
+                        <Text className={"text-[15px] font-ALSSiriusMedium"}>{Number(get(item, 'totalPrice'))?.toLocaleString('en-US')} {t("so'm")}</Text>
                     </View>
                 </TouchableOpacity>
             </View>

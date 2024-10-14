@@ -4,7 +4,7 @@ import {Button} from "native-base";
 import {useTranslation} from "react-i18next";
 import {Image, Text, View} from "react-native";
 import usePostQuery from "@/hooks/api/usePostQuery";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {ENDPOINTS} from "@/constants";
 import Loader from "@/components/shared/Loader";
 
@@ -13,6 +13,7 @@ const Info = () => {
 	const {cardNumber,cardId,amount} = useLocalSearchParams();
 	const {t} = useTranslation();
 	const {mutate,isPending} = usePostQuery({})
+
 	useEffect(() => {
 		mutate({ endpoint: ENDPOINTS.withdraw, attributes: {cardId,amount}});
 	},[amount])
@@ -56,7 +57,7 @@ const Info = () => {
 								<Text className="text-[15px] text-[#919DA6] font-ALSSiriusRegular">
 									{t("O'tkazma summasi")}
 								</Text>
-								<Text className="text-[15px] font-ALSSiriusRegular">{Number(amount).toLocaleString("en-US")} {t("so'm")}</Text>
+								<Text className="text-[15px] font-ALSSiriusRegular">{Number(amount)?.toLocaleString("en-US")} {t("so'm")}</Text>
 							</View>
 						</View>
 						<Button

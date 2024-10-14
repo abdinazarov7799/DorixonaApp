@@ -35,7 +35,7 @@ const Index = () => {
 	}
 
 	const handleEditProfile = (values) => {
-		request.patch(`${ENDPOINTS.profile_edit}/${get(user,'id')}`,{
+		request.put(`${ENDPOINTS.profile_edit}/${get(user,'id')}`,{
 			firstName: values.firstName,
 			lastName: values.lastName,
 		}).then(() => {

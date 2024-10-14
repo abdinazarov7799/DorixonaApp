@@ -102,11 +102,11 @@ function ActionItem({
 					</View>
 					<View className="ml-auto">
 						<Text className="text-[15px] text-[#00B268] font-ALSSiriusMedium">
-							{Number(amount).toLocaleString("en-US")} {t("so'm")}
+							{Number(amount)?.toLocaleString("en-US")} {t("so'm")}
 						</Text>
 						{updatedTime && (
 							<Text className="text-[13px] text-[#919DA6] text-right font-ALSSiriusRegular">
-								{new Date(updatedTime).toLocaleString("en-US", {
+								{new Date(updatedTime)?.toLocaleString("en-US", {
 									hour: "2-digit",
 									minute: "2-digit",
 								})}
@@ -128,11 +128,11 @@ function ActionItem({
 					</View>
 					<View className="ml-auto">
 						<Text className="text-[15px] text-[#292C30] font-ALSSiriusMedium">
-							{Number(amount).toLocaleString("en-US")} {t("so'm")}
+							{Number(amount)?.toLocaleString("en-US")} {t("so'm")}
 						</Text>
 						{updatedTime && (
 							<Text className="text-[13px] text-[#919DA6] text-right font-ALSSiriusRegular">
-								{new Date(updatedTime).toLocaleString("en-US", {
+								{new Date(updatedTime)?.toLocaleString("en-US", {
 									hour: "2-digit",
 									minute: "2-digit",
 								})}

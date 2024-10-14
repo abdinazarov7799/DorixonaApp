@@ -38,4 +38,3 @@ export const KEYS = {
     transaction_info: "transaction_info",
     card_list: "card_list"
 }
-export const LANGUAGES = [{lang:'uz',title:'UZ'},{lang:'kr',title:'KR'},{lang:'ru',title:'RU'}]

@@ -43,7 +43,7 @@ export default function TabPaymentsScreen() {
 			<View className="px-4">
 				<Text className={"font-ALSSiriusRegular"}>{t("Mening hisobim")}</Text>
 				<Text className="text-[28px] font-ALSSiriusRegular py-2">
-					{Number(get(balance,'balance',0)).toLocaleString("en-US")} {t("so'm")}
+					{Number(get(balance,'balance',0))?.toLocaleString("en-US")} {t("so'm")}
 				</Text>
 				{!hasCards && (
 					<Text className="w-3/4 text-[13px] text-[#919DA6] font-ALSSiriusRegular mb-4">
@@ -138,11 +138,11 @@ function ActionItem({
 					</View>
 					<View className="ml-auto">
 						<Text className="text-[15px] text-[#00B268] font-ALSSiriusMedium">
-							{Number(amount).toLocaleString("en-US")} {t("so'm")}
+							{Number(amount)?.toLocaleString("en-US")} {t("so'm")}
 						</Text>
 						{updatedTime && (
 							<Text className="text-[13px] text-[#919DA6] text-right font-ALSSiriusRegular">
-								{new Date(updatedTime).toLocaleString("en-US", {
+								{new Date(updatedTime)?.toLocaleString("en-US", {
 									hour: "2-digit",
 									minute: "2-digit",
 								})}
@@ -164,11 +164,11 @@ function ActionItem({
 					</View>
 					<View className="ml-auto">
 						<Text className="text-[15px] text-[#292C30] font-ALSSiriusMedium">
-							{Number(amount).toLocaleString("en-US")} {t("so'm")}
+							{Number(amount)?.toLocaleString("en-US")} {t("so'm")}
 						</Text>
 						{updatedTime && (
 							<Text className="text-[13px] text-[#919DA6] text-right font-ALSSiriusRegular">
-								{new Date(updatedTime).toLocaleString("en-US", {
+								{new Date(updatedTime)?.toLocaleString("en-US", {
 									hour: "2-digit",
 									minute: "2-digit",
 								})}

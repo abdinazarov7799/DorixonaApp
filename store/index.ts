@@ -27,7 +27,7 @@ const useStore = create(
     persist(
         (set, get) => ({
             user: null,
-            lang: null,
+            lang: "uz",
             accessToken: null,
             refreshToken: null,
             orders: {},

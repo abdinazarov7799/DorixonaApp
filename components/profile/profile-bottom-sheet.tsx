@@ -1,12 +1,14 @@
 import {BottomSheetModal} from "@gorhom/bottom-sheet";
 import {useTranslation} from "react-i18next";
-import {View, Text, TouchableOpacity} from "react-native";
+import {View, Text, TouchableOpacity, Modal, Pressable, StyleSheet} from "react-native";
 import {BaseBottomSheet} from "../shared/bottom-sheet";
 import {Switch} from "native-base";
 import {Feather, Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
 import {styled} from "nativewind";
 import useStore from "@/store";
 import {useRouter} from "expo-router";
+import {useState} from "react";
+import i18n from "@/lib/i18n";
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
@@ -23,12 +25,21 @@ export const ProfileBottomSheet = ({
 									   onClose,
 								   }: ProfileBottomSheetProps) => {
 	const router = useRouter();
+	const [open,setOpen] = useState(false);
 	const user = useStore(state => (state as any).user);
+	const lang = useStore(state => (state as any).lang);
+	const setLanguage = useStore(state => (state as any).setLang);
 	const {t} = useTranslation();
 	const handleNavigateToProfileEdit = () => {
 		router.push("/profile");
 		onClose();
 	};
+
+	const changeLanguage = (value: string) => {
+		i18n.changeLanguage(value);
+		setLanguage(value);
+		setOpen(false)
+	}
 
 	return (
 		<>
@@ -57,18 +68,63 @@ export const ProfileBottomSheet = ({
 						</StyledText>
 					</StyledView>
 					<StyledView className="px-4 py-2 rounded-2xl bg-white">
-						<StyledTouchable className="flex-row items-center gap-3 pb-2 py-2">
+						<StyledTouchable className="flex-row items-center gap-3 pb-2 py-2" onPress={() => setOpen(true)}>
 							<Feather name="globe" size={24} color="#246BB2" />
 							<StyledText className="text-[15px] font-ALSSiriusMedium mr-auto">
 								{t("Ilova tili")}
 							</StyledText>
 							<StyledView className="ml-auto flex-row items-center">
 								<StyledText className="text-[13px] text-[#919DA6]">
-									{t("O'zbek")}
+									{t(lang)}
 								</StyledText>
 								<Feather name="chevron-right" size={18} color="#919DA6" />
 							</StyledView>
 						</StyledTouchable>
+						<Modal
+							animationType="fade"
+							transparent={true}
+							visible={open}
+							onRequestClose={() => setOpen(false)}
+						>
+							<Pressable
+								style={styles.overlay}
+								onPress={() => setOpen(false)}
+							>
+								<View style={styles.modalContainer}>
+									<StyledTouchable
+										className="py-4 flex-row items-center justify-between"
+										onPress={() => changeLanguage("uz")}
+									>
+										<Text className="font-ALSSiriusRegular text-[15px]" style={{color: lang == "uz" ? "#246bb2" : "#000"}}>O‘zbek tili</Text>
+										{
+											lang == "uz" && <Ionicons name="checkmark" size={18} color="blue" />
+										}
+									</StyledTouchable>
+
+									<StyledTouchable
+										className="py-[14px] flex-row items-center justify-between"
+										onPress={() => changeLanguage("RU")}
+									>
+										<Text className="font-ALSSiriusRegular text-[15px]" style={{color: lang == "RU" ? "#246bb2" : "#000"}}>Русский язык</Text>
+										{
+											lang == "RU" && <Ionicons name="checkmark" size={18} color="blue" />
+										}
+									</StyledTouchable>
+
+									<StyledTouchable
+										className="py-[14px] flex-row items-center justify-between"
+										onPress={() => changeLanguage("kr")}
+									>
+										<Text className="font-ALSSiriusRegular text-[15px]" style={{color: lang == "kr" ? "#246bb2" : "#000"}}>Ўзбек тили</Text>
+										{
+											lang == "kr" && <Ionicons name="checkmark" size={18} color="blue" />
+										}
+									</StyledTouchable>
+
+								</View>
+							</Pressable>
+						</Modal>
+
 						<StyledView
 							className="w-5/6 border-t"
 							style={{borderTopColor: "#919DA63D", marginVertical: 12}}
@@ -107,3 +163,30 @@ export const ProfileBottomSheet = ({
 		</>
 	);
 };
+
+const styles = StyleSheet.create({
+	overlay: {
+		flex: 1,
+		backgroundColor: 'rgba(0, 0, 0, 0.5)',
+		justifyContent: 'center',
+		alignItems: 'flex-end',
+	},
+	modalContainer: {
+		height: 150,
+		width: 200,
+		justifyContent: "space-between",
+		marginTop: 300,
+		marginRight: 50,
+		backgroundColor: 'white',
+		borderRadius: 12,
+		padding: 16,
+		shadowColor: '#000',
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 4,
+		elevation: 5,
+	},
+});

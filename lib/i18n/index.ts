@@ -9,7 +9,7 @@ i18n
         type: 'languageDetector',
         async: true,
         detect: async (cb: (lng: string) => void) => {
-            const lng = await useStore.getState().lang || 'ru';
+            const lng = await useStore.getState().lang || 'uz';
             cb(lng);
         },
     })

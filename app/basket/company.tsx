@@ -41,7 +41,7 @@ const Company = () => {
         params: {search},
         enabled: !!district
     })
-    console.log(district)
+
     useEffect(() => {
         refetch()
     }, [search]);
@@ -145,7 +145,7 @@ const Company = () => {
             </TouchableOpacity>
         )
     }
-
+    console.log(!isPending && !district && !region && !pharmacyPhoneNumber)
     return (
         <View className="flex-1 bg-white relative p-[16px]">
             <BaseBottomSheet bottomSheetRef={regionRef} snap={"90%"}>
@@ -286,7 +286,7 @@ const Company = () => {
                         className={"bg-[#215ca0] w-full h-[44px] rounded-lg"}
                         onPress={handleSubmit}
                         isLoading={isPending}
-                        isDisabled={isPending}
+                        isDisabled={isPending || !district || !region || !pharmacyPhoneNumber}
                     >
                         <Text className={"text-white font-ALSSiriusMedium text-[16px]"}>
                             {t("Arizani yuborish")}

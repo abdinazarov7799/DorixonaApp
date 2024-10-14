@@ -5,8 +5,6 @@ import {Button} from "native-base";
 import {useState} from "react";
 import {useTranslation} from "react-i18next";
 import {
-	Image,
-	Pressable,
 	Text,
 	TextInput,
 	View,
@@ -56,7 +54,7 @@ const Index = () => {
 					<View>
 						<Text className="text-[#656E78] text-[13px] font-ALSSiriusRegular">{t("Mening hisobim")}</Text>
 						<Text className="text-[#292C30] text-[16px] font-ALSSiriusMedium">
-							{Number(balance).toLocaleString("en-US")} {t("so'm")}
+							{Number(balance)?.toLocaleString("en-US")} {t("so'm")}
 						</Text>
 					</View>
 					<View className="h-8 w-8 overflow-hidden ml-auto">
@@ -116,7 +114,7 @@ const Index = () => {
 				/>
 				<Text className="text-[13px] font-ALSSiriusMedium text-[#919DA6]">
 					{t("Maksimal summa - ")}
-					{Number(balance).toLocaleString("en-US")} {t("so'm")}
+					{Number(balance)?.toLocaleString("en-US")} {t("so'm")}
 				</Text>
 
 				<Button

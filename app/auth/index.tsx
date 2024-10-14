@@ -4,14 +4,17 @@ import {useTranslation} from "react-i18next";
 import i18n from "@/lib/i18n";
 import {Image, Text, TouchableOpacity, View} from "react-native";
 import {Button} from "native-base";
+import useStore from "@/store";
 
 const Index = () => {
-    const [selectedLanguage, setSelectedLanguage] = useState('uzLatin');
+    const [selectedLanguage, setSelectedLanguage] = useState('uz');
     const {t} = useTranslation()
     const router = useRouter();
+    const setLanguage = useStore(state => (state as any).setLang);
 
     const handleContinue = () => {
         i18n.changeLanguage(selectedLanguage);
+        setLanguage(selectedLanguage);
         router.push('/auth/login');
     };
     return (
@@ -25,19 +28,19 @@ const Index = () => {
                             {t("O'zingizga qulay bo'lgan tilni tanlang.")}
                         </Text>
                     </View>
-                    <TouchableOpacity onPress={() => setSelectedLanguage('uzLatin')}>
-                        <Text className={`text-lg w-full p-4 rounded-2xl ${selectedLanguage === 'uzLatin' && 'font-ALSSiriusBold bg-gray-100'}`}>
-                            O‘zbek tili
+                    <TouchableOpacity onPress={() => setSelectedLanguage('uz')}>
+                        <Text className={`text-lg w-full p-4 rounded-2xl ${selectedLanguage === 'uz' && 'font-ALSSiriusBold bg-gray-100'}`}>
+                            {t("O‘zbek tili")}
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setSelectedLanguage('uzCyrillic')}>
-                        <Text className={`text-lg w-full p-4 rounded-2xl ${selectedLanguage === 'uzCyrillic' && 'font-ALSSiriusBold bg-gray-100'}`}>
-                            Ўзбек тили
+                    <TouchableOpacity onPress={() => setSelectedLanguage('kr')}>
+                        <Text className={`text-lg w-full p-4 rounded-2xl ${selectedLanguage === 'kr' && 'font-ALSSiriusBold bg-gray-100'}`}>
+                            {t("Ўзбек тили")}
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => setSelectedLanguage('ru')}>
                         <Text className={`text-lg w-full p-4 rounded-2xl ${selectedLanguage === 'ru' && 'font-ALSSiriusBold bg-gray-100'}`}>
-                            Русский язык
+                            {t("Русский язык")}
                         </Text>
                     </TouchableOpacity>
                 </View>

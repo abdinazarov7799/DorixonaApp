@@ -4,6 +4,8 @@ import {Text, View} from "react-native";
 import {BaseBottomSheet} from "../shared/bottom-sheet";
 import {Button} from "native-base";
 import {styled} from "nativewind";
+import useStore from "@/store";
+import {router} from "expo-router";
 const StyledView = styled(View);
 const StyledText = styled(Text);
 const StyledButton = styled(Button);
@@ -17,6 +19,11 @@ export const LogoutBottomSheet = ({
 	onClose,
 }: LogoutBottomSheetProps) => {
 	const {t} = useTranslation();
+	const clearAuthData = useStore(state => (state as any).clearAuthData);
+	const logOut = () => {
+		clearAuthData()
+		router.push("/auth");
+	}
 	return (
 		<BaseBottomSheet bottomSheetRef={bottomSheetRef} snap={"35%"}>
 			<StyledView className="p-4 ">
@@ -29,7 +36,7 @@ export const LogoutBottomSheet = ({
 					)}
 				</StyledText>
 				<StyledView className="flex flex-row gap-3 mt-6">
-					<StyledButton className="flex-1 px-4 py-3 rounded-lg bg-[#E04917]">
+					<StyledButton className="flex-1 px-4 py-3 rounded-lg bg-[#E04917]" onPress={logOut}>
 						<StyledText className="text-[15px] font-ALSSiriusMedium text-white">
 							{t("Chiqish")}
 						</StyledText>

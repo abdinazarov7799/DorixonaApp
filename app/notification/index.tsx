@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
 import {ENDPOINTS, KEYS} from "@/constants";
-import {get} from "lodash";
+import {get, head, isEqual} from "lodash";
 import React from "react";
 import {request} from "@/lib/api";
 
@@ -18,7 +18,7 @@ const Index = () => {
 	const {t} = useTranslation();
 	const router = useRouter();
 	const minHeight = useWindowDimensions().height;
-	const { data, isRefreshing, onRefresh, onEndReached, isFetchingNextPage,isLoading } = useInfiniteScroll({
+	const { data, isRefreshing, onRefresh, onEndReached, isFetchingNextPage } = useInfiniteScroll({
 		key: KEYS.notification_get_mine,
 		url: ENDPOINTS.notification_get_mine,
 		limit: 20,
@@ -26,7 +26,9 @@ const Index = () => {
 
 	const viewNotification = (item) => {
 		request.get(`${ENDPOINTS.notification_get_mine}/${get(item,'id')}`)
-		router.push(`/order?id=${get(item,'orderId')}`)
+		if (isEqual(head(get(item,'type','').split('_')) , 'ORDER')) {
+			router.push(`/order?id=${get(item,'orderId')}`)
+		}
 	}
 	return (
 		<View
@@ -74,7 +76,7 @@ const Index = () => {
 							<View className="flex-row items-center">
 								<Text className="font-ALSSiriusMedium text-[15px]">{t(get(item,'type'))}</Text>
 								<Text className="ml-auto mr-1 text-[13px] text-[#919DA6]">
-									{new Date(get(item,'createdTime')).toLocaleString("en-US", {
+									{new Date(get(item,'createdTime'))?.toLocaleString("en-US", {
 										hour: "2-digit",
 										minute: "2-digit",
 									})}
