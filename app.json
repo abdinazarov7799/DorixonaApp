@@ -13,7 +13,7 @@
 		},
 		"ios": {
 			"supportsTablet": true,
-			"bundleIdentifier": "com.diyorbekabdinazarov.jurabeklab",
+			"bundleIdentifier": "com.mediasolutions.jurabeklab",
 			"requireFullScreen": true
 		},
 		"android": {
@@ -23,7 +23,7 @@
 				"foregroundImage": "./assets/images/icon.png",
 				"backgroundColor": "#ffffff"
 			},
-			"package": "com.diyorbekabdinazarov.jurabeklab"
+			"package": "com.mediasolutions.jurabeklab"
 		},
 		"web": {
 			"bundler": "metro",
