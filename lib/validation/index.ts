@@ -13,7 +13,7 @@ export const addCardSchema = yup.object().shape({
 	cardNumber: yup
 		.string()
 		.matches(
-			/^(8600|9860|6440)/,
+			/^(8600|9860|6440|5614)/,
 			"Kechirasiz bunday raqamlar bilan boshlanadigan kartani qoʻshib boʻlmaydi. Qaytadan urinib koʻring"
 		)
 		.required("Iltimos, karta raqamini kiriting")
