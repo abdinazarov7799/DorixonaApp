@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {FlatList, Text, TouchableOpacity, View} from "react-native";
+import {FlatList, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard} from "react-native";
 import {AntDesign, Ionicons} from "@expo/vector-icons";
 import {useTranslation} from "react-i18next";
 import {Button, Icon, Input} from "native-base";
@@ -145,156 +145,163 @@ const Company = () => {
             </TouchableOpacity>
         )
     }
-    console.log(!isPending && !district && !region && !pharmacyPhoneNumber)
+
     return (
-        <View className="flex-1 bg-white relative p-[16px]">
-            <BaseBottomSheet bottomSheetRef={regionRef} snap={"90%"}>
-                <View className={"p-4"}>
-                    <Text className={"font-ALSSiriusBold text-[20px] mb-2"}>{t("Viloyatni tanlang")}</Text>
-                    <FlatList
-                        data={data}
-                        renderItem={({item}) => <RenderedItem item={item} />}
-                        keyExtractor={item => item?.id}
-                    />
-                </View>
-            </BaseBottomSheet>
-            <BaseBottomSheet bottomSheetRef={districtRef} snap={"90%"}>
-                <View className={"p-4"}>
-                    <Text className={"font-ALSSiriusBold text-[20px] mb-2"}>{t("Tumanni tanlang")}</Text>
-                    <FlatList
-                        data={districts}
-                        renderItem={({item}) => <RenderedItem item={item} />}
-                        keyExtractor={item => item?.id}
-                    />
-                </View>
-            </BaseBottomSheet>
-            <BaseBottomSheet bottomSheetRef={pharmacyRef} snap={"90%"}>
-                <View className={"p-4"}>
-                    <View className={"bg-gray-100 p-2 rounded-[8px] mb-2"}>
-                        <Input
-                            variant="unstyled"
-                            className={"text-gray-500 text-[15px]"}
-                            value={search}
-                            placeholder={t("Kerakli dorixonani izlab toping")}
-                            onChangeText={(text) => setSearch(text ? text : null)}
-                            InputLeftElement={
-                                <Icon
-                                    as={<Ionicons name="search" />}
-                                    size={6}
-                                    ml="3"
-                                    mr="1"
-                                    color="black"
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={{ flex: 1 }}
+        >
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View className="flex-1 bg-white relative p-[16px]">
+                    <BaseBottomSheet bottomSheetRef={regionRef} snap={"90%"}>
+                        <View className={"p-4"}>
+                            <Text className={"font-ALSSiriusBold text-[20px] mb-2"}>{t("Viloyatni tanlang")}</Text>
+                            <FlatList
+                                data={data}
+                                renderItem={({item}) => <RenderedItem item={item} />}
+                                keyExtractor={item => item?.id}
+                            />
+                        </View>
+                    </BaseBottomSheet>
+                    <BaseBottomSheet bottomSheetRef={districtRef} snap={"90%"}>
+                        <View className={"p-4"}>
+                            <Text className={"font-ALSSiriusBold text-[20px] mb-2"}>{t("Tumanni tanlang")}</Text>
+                            <FlatList
+                                data={districts}
+                                renderItem={({item}) => <RenderedItem item={item} />}
+                                keyExtractor={item => item?.id}
+                            />
+                        </View>
+                    </BaseBottomSheet>
+                    <BaseBottomSheet bottomSheetRef={pharmacyRef} snap={"90%"}>
+                        <View className={"p-4"}>
+                            <View className={"bg-gray-100 p-2 rounded-[8px] mb-2"}>
+                                <Input
+                                    variant="unstyled"
+                                    className={"text-gray-500 text-[15px]"}
+                                    value={search}
+                                    placeholder={t("Kerakli dorixonani izlab toping")}
+                                    onChangeText={(text) => setSearch(text ? text : null)}
+                                    InputLeftElement={
+                                        <Icon
+                                            as={<Ionicons name="search" />}
+                                            size={6}
+                                            ml="3"
+                                            mr="1"
+                                            color="black"
+                                        />
+                                    }
                                 />
-                            }
-                        />
-                    </View>
-                    <FlatList
-                        data={pharmacies}
-                        renderItem={RenderedItem}
-                        keyExtractor={item => item?.id}
-                    />
+                            </View>
+                            <FlatList
+                                data={pharmacies}
+                                renderItem={RenderedItem}
+                                keyExtractor={item => item?.id}
+                            />
+                        </View>
+                    </BaseBottomSheet>
+                    <>
+                        <Ionicons name="arrow-back" size={24} color="#215ca0" onPress={() => router.back()} />
+                        <View style={{ marginTop: 12 }}>
+                            <Text style={{ fontWeight: 'bold', fontSize: 24, marginBottom: 4 }} className={'font-ALSSiriusBold'}>{t("Dorixonani haqida")}</Text>
+                            <Text style={{ fontSize: 15, color: '#656E78' }} className={'font-ALSSiriusRegular'}>
+                                {t("Dorixonaga tegishli boʻlgan maʻlumotlar bilan maydonlarni toʻldiring")}
+                            </Text>
+                        </View>
+
+                        <View style={{ marginTop: 24 }}>
+                            <TouchableOpacity onPress={handleOpenRegionSheet}>
+                                <Input
+                                    className={"h-[56px] p-[16px]"}
+                                    placeholder={t("Viloyati")}
+                                    value={region ? `${t("Tanlangan viloyat:")} ${region?.name}` : ''}
+                                    variant="unstyled"
+                                    backgroundColor="#B4C0CC29"
+                                    borderRadius={10}
+                                    marginBottom={4}
+                                    isReadOnly
+                                    InputRightElement={<Ionicons name="chevron-forward" size={20} style={{marginRight: 18}}/>}
+                                />
+                            </TouchableOpacity>
+
+                            <TouchableOpacity onPress={handleOpenDistrictsSheet}>
+                                <Input
+                                    className={"h-[56px] p-[16px]"}
+                                    placeholder={t("Tumani")}
+                                    value={district ? `${t("Tanlangan tuman:")} ${district?.name}` : ''}
+                                    variant="unstyled"
+                                    backgroundColor="#B4C0CC29"
+                                    borderRadius={10}
+                                    marginBottom={4}
+                                    isReadOnly
+                                    InputRightElement={<Ionicons name="chevron-forward" size={20} style={{marginRight: 18}} />}
+                                />
+                            </TouchableOpacity>
+
+                            <TouchableOpacity>
+                                <Input
+                                    className={"h-[56px] p-[16px]"}
+                                    placeholder={t("Dorixona nomi")}
+                                    value={pharmacy?.name}
+                                    onChangeText={(text) => setPharmacy(text)}
+                                    variant="unstyled"
+                                    backgroundColor="#B4C0CC29"
+                                    borderRadius={10}
+                                    marginBottom={4}
+                                    InputRightElement={<Ionicons onPress={handleOpenPharmacySheet} name="chevron-forward" size={20} style={{marginRight: 18}} />}
+                                />
+                            </TouchableOpacity>
+
+                            <Input
+                                className={"h-[56px] p-[16px]"}
+                                placeholder={t("Dorixona manzili")}
+                                value={pharmacy?.address}
+                                variant="unstyled"
+                                backgroundColor="#B4C0CC29"
+                                borderRadius={10}
+                                marginBottom={4}
+                            />
+
+                            <Input
+                                className={"h-[56px] p-[16px]"}
+                                placeholder={t("Dorixona inn")}
+                                value={pharmacy?.inn}
+                                variant="unstyled"
+                                backgroundColor="#B4C0CC29"
+                                borderRadius={10}
+                                marginBottom={4}
+                            />
+
+                            <Input
+                                className={"h-[56px] p-[16px]"}
+                                placeholder={t("Telefon raqami")}
+                                onChangeText={(value) => setPharmacyPhoneNumber(value)}
+                                value={pharmacyPhoneNumber}
+                                keyboardType="phone-pad"
+                                variant="unstyled"
+                                backgroundColor="#B4C0CC29"
+                                borderRadius={10}
+                                marginBottom={4}
+                            />
+
+                        </View>
+
+                        <View className={"absolute left-0 bottom-0 z-10 w-[100vw] h-[76px] p-[12px] bg-white border-t border-[#919DA63D]"}>
+                            <Button
+                                className={"bg-[#215ca0] w-full h-[44px] rounded-lg"}
+                                onPress={handleSubmit}
+                                isLoading={isPending}
+                                isDisabled={isPending || !district || !region || !pharmacyPhoneNumber}
+                            >
+                                <Text className={"text-white font-ALSSiriusMedium text-[16px]"}>
+                                    {t("Arizani yuborish")}
+                                </Text>
+                            </Button>
+                        </View>
+                    </>
                 </View>
-            </BaseBottomSheet>
-            <>
-                <Ionicons name="arrow-back" size={24} color="#215ca0" onPress={() => router.back()} />
-                <View style={{ marginTop: 12 }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 24, marginBottom: 4 }} className={'font-ALSSiriusBold'}>{t("Dorixonani haqida")}</Text>
-                    <Text style={{ fontSize: 15, color: '#656E78' }} className={'font-ALSSiriusRegular'}>
-                        {t("Dorixonaga tegishli boʻlgan maʻlumotlar bilan maydonlarni toʻldiring")}
-                    </Text>
-                </View>
-
-                <View style={{ marginTop: 24 }}>
-                    <TouchableOpacity onPress={handleOpenRegionSheet}>
-                        <Input
-                            className={"h-[56px] p-[16px]"}
-                            placeholder={t("Viloyati")}
-                            value={region ? `${t("Tanlangan viloyat:")} ${region?.name}` : ''}
-                            variant="unstyled"
-                            backgroundColor="#B4C0CC29"
-                            borderRadius={10}
-                            marginBottom={4}
-                            isReadOnly
-                            InputRightElement={<Ionicons name="chevron-forward" size={20} style={{marginRight: 18}}/>}
-                        />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={handleOpenDistrictsSheet}>
-                        <Input
-                            className={"h-[56px] p-[16px]"}
-                            placeholder={t("Tumani")}
-                            value={district ? `${t("Tanlangan tuman:")} ${district?.name}` : ''}
-                            variant="unstyled"
-                            backgroundColor="#B4C0CC29"
-                            borderRadius={10}
-                            marginBottom={4}
-                            isReadOnly
-                            InputRightElement={<Ionicons name="chevron-forward" size={20} style={{marginRight: 18}} />}
-                        />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity>
-                        <Input
-                            className={"h-[56px] p-[16px]"}
-                            placeholder={t("Dorixona nomi")}
-                            value={pharmacy?.name}
-                            onChangeText={(text) => setPharmacy(text)}
-                            variant="unstyled"
-                            backgroundColor="#B4C0CC29"
-                            borderRadius={10}
-                            marginBottom={4}
-                            InputRightElement={<Ionicons onPress={handleOpenPharmacySheet} name="chevron-forward" size={20} style={{marginRight: 18}} />}
-                        />
-                    </TouchableOpacity>
-
-                    <Input
-                        className={"h-[56px] p-[16px]"}
-                        placeholder={t("Dorixona manzili")}
-                        value={pharmacy?.address}
-                        variant="unstyled"
-                        backgroundColor="#B4C0CC29"
-                        borderRadius={10}
-                        marginBottom={4}
-                    />
-
-                    <Input
-                        className={"h-[56px] p-[16px]"}
-                        placeholder={t("Dorixona inn")}
-                        value={pharmacy?.inn}
-                        variant="unstyled"
-                        backgroundColor="#B4C0CC29"
-                        borderRadius={10}
-                        marginBottom={4}
-                    />
-
-                    <Input
-                        className={"h-[56px] p-[16px]"}
-                        placeholder={t("Telefon raqami")}
-                        onChangeText={(value) => setPharmacyPhoneNumber(value)}
-                        value={pharmacyPhoneNumber}
-                        keyboardType="phone-pad"
-                        variant="unstyled"
-                        backgroundColor="#B4C0CC29"
-                        borderRadius={10}
-                        marginBottom={4}
-                    />
-
-                </View>
-
-                <View className={"absolute left-0 bottom-0 z-10 w-[100vw] h-[76px] p-[12px] bg-white border-t border-[#919DA63D]"}>
-                    <Button
-                        className={"bg-[#215ca0] w-full h-[44px] rounded-lg"}
-                        onPress={handleSubmit}
-                        isLoading={isPending}
-                        isDisabled={isPending || !district || !region || !pharmacyPhoneNumber}
-                    >
-                        <Text className={"text-white font-ALSSiriusMedium text-[16px]"}>
-                            {t("Arizani yuborish")}
-                        </Text>
-                    </Button>
-                </View>
-            </>
-        </View>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     );
 };
 
