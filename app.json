@@ -15,7 +15,7 @@
 			"supportsTablet": true,
 			"bundleIdentifier": "com.mediasolutions.jurabeklab",
 			"requireFullScreen": true,
-			"buildNumber": 2
+			"buildNumber": "2"
 		},
 		"android": {
 			"windowSoftInputMode": "adjustPan",
