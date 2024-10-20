@@ -21,7 +21,7 @@ export const HistoryBottomSheet = ({
 	onClose,
 }: HistoryBottomSheetProps) => {
 	const {t} = useTranslation();
-	const isSuccessful = transaction?.status === "DONE";
+	const isSuccessful = transaction?.status == "DONE";
 
 	return (
 		<BaseBottomSheet
@@ -51,7 +51,7 @@ export const HistoryBottomSheet = ({
 						)}
 					</StyledText>
 					<StyledText className="text-[28px] font-ALSSiriusBold">
-						{Math.abs(Number(transaction?.amount))?.toLocaleString("en-US")} {t("so'm")}
+						{Number(transaction?.amount)?.toLocaleString("en-US")} {t("so'm")}
 					</StyledText>
 				</StyledView>
 				<StyledView className="pt-10 gap-3">
@@ -94,7 +94,7 @@ export const HistoryBottomSheet = ({
 							{t("O'tkazma summasi")}
 						</StyledText>
 						<StyledText className="text-[15px]">
-							{t(Math.abs(Number(transaction?.amount))?.toLocaleString("en-US"))}{" "}
+							{Number(transaction?.amount)?.toLocaleString("en-US")}{" "}
 							{t("so'm")}
 						</StyledText>
 					</StyledView>
