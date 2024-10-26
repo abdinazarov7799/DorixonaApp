@@ -1,17 +1,20 @@
-import {HistoryBottomSheet} from "@/components/history";
-import {FontAwesome5} from "@expo/vector-icons";
-import {BottomSheetModal} from "@gorhom/bottom-sheet";
-import React, {useMemo, useRef, useState} from "react";
-import {useTranslation} from "react-i18next";
+import React, { useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
 	FlatList,
 	Text,
 	TouchableOpacity,
 	View,
-	useWindowDimensions, RefreshControl, ActivityIndicator,
+	useWindowDimensions,
+	RefreshControl,
+	ActivityIndicator,
+	StyleSheet,
 } from "react-native";
-import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
-import {ENDPOINTS, KEYS} from "@/constants";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
+import { ENDPOINTS, KEYS } from "@/constants";
+import { HistoryBottomSheet } from "@/components/history";
 
 const Report = () => {
 	const [transaction, setTransaction] = useState<ActionItemProps | null>(null);
@@ -23,11 +26,10 @@ const Report = () => {
 		limit: 20,
 	});
 
-	const handlePress =
-		(item: ActionItemProps) => () => {
-			setTransaction(item);
-			sheetRef.current?.present();
-		};
+	const handlePress = (item: ActionItemProps) => () => {
+		setTransaction(item);
+		sheetRef.current?.present();
+	};
 
 	const handleDismiss = () => {
 		sheetRef.current?.dismiss();
@@ -40,8 +42,8 @@ const Report = () => {
 				onClose={handleDismiss}
 				transaction={transaction}
 			/>
-			<View className="flex-1 bg-[#F5F6F7] relative pt-4" style={{ minHeight }}>
-				<View className="flex-1 px-4">
+			<View style={[styles.container, { minHeight }]}>
+				<View style={styles.innerContainer}>
 					<FlatList
 						data={data as ActionItemProps[]}
 						onEndReached={onEndReached}
@@ -51,12 +53,7 @@ const Report = () => {
 							<ActionItem {...item} onPress={handlePress(item)} />
 						)}
 						ListFooterComponent={
-							<View style={{
-								flexDirection: 'row',
-								height: 100,
-								justifyContent: 'center',
-								alignItems: 'center',
-							}}>
+							<View style={styles.footer}>
 								{isFetchingNextPage && <ActivityIndicator />}
 							</View>
 						}
@@ -78,34 +75,28 @@ export type ActionItemProps = {
 	onPress: () => void;
 };
 
-function ActionItem({
-						type,
-						amount,
-						pharmacy,
-						updatedTime,
-						onPress,
-					}: ActionItemProps) {
+function ActionItem({ type, amount, pharmacy, updatedTime, onPress }: ActionItemProps) {
 	const { t } = useTranslation();
 
 	const ActionTypes = useMemo(
 		() => ({
 			INCOME: (
-				<TouchableOpacity className="flex-row mb-4" onPress={onPress}>
-					<View className="w-10 h-10 rounded-full justify-center items-center bg-[#B4C0CC29] mr-3">
+				<TouchableOpacity style={styles.actionItemContainer} onPress={onPress}>
+					<View style={styles.iconContainer}>
 						<FontAwesome5 name="arrow-down" size={18} color="#292C30" />
 					</View>
 					<View>
-						<Text className="text-[15px] max-w-[80%] font-ALSSiriusRegular" numberOfLines={1} ellipsizeMode="tail">
+						<Text style={styles.pharmacyText} numberOfLines={1} ellipsizeMode="tail">
 							{t(pharmacy)}
 						</Text>
-						<Text className="text-[13px] text-[#919DA6] font-ALSSiriusRegular">{t("Tushum")}</Text>
+						<Text style={styles.incomeText}>{t("Tushum")}</Text>
 					</View>
-					<View className="ml-auto">
-						<Text className="text-[15px] text-[#00B268] font-ALSSiriusMedium">
+					<View style={styles.amountContainer}>
+						<Text style={styles.incomeAmount}>
 							{Number(amount)?.toLocaleString("en-US")} {t("so'm")}
 						</Text>
 						{updatedTime && (
-							<Text className="text-[13px] text-[#919DA6] text-right font-ALSSiriusRegular">
+							<Text style={styles.updatedTimeText}>
 								{new Date(updatedTime)?.toLocaleString("en-US", {
 									hour: "2-digit",
 									minute: "2-digit",
@@ -116,22 +107,22 @@ function ActionItem({
 				</TouchableOpacity>
 			),
 			EXPENSE: (
-				<TouchableOpacity className="flex-row mb-4" onPress={onPress}>
-					<View className="w-10 h-10 rounded-full justify-center items-center bg-[#B4C0CC29] mr-3">
+				<TouchableOpacity style={styles.actionItemContainer} onPress={onPress}>
+					<View style={styles.iconContainer}>
 						<FontAwesome5 name="arrow-up" size={18} color="#292C30" />
 					</View>
 					<View>
-						<Text className="text-[15px] max-w-[80%] font-ALSSiriusRegular" numberOfLines={1} ellipsizeMode="tail">
+						<Text style={styles.pharmacyText} numberOfLines={1} ellipsizeMode="tail">
 							{t(pharmacy)}
 						</Text>
-						<Text className="text-[13px] text-[#919DA6] font-ALSSiriusRegular">{t("Chiqim")}</Text>
+						<Text style={styles.expenseText}>{t("Chiqim")}</Text>
 					</View>
-					<View className="ml-auto">
-						<Text className="text-[15px] text-[#292C30] font-ALSSiriusMedium">
+					<View style={styles.amountContainer}>
+						<Text style={styles.expenseAmount}>
 							{Number(amount)?.toLocaleString("en-US")} {t("so'm")}
 						</Text>
 						{updatedTime && (
-							<Text className="text-[13px] text-[#919DA6] text-right font-ALSSiriusRegular">
+							<Text style={styles.updatedTimeText}>
 								{new Date(updatedTime)?.toLocaleString("en-US", {
 									hour: "2-digit",
 									minute: "2-digit",
@@ -148,5 +139,69 @@ function ActionItem({
 	return ActionTypes[type] || null;
 }
 
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: "#F5F6F7",
+		paddingTop: 16,
+	},
+	innerContainer: {
+		flex: 1,
+		paddingHorizontal: 16,
+	},
+	footer: {
+		flexDirection: "row",
+		height: 100,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	actionItemContainer: {
+		flexDirection: "row",
+		marginBottom: 16,
+	},
+	iconContainer: {
+		width: 40,
+		height: 40,
+		backgroundColor: "#B4C0CC29",
+		borderRadius: 20,
+		justifyContent: "center",
+		alignItems: "center",
+		marginRight: 12,
+	},
+	pharmacyText: {
+		fontSize: 15,
+		maxWidth: "80%",
+		fontFamily: "ALSSiriusRegular",
+	},
+	incomeText: {
+		fontSize: 13,
+		color: "#919DA6",
+		fontFamily: "ALSSiriusRegular",
+	},
+	expenseText: {
+		fontSize: 13,
+		color: "#919DA6",
+		fontFamily: "ALSSiriusRegular",
+	},
+	amountContainer: {
+		marginLeft: "auto",
+		alignItems: "flex-end",
+	},
+	incomeAmount: {
+		fontSize: 15,
+		color: "#00B268",
+		fontFamily: "ALSSiriusMedium",
+	},
+	expenseAmount: {
+		fontSize: 15,
+		color: "#292C30",
+		fontFamily: "ALSSiriusMedium",
+	},
+	updatedTimeText: {
+		fontSize: 13,
+		color: "#919DA6",
+		fontFamily: "ALSSiriusRegular",
+	},
+});
 
 export default Report;

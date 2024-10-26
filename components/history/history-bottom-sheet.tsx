@@ -1,105 +1,132 @@
-import {BottomSheetModal} from "@gorhom/bottom-sheet";
-import {useTranslation} from "react-i18next";
-import {View, Text, Image} from "react-native";
-import {BaseBottomSheet} from "../shared/bottom-sheet";
-import {Ionicons} from "@expo/vector-icons";
-import {styled} from "nativewind";
-import {ActionItemProps} from "@/app/(tabs)/report";
-
-const StyledView = styled(View);
-const StyledImage = styled(Image);
-const StyledText = styled(Text);
+import React from "react";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useTranslation } from "react-i18next";
+import { View, Text, Image, StyleSheet } from "react-native";
+import { BaseBottomSheet } from "../shared/bottom-sheet";
+import { Ionicons } from "@expo/vector-icons";
+import { ActionItemProps } from "@/app/(tabs)/report";
 
 type HistoryBottomSheetProps = {
 	bottomSheetRef: React.RefObject<BottomSheetModal>;
 	transaction: ActionItemProps | null;
 	onClose: () => void;
 };
+
 export const HistoryBottomSheet = ({
-	bottomSheetRef,
-	transaction,
-	onClose,
-}: HistoryBottomSheetProps) => {
-	const {t} = useTranslation();
-	const isSuccessful = transaction?.status == "DONE";
+									   bottomSheetRef,
+									   transaction,
+									   onClose,
+								   }: HistoryBottomSheetProps) => {
+	const { t } = useTranslation();
+	const isSuccessful = transaction?.status === "DONE";
 
 	return (
 		<BaseBottomSheet
 			bottomSheetRef={bottomSheetRef}
 			snap={isSuccessful ? "65%" : "55%"}
 		>
-			<StyledView className="px-4 relative">
-				<StyledView className="w-full items-end">
+			<View style={styles.container}>
+				<View style={styles.iconContainer}>
 					<Ionicons name="close" size={24} color="black" onPress={onClose} />
-				</StyledView>
-				<StyledView className="items-center">
-					<StyledView className="w-20 h-20 ">
-						<StyledImage
-							className="h-full w-full"
+				</View>
+				<View style={styles.contentCenter}>
+					<View style={styles.imageContainer}>
+						<Image
+							style={styles.image}
 							source={
 								isSuccessful
 									? require("@/assets/images/success.png")
 									: require("@/assets/images/exclamation.png")
 							}
 						/>
-					</StyledView>
-					<StyledText className="text-lg font-ALSSiriusBold">
+					</View>
+					<Text style={styles.statusText}>
 						{t(
 							isSuccessful
 								? "Kartaga pul oʻtkazildi"
 								: "Pul o'tkazish kutilmoqda"
 						)}
-					</StyledText>
-					<StyledText className="text-[28px] font-ALSSiriusBold">
+					</Text>
+					<Text style={styles.amountText}>
 						{Number(transaction?.amount)?.toLocaleString("en-US")} {t("so'm")}
-					</StyledText>
-				</StyledView>
-				<StyledView className="pt-10 gap-3">
+					</Text>
+				</View>
+				<View style={styles.detailsContainer}>
 					{isSuccessful && (
-						<StyledView className="flex-row justify-between flex-1">
-							<StyledText className="text-[15px] text-[#919DA6]">
-								{t("Yuboruvchi")}
-							</StyledText>
-							<StyledText className="text-[15px]">
-								{t("Jurabek LAB")}
-							</StyledText>
-						</StyledView>
+						<View style={styles.row}>
+							<Text style={styles.labelText}>{t("Yuboruvchi")}</Text>
+							<Text style={styles.valueText}>{t("Jurabek LAB")}</Text>
+						</View>
 					)}
-					<StyledView className="flex-row justify-between flex-1">
-						<StyledText className="text-[15px] text-[#919DA6]">
-							{t("So'rov yuborilgan vaqti")}
-						</StyledText>
-						<StyledText className="text-[15px]">
-							{t("18-avgust, 09:28")}
-						</StyledText>
-					</StyledView>
+					<View style={styles.row}>
+						<Text style={styles.labelText}>{t("So'rov yuborilgan vaqti")}</Text>
+						<Text style={styles.valueText}>{t("18-avgust, 09:28")}</Text>
+					</View>
 					{isSuccessful && (
-						<StyledView className="flex-row justify-between flex-1">
-							<StyledText className="text-[15px] text-[#919DA6]">
-								{t("Tasdiqlangan vaqti")}
-							</StyledText>
-							<StyledText className="text-[15px]">
-								{t("18-avgust, 09:28")}
-							</StyledText>
-						</StyledView>
+						<View style={styles.row}>
+							<Text style={styles.labelText}>{t("Tasdiqlangan vaqti")}</Text>
+							<Text style={styles.valueText}>{t("18-avgust, 09:28")}</Text>
+						</View>
 					)}
-					<StyledView className="flex-row justify-between flex-1">
-						<StyledText className="text-[15px] text-[#919DA6]">
-							{t("Tranzaksiya raqami")}
-						</StyledText>
-						<StyledText className="text-[15px]">{transaction?.number}</StyledText>
-					</StyledView>
-					<StyledView className="flex-row justify-between flex-1">
-						<StyledText className="text-[15px] text-[#919DA6]">
-							{t("O'tkazma summasi")}
-						</StyledText>
-						<StyledText className="text-[15px]">
-							{Number(transaction?.amount)?.toLocaleString("en-US")}{" "}
-							{t("so'm")}
-						</StyledText>
-					</StyledView>
-				</StyledView>
-			</StyledView>
+					<View style={styles.row}>
+						<Text style={styles.labelText}>{t("Tranzaksiya raqami")}</Text>
+						<Text style={styles.valueText}>{transaction?.number}</Text>
+					</View>
+					<View style={styles.row}>
+						<Text style={styles.labelText}>{t("O'tkazma summasi")}</Text>
+						<Text style={styles.valueText}>
+							{Number(transaction?.amount)?.toLocaleString("en-US")} {t("so'm")}
+						</Text>
+					</View>
+				</View>
+			</View>
 		</BaseBottomSheet>
 	);
 };
+
+const styles = StyleSheet.create({
+	container: {
+		paddingHorizontal: 16,
+		position: "relative",
+	},
+	iconContainer: {
+		width: "100%",
+		alignItems: "flex-end",
+	},
+	contentCenter: {
+		alignItems: "center",
+	},
+	imageContainer: {
+		width: 80,
+		height: 80,
+	},
+	image: {
+		width: "100%",
+		height: "100%",
+	},
+	statusText: {
+		fontSize: 18,
+		fontFamily: "ALSSiriusBold",
+	},
+	amountText: {
+		fontSize: 28,
+		fontFamily: "ALSSiriusBold",
+	},
+	detailsContainer: {
+		paddingTop: 40,
+		gap: 12,
+	},
+	row: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+	},
+	labelText: {
+		fontSize: 15,
+		color: "#919DA6",
+		fontFamily: "ALSSiriusRegular",
+	},
+	valueText: {
+		fontSize: 15,
+		fontFamily: "ALSSiriusRegular",
+	},
+});

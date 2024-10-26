@@ -1,11 +1,10 @@
 import React from 'react';
-import { View, Text, Image, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { View, Text, Image, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import { Formik } from "formik";
 import { identifySchema } from "@/lib/validation";
 import { Button } from 'native-base';
 import MaskInput from 'react-native-mask-input';
-import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 import usePostQuery from "@/hooks/api/usePostQuery";
 import { ENDPOINTS } from "@/constants";
@@ -15,7 +14,8 @@ const Index = () => {
     const { t } = useTranslation();
     const router = useRouter();
     const { mutate, isPending } = usePostQuery({});
-    const onSubmit = ({ phone }: any) => {
+
+    const onSubmit = ({ phone }) => {
         mutate({ endpoint: ENDPOINTS.signIn, attributes: { phoneNumber: phone } }, {
             onSuccess: ({ data: response }) => {
                 if (isEqual(response, "OTP is sent")) {
@@ -29,10 +29,7 @@ const Index = () => {
     };
 
     return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={{ flex: 1 }}
-        >
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.flex}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <Formik
                     onSubmit={onSubmit}
@@ -47,34 +44,32 @@ const Index = () => {
                           errors,
                           touched,
                       }) => {
-                        const handlePhoneChange = (value: string) => {
+                        const handlePhoneChange = (value) => {
                             handleChange("phone")(value);
                             if (value.length === 17) {
                                 handleSubmit();
                             }
                         };
                         return (
-                            <View className={'flex-1 bg-white justify-between w-full p-10 max-w-[576px]'}>
-                                <View className={"mt-28 mb-5 w-full"}>
+                            <View style={styles.container}>
+                                <View style={styles.headerContainer}>
                                     <Image
                                         source={require('@/assets/images/phone-icon.png')}
-                                        style={{ width: 80, height: 80, margin: "auto" }}
+                                        style={styles.icon}
                                     />
-                                    <Text className={'text-[28px] font-ALSSiriusBold mb-4 mt-6 text-center'}>
+                                    <Text style={styles.title}>
                                         {t("Telefon raqamingiz")}
                                     </Text>
-                                    <Text className={'text-[15px] text-gray-500 mb-6 text-center font-ALSSiriusRegular'}>
+                                    <Text style={styles.subtitle}>
                                         {t("Ro‘yxatdan o‘tish uchun telefon raqamingizni kiriting")}
                                     </Text>
                                     <MaskInput
-                                        className={clsx(
-                                            'py-3 px-4 mt-4 rounded-lg text-base bg-gray-100 border font-ALSSiriusRegular',
-                                            {
-                                                'border-gray-300': !errors.phone && !touched.phone,
-                                                'border-red-500': errors.phone && touched.phone,
-                                                'border-blue-500': touched.phone && !errors.phone
-                                            }
-                                        )}
+                                        style={[
+                                            styles.input,
+                                            !errors.phone && !touched.phone && styles.inputDefault,
+                                            errors.phone && touched.phone && styles.inputError,
+                                            touched.phone && !errors.phone && styles.inputFocused
+                                        ]}
                                         placeholder="+998"
                                         placeholderTextColor="#888"
                                         keyboardType="phone-pad"
@@ -85,13 +80,13 @@ const Index = () => {
                                         mask={['+', '9', '9', '8', ' ', /\d/, /\d/, ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/]}
                                     />
                                     {errors.phone && touched.phone && (
-                                        <Text className={'text-red-500 font-normal text-xs mt-1'}>
+                                        <Text style={styles.errorText}>
                                             {t(errors.phone)}
                                         </Text>
                                     )}
                                 </View>
-                                <Button onPress={handleSubmit} className={'w-full p-4 bg-[#215ca0] rounded-lg'} isLoading={isPending}>
-                                    <Text className={"font-ALSSiriusRegular text-lg text-white"}>{t("Davom eting")}</Text>
+                                <Button onPress={handleSubmit} style={styles.submitButton} isLoading={isPending}>
+                                    <Text style={styles.submitButtonText}>{t("Davom eting")}</Text>
                                 </Button>
                             </View>
                         );
@@ -101,5 +96,79 @@ const Index = () => {
         </KeyboardAvoidingView>
     );
 };
+
+const styles = StyleSheet.create({
+    flex: {
+        flex: 1,
+    },
+    container: {
+        flex: 1,
+        backgroundColor: "white",
+        justifyContent: "space-between",
+        width: "100%",
+        padding: 20,
+        maxWidth: 576,
+    },
+    headerContainer: {
+        marginTop: 112,
+        marginBottom: 20,
+        width: "100%",
+        alignItems: "center",
+    },
+    icon: {
+        width: 80,
+        height: 80,
+    },
+    title: {
+        fontSize: 28,
+        fontFamily: "ALSSiriusBold",
+        marginBottom: 16,
+        marginTop: 24,
+        textAlign: "center",
+    },
+    subtitle: {
+        fontSize: 15,
+        color: "gray",
+        marginBottom: 24,
+        textAlign: "center",
+        fontFamily: "ALSSiriusRegular",
+    },
+    input: {
+        paddingVertical: 12,
+        paddingHorizontal: 16,
+        marginTop: 16,
+        borderRadius: 8,
+        fontSize: 16,
+        fontFamily: "ALSSiriusRegular",
+        backgroundColor: "#f0f0f0",
+        borderWidth: 1,
+    },
+    inputDefault: {
+        borderColor: "#ccc",
+    },
+    inputError: {
+        borderColor: "red",
+    },
+    inputFocused: {
+        borderColor: "blue",
+    },
+    errorText: {
+        color: "red",
+        fontSize: 12,
+        marginTop: 4,
+    },
+    submitButton: {
+        width: "100%",
+        paddingVertical: 16,
+        backgroundColor: "#215ca0",
+        borderRadius: 8,
+        alignItems: "center",
+    },
+    submitButtonText: {
+        fontFamily: "ALSSiriusRegular",
+        fontSize: 18,
+        color: "white",
+    },
+});
 
 export default Index;

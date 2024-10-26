@@ -3,10 +3,9 @@ import { useRouter, useLocalSearchParams } from "expo-router";
 import { useTranslation } from "react-i18next";
 import usePostQuery from "@/hooks/api/usePostQuery";
 import { ENDPOINTS } from "@/constants";
-import { Text, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { Text, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, StyleSheet } from "react-native";
 import { Button, Input } from "native-base";
 import { Formik } from "formik";
-import clsx from "clsx";
 import { get } from "lodash";
 import useStore from "@/store";
 
@@ -19,7 +18,7 @@ const SignUp = () => {
     const setUser = useStore(state => state.setUser);
     const { mutate, isPending } = usePostQuery({});
 
-    const onSubmit = ({ firstName, lastName }: any) => {
+    const onSubmit = ({ firstName, lastName }) => {
         mutate({ endpoint: ENDPOINTS.signUp, attributes: { phoneNumber: phone, firstName, lastName } }, {
             onSuccess: ({ data: response }) => {
                 const user = {
@@ -42,7 +41,7 @@ const SignUp = () => {
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={{ flex: 1 }}
+            style={styles.flex}
         >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <Formik
@@ -57,56 +56,60 @@ const SignUp = () => {
                           errors,
                           touched,
                       }) => (
-                        <View className={'flex-1 bg-white justify-between w-full p-6 max-w-[576px]'}>
-                            <View className={"mt-24 mb-10 w-full"}>
-                                <Text className={'text-[28px] font-ALSSiriusBold mb-4 mt-6 text-center'}>
+                        <View style={styles.container}>
+                            <View style={styles.headerContainer}>
+                                <Text style={styles.headerText}>
                                     {t("Shaxsiy ma’lumotlar")}
                                 </Text>
-                                <Text className={'text-[15px] text-gray-500 mb-8 text-center'}>
+                                <Text style={styles.subHeaderText}>
                                     {t("Ismingiz va familyangizni kiriting")}
                                 </Text>
 
-                                <View className={"mb-4"}>
+                                <View style={styles.inputContainer}>
                                     <Input
                                         value={values.firstName}
                                         placeholder={t("Ismingiz")}
                                         onChangeText={handleChange("firstName")}
                                         onBlur={handleBlur("firstName")}
                                         variant={"unstyled"}
-                                        className={clsx('p-4 bg-white bg-gray-100 rounded-lg border border-gray-300', {
-                                            'border-red-500': errors.firstName && touched.firstName,
-                                        })}
+                                        style={[
+                                            styles.input,
+                                            (touched.firstName && errors.firstName) && styles.errorBorder,
+                                        ]}
                                     />
                                     {errors.firstName && touched.firstName && (
-                                        <Text className={'text-red-500 font-normal text-xs mt-1'}>
+                                        <Text style={styles.errorText}>
                                             {t(errors.firstName)}
                                         </Text>
                                     )}
                                 </View>
 
-                                <Input
-                                    value={values.lastName}
-                                    placeholder={t("Familyangiz")}
-                                    onChangeText={handleChange("lastName")}
-                                    onBlur={handleBlur("lastName")}
-                                    variant={"unstyled"}
-                                    className={clsx('p-4 bg-white bg-gray-100 rounded-lg border border-gray-300', {
-                                        'border-red-500': errors.lastName && touched.lastName,
-                                    })}
-                                />
-                                {errors.lastName && touched.lastName && (
-                                    <Text className={'text-red-500 font-normal text-xs mt-1'}>
-                                        {t(errors.lastName)}
-                                    </Text>
-                                )}
+                                <View style={styles.inputContainer}>
+                                    <Input
+                                        value={values.lastName}
+                                        placeholder={t("Familyangiz")}
+                                        onChangeText={handleChange("lastName")}
+                                        onBlur={handleBlur("lastName")}
+                                        variant={"unstyled"}
+                                        style={[
+                                            styles.input,
+                                            (touched.lastName && errors.lastName) && styles.errorBorder,
+                                        ]}
+                                    />
+                                    {errors.lastName && touched.lastName && (
+                                        <Text style={styles.errorText}>
+                                            {t(errors.lastName)}
+                                        </Text>
+                                    )}
+                                </View>
                             </View>
 
                             <Button
                                 isDisabled={!values.firstName || !values.lastName}
-                                className={clsx('mt-4 p-4 rounded-lg text-white', {
-                                    'bg-[#215ca0]': values.firstName && values.lastName,
-                                    'bg-blue-300': !values.firstName || !values.lastName,
-                                })}
+                                style={[
+                                    styles.submitButton,
+                                    (values.firstName && values.lastName) ? styles.activeButton : styles.inactiveButton,
+                                ]}
                                 onPress={handleSubmit}
                                 isLoading={isPending}
                             >
@@ -119,5 +122,64 @@ const SignUp = () => {
         </KeyboardAvoidingView>
     );
 };
+
+const styles = StyleSheet.create({
+    flex: {
+        flex: 1,
+    },
+    container: {
+        flex: 1,
+        backgroundColor: "white",
+        justifyContent: "space-between",
+        padding: 24,
+        maxWidth: 576,
+    },
+    headerContainer: {
+        marginTop: 96,
+        marginBottom: 40,
+        width: "100%",
+    },
+    headerText: {
+        fontSize: 28,
+        fontFamily: "ALSSiriusBold",
+        marginBottom: 16,
+        marginTop: 24,
+        textAlign: "center",
+    },
+    subHeaderText: {
+        fontSize: 15,
+        color: "gray",
+        marginBottom: 32,
+        textAlign: "center",
+    },
+    inputContainer: {
+        marginBottom: 16,
+    },
+    input: {
+        padding: 16,
+        backgroundColor: "#f0f0f0",
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: "#ccc",
+    },
+    errorBorder: {
+        borderColor: "red",
+    },
+    errorText: {
+        color: "red",
+        fontSize: 12,
+        marginTop: 4,
+    },
+    submitButton: {
+        paddingVertical: 16,
+        borderRadius: 8,
+    },
+    activeButton: {
+        backgroundColor: "#215ca0",
+    },
+    inactiveButton: {
+        backgroundColor: "#b3c6e2",
+    },
+});
 
 export default SignUp;

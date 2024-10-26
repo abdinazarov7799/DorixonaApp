@@ -7,7 +7,7 @@ const AuthLayout = () => {
     const user = useStore(state => state.user)
     if (user !== null) return <Redirect href={"/"}/>;
     return (<>
-            <SafeAreaView className={'flex-1'}>
+            <SafeAreaView style={{flex: 1}}>
                 <Slot/>
             </SafeAreaView>
         </>

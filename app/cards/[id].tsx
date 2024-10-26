@@ -1,26 +1,26 @@
-import {BaseBottomSheet} from "@/components/shared/bottom-sheet";
-import {Ionicons} from "@expo/vector-icons";
-import {BottomSheetModal} from "@gorhom/bottom-sheet";
-import {router, useLocalSearchParams, useRouter} from "expo-router";
-import {Button} from "native-base";
-import {useRef, useState} from "react";
-import {useTranslation} from "react-i18next";
-import {Image, Text, TextInput, View} from "react-native";
+import { BaseBottomSheet } from "@/components/shared/bottom-sheet";
+import { Ionicons } from "@expo/vector-icons";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { router, useLocalSearchParams, useRouter } from "expo-router";
+import { Button } from "native-base";
+import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Image, Text, TextInput, View, StyleSheet } from "react-native";
 import useFetchRequest from "@/hooks/api/useFetchRequest";
-import {ENDPOINTS, KEYS} from "@/constants";
-import {request} from "@/lib/api";
+import { ENDPOINTS, KEYS } from "@/constants";
+import { request } from "@/lib/api";
 
 const CardScreen = () => {
 	const router = useRouter();
-	const {id} = useLocalSearchParams();
-	const {t} = useTranslation();
+	const { id } = useLocalSearchParams();
+	const { t } = useTranslation();
 	const deleteBottomSheetRef = useRef<BottomSheetModal>(null);
 	const { data } = useFetchRequest({
 		queryKey: KEYS.card_list,
 		endpoint: ENDPOINTS.card_list,
-	})
+	});
 	const card = data?.find(card => card.id == id);
-	const [name,setName] = useState(card?.cardName);
+	const [name, setName] = useState(card?.cardName);
 
 	const handleOpenDeleteBottomSheet = () => {
 		deleteBottomSheetRef.current?.present();
@@ -31,8 +31,8 @@ const CardScreen = () => {
 	};
 
 	const handleEditCard = () => {
-		request.patch(`${ENDPOINTS.card_edit}/${id}`,{name}).finally(() => router.back())
-	}
+		request.patch(`${ENDPOINTS.card_edit}/${id}`, { name }).finally(() => router.back());
+	};
 
 	return (
 		<>
@@ -41,46 +41,46 @@ const CardScreen = () => {
 				onClose={handleCloseDeleteBottomSheet}
 				id={id}
 			/>
-			<View className="flex-1 bg-white relative pt-[80px] pb-[110px]">
-				<View className="absolute top-0 w-[100vw] py-[17px] px-[20px] flex-row justify-between border-b border-[#919DA63D]">
-					<View className="flex-row items-center gap-4">
+			<View style={styles.container}>
+				<View style={styles.header}>
+					<View style={styles.headerContent}>
 						<Ionicons
 							name="arrow-back"
 							size={24}
 							color="#215ca0"
 							onPress={() => router.back()}
 						/>
-						<Text className={"ml-[16px] font-ALSSiriusMedium text-[18px]"}>
+						<Text style={styles.headerText}>
 							{t("Karta sozlamalari")}
 						</Text>
 					</View>
 				</View>
 
-				<View className="px-4">
-					<Card key={card?.id!} {...card!} />
-					<View className="rounded-lg px-4 py-3 bg-[#B4C0CC29]">
-						<Text className="text-[13px] font-ALSSiriusRegular text-[#656E78]">
+				<View style={styles.cardContainer}>
+					<Card key={card?.id} {...card} />
+					<View style={styles.inputContainer}>
+						<Text style={styles.inputLabel}>
 							{t("Karta nomi (shart emas)")}
 						</Text>
-						<TextInput value={name} onChangeText={text => setName(text)} />
+						<TextInput
+							value={name}
+							onChangeText={text => setName(text)}
+							style={styles.textInput}
+						/>
 					</View>
 				</View>
 
-				<View
-					className={
-						"absolute bottom-0 z-10 w-[100vw] h-[134px] p-[12px] bg-white border-t border-[#919DA63D] gap-2"
-					}
-				>
+				<View style={styles.buttonContainer}>
 					<Button
-						className={"bg-[#B4C0CC29] w-full h-[44px] rounded-lg"}
+						style={styles.deleteButton}
 						onPress={handleOpenDeleteBottomSheet}
 					>
-						<Text className={"text-[#292C30] font-ALSSiriusMedium text-[16px]"}>
+						<Text style={styles.deleteButtonText}>
 							{t("Kartani o'chirish")}
 						</Text>
 					</Button>
-					<Button className={"bg-[#215ca0] w-full h-[44px] rounded-lg"} onPress={handleEditCard}>
-						<Text className={"text-white font-ALSSiriusMedium text-[16px]"}>
+					<Button style={styles.saveButton} onPress={handleEditCard}>
+						<Text style={styles.saveButtonText}>
 							{t("O'zgarishni saqlash")}
 						</Text>
 					</Button>
@@ -96,20 +96,18 @@ type CardProps = {
 	id: number;
 };
 
-const Card = ({name, number}: CardProps) => {
+const Card = ({ name, number }: CardProps) => {
 	return (
-		<View className="border border-[#919DA63D] rounded-lg px-4 py-3 flex-row items-center mb-4">
-			<View>
-				<Text className="text-[13px] font-ALSSiriusRegular text-[#656E78]">
-					{name}{name && " ····"}{String(number).slice(-4)}
-				</Text>
-			</View>
-			<View className="ml-auto max-h-8 h-8 max-w-12 w-12 ">
+		<View style={styles.card}>
+			<Text style={styles.cardText}>
+				{name}{name && " ····"}{String(number).slice(-4)}
+			</Text>
+			<View style={styles.cardImageContainer}>
 				<Image
 					resizeMode="contain"
-					style={{height: "100%", width: "100%"}}
+					style={styles.cardImage}
 					source={
-						number?.substring(0,4) == "8600"
+						number?.substring(0, 4) == "8600"
 							? require("@/assets/images/uzcard.png")
 							: require("@/assets/images/humo.png")
 					}
@@ -122,39 +120,39 @@ const Card = ({name, number}: CardProps) => {
 type DeleteBottomSheetProps = {
 	bottomSheetRef: React.RefObject<BottomSheetModal>;
 	onClose: () => void;
-	id: any
+	id: any;
 };
 const DeleteBottomSheet = ({
-	bottomSheetRef,
-	onClose,
-	id
-}: DeleteBottomSheetProps) => {
-	const {t} = useTranslation();
+							   bottomSheetRef,
+							   onClose,
+							   id
+						   }: DeleteBottomSheetProps) => {
+	const { t } = useTranslation();
 	const handleDelete = () => {
-		request.delete(`${ENDPOINTS.card_delete}/${id}`).finally(() => router.back())
-	}
+		request.delete(`${ENDPOINTS.card_delete}/${id}`).finally(() => router.back());
+	};
 	return (
 		<BaseBottomSheet bottomSheetRef={bottomSheetRef} snap={"35%"}>
-			<View className="p-4 ">
-				<Text className="text-2xl font-ALSSiriusBold mb-2">
+			<View style={styles.bottomSheetContainer}>
+				<Text style={styles.bottomSheetTitle}>
 					{t("Kartangizni o'chirmoqchimisiz?")}
 				</Text>
-				<Text className="text-[15px] font-ALSSiriusRegular text-[#919DA6]">
+				<Text style={styles.bottomSheetText}>
 					{t(
 						"Chindan ham kartangizni oʻchirmoqchimisiz? Ehtimol behosdan bosilib ketgan boʻlishi mumkin."
 					)}
 				</Text>
-				<View className="flex flex-row gap-3 mt-6">
-					<Button className="flex-1 px-4 py-3 rounded-lg bg-[#E04917]" onPress={handleDelete}>
-						<Text className="text-[15px] font-ALSSiriusMedium text-white">
+				<View style={styles.bottomSheetButtonContainer}>
+					<Button style={styles.confirmDeleteButton} onPress={handleDelete}>
+						<Text style={styles.confirmDeleteButtonText}>
 							{t("O'chirish")}
 						</Text>
 					</Button>
 					<Button
-						className="flex-1 px-4 py-3 rounded-lg bg-[#B4C0CC29]"
+						style={styles.cancelButton}
 						onPress={onClose}
 					>
-						<Text className="text-[15px] font-ALSSiriusMedium text-[#292C30]">
+						<Text style={styles.cancelButtonText}>
 							{t("Bekor qilish")}
 						</Text>
 					</Button>
@@ -163,5 +161,154 @@ const DeleteBottomSheet = ({
 		</BaseBottomSheet>
 	);
 };
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: "white",
+		paddingTop: 80,
+		paddingBottom: 110,
+	},
+	header: {
+		position: "absolute",
+		top: 0,
+		width: "100%",
+		paddingVertical: 17,
+		paddingHorizontal: 20,
+		flexDirection: "row",
+		justifyContent: "space-between",
+		borderBottomWidth: 1,
+		borderBottomColor: "#919DA63D",
+	},
+	headerContent: {
+		flexDirection: "row",
+		alignItems: "center",
+	},
+	headerText: {
+		marginLeft: 16,
+		fontFamily: "ALSSiriusMedium",
+		fontSize: 18,
+	},
+	cardContainer: {
+		paddingHorizontal: 16,
+	},
+	card: {
+		borderWidth: 1,
+		borderColor: "#919DA63D",
+		borderRadius: 8,
+		paddingVertical: 12,
+		paddingHorizontal: 16,
+		flexDirection: "row",
+		alignItems: "center",
+		marginBottom: 16,
+	},
+	cardText: {
+		fontSize: 13,
+		fontFamily: "ALSSiriusRegular",
+		color: "#656E78",
+	},
+	cardImageContainer: {
+		marginLeft: "auto",
+		height: 32,
+		width: 48,
+	},
+	cardImage: {
+		height: "100%",
+		width: "100%",
+	},
+	inputContainer: {
+		borderRadius: 8,
+		paddingVertical: 12,
+		paddingHorizontal: 16,
+		backgroundColor: "#B4C0CC29",
+	},
+	inputLabel: {
+		fontSize: 13,
+		fontFamily: "ALSSiriusRegular",
+		color: "#656E78",
+	},
+	textInput: {
+		fontSize: 15,
+	},
+	buttonContainer: {
+		position: "absolute",
+		bottom: 0,
+		width: "100%",
+		height: 134,
+		padding: 12,
+		backgroundColor: "white",
+		borderTopWidth: 1,
+		borderTopColor: "#919DA63D",
+	},
+	deleteButton: {
+		backgroundColor: "#B4C0CC29",
+		width: "100%",
+		height: 44,
+		borderRadius: 8,
+		justifyContent: "center",
+		alignItems: "center",
+		marginBottom: 8,
+	},
+	deleteButtonText: {
+		color: "#292C30",
+		fontFamily: "ALSSiriusMedium",
+		fontSize: 16,
+	},
+	saveButton: {
+		backgroundColor: "#215ca0",
+		width: "100%",
+		height: 44,
+		borderRadius: 8,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	saveButtonText: {
+		color: "white",
+		fontFamily: "ALSSiriusMedium",
+		fontSize: 16,
+	},
+	bottomSheetContainer: {
+		padding: 16,
+	},
+	bottomSheetTitle: {
+		fontSize: 24,
+		fontFamily: "ALSSiriusBold",
+		marginBottom: 8,
+	},
+	bottomSheetText: {
+		fontSize: 15,
+		fontFamily: "ALSSiriusRegular",
+		color: "#919DA6",
+	},
+	bottomSheetButtonContainer: {
+		flexDirection: "row",
+		gap: 12,
+		marginTop: 24,
+	},
+	confirmDeleteButton: {
+		flex: 1,
+		paddingHorizontal: 16,
+		paddingVertical: 12,
+		borderRadius: 8,
+		backgroundColor: "#E04917",
+	},
+	confirmDeleteButtonText: {
+		fontSize: 15,
+		fontFamily: "ALSSiriusMedium",
+		color: "white",
+	},
+	cancelButton: {
+		flex: 1,
+		paddingHorizontal: 16,
+		paddingVertical: 12,
+		borderRadius: 8,
+		backgroundColor: "#B4C0CC29",
+	},
+	cancelButtonText: {
+		fontSize: 15,
+		fontFamily: "ALSSiriusMedium",
+		color: "#292C30",
+	},
+});
 
 export default CardScreen;

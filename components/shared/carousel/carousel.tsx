@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, { useRef } from "react";
 import {
 	View,
 	Text,
@@ -6,37 +6,40 @@ import {
 	Animated,
 	Dimensions,
 	Image,
-	ViewStyle,
 	NativeSyntheticEvent,
 	NativeScrollEvent,
+	ViewStyle,
 } from "react-native";
-import {styled} from "nativewind";
-const StyledView = styled(View);
-const StyledText = styled(Text);
-const StyledImage = styled(Image);
-const {width} = Dimensions.get("window");
+
+const { width } = Dimensions.get("window");
+
+type Card = {
+	id: number;
+	name: string;
+	number: string;
+	imageUrl?: string;
+};
 
 type CardCarouselProps = {
 	activeIndex: number;
 	setActiveIndex: (index: number) => void;
-	myCards: []
+	myCards: Card[];
 };
 
-const CardCarousel = ({activeIndex, setActiveIndex,myCards}: CardCarouselProps) => {
+const CardCarousel = ({ activeIndex, setActiveIndex, myCards }: CardCarouselProps) => {
 	const scrollX = useRef(new Animated.Value(0)).current;
-	const onMomentumScrollEnd = (
-		event: NativeSyntheticEvent<NativeScrollEvent>
-	) => {
+
+	const onMomentumScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
 		const index = Math.floor(event.nativeEvent.contentOffset.x / (width - 57));
 		setActiveIndex(index);
 	};
 
 	return (
-		<View className="flex-1 ">
+		<View style={{ flex: 1 }}>
 			{/* Carousel */}
 			<FlatList
 				data={myCards}
-				keyExtractor={item => item.id.toString()}
+				keyExtractor={(item) => item.id.toString()}
 				horizontal
 				pagingEnabled
 				contentContainerStyle={{
@@ -46,37 +49,46 @@ const CardCarousel = ({activeIndex, setActiveIndex,myCards}: CardCarouselProps) 
 				}}
 				showsHorizontalScrollIndicator={false}
 				onScroll={Animated.event(
-					[{nativeEvent: {contentOffset: {x: scrollX}}}],
-					{useNativeDriver: false}
+					[{ nativeEvent: { contentOffset: { x: scrollX } } }],
+					{ useNativeDriver: false }
 				)}
 				onMomentumScrollEnd={onMomentumScrollEnd}
-				renderItem={({item: {name, number}}) => (
-					<StyledView
-						style={{width: width - 48}}
-						className="flex-row items-center rounded-lg bg-white p-4 flex-1"
+				renderItem={({ item: { name, number, imageUrl } }) => (
+					<View
+						style={{
+							width: width - 48,
+							flexDirection: "row",
+							alignItems: "center",
+							borderRadius: 12,
+							backgroundColor: "white",
+							padding: 16,
+							flex: 1,
+						}}
 					>
-						<StyledView>
-							<StyledText className="text-[13px] text-[#656E78]">
+						<View>
+							<Text style={{ fontSize: 13, color: "#656E78" }}>
 								{name} ····{String(number).slice(-4)}
-							</StyledText>
-						</StyledView>
-						<StyledView className="max-h-8 h-8 max-w-12 w-12 ml-auto">
-							<StyledImage
+							</Text>
+						</View>
+						<View style={{ height: 32, width: 48, marginLeft: "auto" }}>
+							<Image
 								resizeMode="contain"
-								className="h-full w-full"
+								style={{ height: "100%", width: "100%" }}
 								source={
-									number?.substring(0,4) == "8600"
-										? require("@/assets/images/uzcard.png")
-										: require("@/assets/images/humo.png")
+									imageUrl
+										? { uri: imageUrl }
+										: number?.substring(0, 4) === "8600"
+											? require("@/assets/images/uzcard.png")
+											: require("@/assets/images/humo.png")
 								}
 							/>
-						</StyledView>
-					</StyledView>
+						</View>
+					</View>
 				)}
 			/>
 
 			{/* Dots Indicator */}
-			<StyledView className="flex-row mt-2 mx-auto">
+			<View style={{ flexDirection: "row", marginTop: 8, alignSelf: "center" }}>
 				{myCards.map((_, i) => (
 					<View
 						key={i}
@@ -88,7 +100,7 @@ const CardCarousel = ({activeIndex, setActiveIndex,myCards}: CardCarouselProps) 
 						]}
 					/>
 				))}
-			</StyledView>
+			</View>
 		</View>
 	);
 };
@@ -97,10 +109,7 @@ const $dot: ViewStyle = {
 	height: 8,
 	width: 8,
 	marginHorizontal: 4,
-	borderTopLeftRadius: 4,
-	borderTopRightRadius: 4,
-	borderBottomRightRadius: 4,
-	borderBottomLeftRadius: 4,
+	borderRadius: 4,
 };
 
 export default CardCarousel;

@@ -11,8 +11,9 @@ import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {StatusBar} from "expo-status-bar";
 import useStore from "@/store";
+import AppUpdateChecker from "@/components/AppUpdateChecker";
+import React from "react";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -61,6 +62,7 @@ function RootLayoutNav() {
 			<QueryClientProvider client={queryClient}>
 				<GestureHandlerRootView>
 					<NativeBaseProvider>
+						<AppUpdateChecker />
 						<StatusBar style={"dark"} />
 						<BottomSheetModalProvider>
 							<Stack>

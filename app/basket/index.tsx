@@ -1,90 +1,72 @@
 import React from 'react';
-import {View, Text, Image, ScrollView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard} from "react-native";
-import {AntDesign} from "@expo/vector-icons";
-import {useTranslation} from "react-i18next";
-import {router} from "expo-router";
-import {get, isNil} from "lodash";
-import {Button, Input} from "native-base";
+import { View, Text, Image, ScrollView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, StyleSheet } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
+import { router } from "expo-router";
+import { get, isNil } from "lodash";
+import { Button, Input } from "native-base";
 import useStore from "@/store";
 
 const Index = () => {
     const { t } = useTranslation();
-    const {orders,increment,decrement,addToOrder,setOrders,fullPrice} = useStore();
+    const { orders, increment, decrement, addToOrder, setOrders, fullPrice } = useStore();
     const ordersList = Object.values(orders);
     const getCountForItem = (itemId) => {
         return orders[itemId] ? orders[itemId]?.count : 0;
     };
 
     return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={{ flex: 1 }}
-        >
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.flex}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View className="flex-1 bg-white relative pt-[60px] pb-[110px] px-4">
-                    <View className="absolute top-0 w-[100vw] py-[17px] px-[20px] flex-row justify-between border-b border-[#919DA63D]">
-                        <View className="flex-row items-center">
+                <View style={styles.container}>
+                    <View style={styles.header}>
+                        <View style={styles.headerContent}>
                             <AntDesign name="close" size={24} color="black" onPress={() => router.push("/")} />
-                            <Text className={"ml-[16px] font-ALSSiriusMedium text-[18px]"}>{t("Mahsulotlar roʻyxati")}</Text>
+                            <Text style={styles.headerText}>{t("Mahsulotlar roʻyxati")}</Text>
                         </View>
                         <AntDesign name="delete" size={24} color="black" onPress={() => setOrders([])} />
                     </View>
-                    <ScrollView className={"divide-y divide-[#919DA63D]"}>
-                        {
-                            ordersList && (
-                                ordersList?.map(item => {
-                                    return (
-                                        <View className="p-2 flex-row justify-between items-center space-x-2" key={item?.id}>
-                                            <Image
-                                                source={item?.imageUrl ? { uri: item?.imageUrl } : require("@/assets/images/no-photo.png")}
-                                                style={{ width: 60, height: 60, resizeMode: 'cover' }}
-                                            />
-                                            <View className={"w-[45%]"}>
-                                                <Text className="mt-1 text-[13px] p-1">
-                                                    {item?.name}
-                                                </Text>
-                                                <Text className="mt-1 p-1 mb-3 text-black text-[13px] font-ALSSiriusMedium">
-                                                    {item?.price} {t("so'm")}
-                                                </Text>
-                                            </View>
-                                            <View className={"flex-row justify-between items-center space-x-1"}>
-                                                <Button className="bg-gray-100 rounded-[10px]" shadow={"1"} onPress={() => decrement(get(item,'id'))}>
-                                                    <AntDesign name="minus" size={12} color="black" />
-                                                </Button>
-                                                <Input
-                                                    variant={"unstyled"}
-                                                    value={String(getCountForItem(get(item, 'id')))}
-                                                    onChangeText={(count) => addToOrder({...item,count})}
-                                                    type={"number"}
-                                                    keyboardType={"number-pad"}
-                                                    w={50}
-                                                    h={9}
-                                                    textAlign={"center"}
-                                                    className="rounded-[10px] border border-gray-200"
-                                                />
-                                                <Button className="bg-gray-100 rounded-[10px]" shadow={"1"} onPress={() => increment(item)}>
-                                                    <AntDesign name="plus" size={12} color="black" />
-                                                </Button>
-                                            </View>
-                                        </View>
-                                    );
-                                })
-                            )
-                        }
+
+                    <ScrollView style={styles.scrollView}>
+                        {ordersList && ordersList.map((item) => (
+                            <View style={styles.orderItem} key={item?.id}>
+                                <Image
+                                    source={item?.imageUrl ? { uri: item?.imageUrl } : require("@/assets/images/no-photo.png")}
+                                    style={styles.itemImage}
+                                />
+                                <View style={styles.itemInfo}>
+                                    <Text style={styles.itemName}>{item?.name}</Text>
+                                    <Text style={styles.itemPrice}>{item?.price} {t("so'm")}</Text>
+                                </View>
+                                <View style={styles.quantityControls}>
+                                    <Button style={styles.controlButton} shadow={"1"} onPress={() => decrement(get(item, 'id'))}>
+                                        <AntDesign name="minus" size={12} color="black" />
+                                    </Button>
+                                    <Input
+                                        variant="unstyled"
+                                        value={String(getCountForItem(get(item, 'id')))}
+                                        onChangeText={(count) => addToOrder({ ...item, count })}
+                                        keyboardType="number-pad"
+                                        w={50}
+                                        h={9}
+                                        textAlign="center"
+                                        style={styles.input}
+                                    />
+                                    <Button style={styles.controlButton} shadow={"1"} onPress={() => increment(item)}>
+                                        <AntDesign name="plus" size={12} color="black" />
+                                    </Button>
+                                </View>
+                            </View>
+                        ))}
                     </ScrollView>
-                    <View className={"absolute bottom-0 z-10 w-[100vw] h-[114px] p-[12px] bg-white border-t border-[#919DA63D]"}>
-                        <View className={"flex-row justify-between items-center mb-[16px]"}>
-                            <Text className={"text-[16px] font-ALSSiriusRegular text-[#656E78]"}>
-                                {t("Umumiy narxi")}
-                            </Text>
-                            <Text className={"font-ALSSiriusBold text-[18px]"}>
-                                {Intl.NumberFormat('en-US').format(fullPrice)} {t("so'm")}
-                            </Text>
+
+                    <View style={styles.footer}>
+                        <View style={styles.totalContainer}>
+                            <Text style={styles.totalLabel}>{t("Umumiy narxi")}</Text>
+                            <Text style={styles.totalPrice}>{Intl.NumberFormat('en-US').format(fullPrice)} {t("so'm")}</Text>
                         </View>
-                        <Button className={"bg-[#215ca0] w-full h-[44px] rounded-lg"} disabled={isNil(orders)} onPress={() => router.push('/basket/company')}>
-                            <Text className={"text-white font-ALSSiriusMedium text-[16px]"}>
-                                {t("Dorixonani belgilash")}
-                            </Text>
+                        <Button style={styles.selectPharmacyButton} disabled={isNil(orders)} onPress={() => router.push('/basket/company')}>
+                            <Text style={styles.selectPharmacyButtonText}>{t("Dorixonani belgilash")}</Text>
                         </Button>
                     </View>
                 </View>
@@ -92,5 +74,121 @@ const Index = () => {
         </KeyboardAvoidingView>
     );
 };
+
+const styles = StyleSheet.create({
+    flex: {
+        flex: 1,
+    },
+    container: {
+        flex: 1,
+        backgroundColor: "white",
+        paddingTop: 60,
+        paddingBottom: 110,
+        paddingHorizontal: 16,
+    },
+    header: {
+        position: "absolute",
+        top: 0,
+        width: "100%",
+        paddingVertical: 17,
+        paddingHorizontal: 20,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        borderBottomWidth: 1,
+        borderBottomColor: "#919DA63D",
+    },
+    headerContent: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    headerText: {
+        marginLeft: 16,
+        fontFamily: "ALSSiriusMedium",
+        fontSize: 18,
+    },
+    scrollView: {
+        flex: 1,
+        borderTopWidth: 1,
+        borderTopColor: "#919DA63D",
+    },
+    orderItem: {
+        padding: 8,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
+    itemImage: {
+        width: 60,
+        height: 60,
+        resizeMode: "cover",
+    },
+    itemInfo: {
+        width: "45%",
+    },
+    itemName: {
+        marginTop: 4,
+        fontSize: 13,
+        paddingHorizontal: 4,
+    },
+    itemPrice: {
+        marginTop: 4,
+        fontSize: 13,
+        fontFamily: "ALSSiriusMedium",
+        color: "black",
+        paddingHorizontal: 4,
+        marginBottom: 8,
+    },
+    quantityControls: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    controlButton: {
+        backgroundColor: "#f0f0f0",
+        borderRadius: 10,
+    },
+    input: {
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: "#e0e0e0",
+        textAlign: "center",
+    },
+    footer: {
+        position: "absolute",
+        bottom: 0,
+        width: "100%",
+        height: 114,
+        padding: 12,
+        backgroundColor: "white",
+        borderTopWidth: 1,
+        borderTopColor: "#919DA63D",
+    },
+    totalContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 16,
+    },
+    totalLabel: {
+        fontSize: 16,
+        fontFamily: "ALSSiriusRegular",
+        color: "#656E78",
+    },
+    totalPrice: {
+        fontFamily: "ALSSiriusBold",
+        fontSize: 18,
+    },
+    selectPharmacyButton: {
+        backgroundColor: "#215ca0",
+        height: 44,
+        borderRadius: 8,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    selectPharmacyButtonText: {
+        color: "white",
+        fontFamily: "ALSSiriusMedium",
+        fontSize: 16,
+    },
+});
 
 export default Index;

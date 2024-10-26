@@ -4,7 +4,7 @@ import usePostQuery from "@/hooks/api/usePostQuery";
 import { ENDPOINTS } from "@/constants";
 import { get, isEqual } from "lodash";
 import { useTranslation } from "react-i18next";
-import { View, Text, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { View, Text, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, StyleSheet } from "react-native";
 import { Button } from "native-base";
 import ReactNativeOtpTextinput from "react-native-otp-textinput/index";
 import useStore from "@/store";
@@ -15,7 +15,7 @@ const Login = () => {
     const [isError, setIsError] = useState(false);
     const { phone } = useLocalSearchParams();
     const router = useRouter();
-    const [timerCount, setTimer] = useState(60)
+    const [timerCount, setTimer] = useState(60);
     const [chargeTimer, setChargeTimer] = useState(false);
     const { mutate, isPending } = usePostQuery({});
     const { mutate: sendOtp } = usePostQuery({});
@@ -69,25 +69,18 @@ const Login = () => {
         setTimer(60);
         setChargeTimer(true);
         sendOtp({ endpoint: ENDPOINTS.signIn, attributes: { phoneNumber: phone } }, {
-            onSuccess: () => {
-
-            },
-            onError: () => {
-
-            }
+            onSuccess: () => {},
+            onError: () => {}
         });
     };
 
     return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={{ flex: 1 }}
-        >
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.flex}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View className={'flex-1 bg-white justify-between w-full p-6 max-w-[576px]'}>
-                    <View className={"mt-28 mb-5 w-full max-w-[300px] mx-auto"}>
-                        <Text className={'text-[28px] font-ALSSiriusBold mb-4 mt-6 text-center'}>{t("Tasdiqlash kodini kiriting")}</Text>
-                        <Text className={'text-[15px] text-gray-500 mb-6 text-center font-ALSSiriusRegular'}>
+                <View style={styles.container}>
+                    <View style={styles.headerContainer}>
+                        <Text style={styles.headerText}>{t("Tasdiqlash kodini kiriting")}</Text>
+                        <Text style={styles.subHeaderText}>
                             {t(`Kiritilgan ${phone} telefon raqamingizga maxsus tasdiqlash kodini SMS tarzda yubordik`)}
                         </Text>
 
@@ -99,7 +92,7 @@ const Login = () => {
                         />
 
                         {isError && (
-                            <Text className={"text-red-500 text-center font-ALSSiriusRegular"}>
+                            <Text style={styles.errorText}>
                                 {t("Noto‘g‘ri kod kiritdingiz, qaytadan urunib ko‘ring")}
                             </Text>
                         )}
@@ -109,19 +102,19 @@ const Login = () => {
                         <Button
                             isDisabled={timerCount !== 0}
                             variant={"unstyled"}
-                            className={"mb-2 text-gray-200"}
+                            style={styles.resendButton}
                             onPress={reSendOtp}
                         >
-                            <Text className={"font-ALSSiriusRegular"}>
+                            <Text style={styles.resendButtonText}>
                                 {timerCount === 0 ? t("Kodni qayta yuborish") : t("Kodni qayta yuborish") + ": " + timerCount}
                             </Text>
                         </Button>
                         <Button
-                            className={"bg-[#215ca0] p-4 rounded-lg"}
+                            style={styles.confirmButton}
                             isDisabled={isPending || !otp}
                             onPress={() => setOtp(otp)}
                         >
-                            <Text className={'font-ALSSiriusRegular text-white text-lg'}>{t("Tasdiqlash")}</Text>
+                            <Text style={styles.confirmButtonText}>{t("Tasdiqlash")}</Text>
                         </Button>
                     </View>
                 </View>
@@ -129,5 +122,64 @@ const Login = () => {
         </KeyboardAvoidingView>
     );
 };
+
+const styles = StyleSheet.create({
+    flex: {
+        flex: 1,
+    },
+    container: {
+        flex: 1,
+        backgroundColor: "white",
+        justifyContent: "space-between",
+        width: "100%",
+        padding: 24,
+        maxWidth: 576,
+    },
+    headerContainer: {
+        marginTop: 112,
+        marginBottom: 20,
+        width: "100%",
+        maxWidth: 300,
+        alignSelf: "center",
+    },
+    headerText: {
+        fontSize: 28,
+        fontFamily: "ALSSiriusBold",
+        marginBottom: 16,
+        marginTop: 24,
+        textAlign: "center",
+    },
+    subHeaderText: {
+        fontSize: 15,
+        color: "gray",
+        marginBottom: 24,
+        textAlign: "center",
+        fontFamily: "ALSSiriusRegular",
+    },
+    errorText: {
+        color: "red",
+        textAlign: "center",
+        fontFamily: "ALSSiriusRegular",
+    },
+    resendButton: {
+        marginBottom: 8,
+    },
+    resendButtonText: {
+        fontFamily: "ALSSiriusRegular",
+        color: "gray",
+    },
+    confirmButton: {
+        backgroundColor: "#215ca0",
+        paddingVertical: 16,
+        borderRadius: 8,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    confirmButtonText: {
+        fontFamily: "ALSSiriusRegular",
+        color: "white",
+        fontSize: 18,
+    },
+});
 
 export default Login;

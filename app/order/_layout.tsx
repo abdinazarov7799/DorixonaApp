@@ -4,7 +4,7 @@ import {SafeAreaView} from "react-native-safe-area-context";
 
 const OrderViewLayout = () => {
 	return (
-		<SafeAreaView className={"flex-1"}>
+		<SafeAreaView style={{flex: 1}}>
 			<Slot />
 		</SafeAreaView>
 	);

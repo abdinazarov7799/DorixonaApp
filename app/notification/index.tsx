@@ -1,21 +1,24 @@
-import {Ionicons} from "@expo/vector-icons";
-import {useRouter} from "expo-router";
-import {useTranslation} from "react-i18next";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 import {
 	FlatList,
 	Text,
 	TouchableOpacity,
 	View,
-	useWindowDimensions, RefreshControl, ActivityIndicator,
+	useWindowDimensions,
+	RefreshControl,
+	ActivityIndicator,
+	StyleSheet,
 } from "react-native";
-import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
-import {ENDPOINTS, KEYS} from "@/constants";
-import {get, head, isEqual} from "lodash";
+import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
+import { ENDPOINTS, KEYS } from "@/constants";
+import { get, head, isEqual } from "lodash";
 import React from "react";
-import {request} from "@/lib/api";
+import { request } from "@/lib/api";
 
 const Index = () => {
-	const {t} = useTranslation();
+	const { t } = useTranslation();
 	const router = useRouter();
 	const minHeight = useWindowDimensions().height;
 	const { data, isRefreshing, onRefresh, onEndReached, isFetchingNextPage } = useInfiniteScroll({
@@ -25,58 +28,50 @@ const Index = () => {
 	});
 
 	const viewNotification = (item) => {
-		request.get(`${ENDPOINTS.notification_get_mine}/${get(item,'id')}`)
-		if (isEqual(head(get(item,'type','').split('_')) , 'ORDER')) {
-			router.push(`/order?id=${get(item,'orderId')}`)
+		request.get(`${ENDPOINTS.notification_get_mine}/${get(item, 'id')}`);
+		if (isEqual(head(get(item, 'type', '').split('_')), 'ORDER')) {
+			router.push(`/order?id=${get(item, 'orderId')}`);
 		}
-	}
+	};
+
 	return (
-		<View
-			className="flex-1  bg-[#F5F6F7] relative pt-[60px] "
-			style={{minHeight}}
-		>
-			<View className="absolute top-0 w-[100vw] py-[17px] px-[20px] flex-row justify-between border-b border-[#919DA63D]">
-				<View className="flex-row items-center gap-4">
+		<View style={[styles.container, { minHeight }]}>
+			<View style={styles.header}>
+				<View style={styles.headerContent}>
 					<Ionicons
 						name="arrow-back"
 						size={24}
 						color="#215ca0"
 						onPress={() => router.back()}
 					/>
-					<Text className={"ml-[16px] font-ALSSiriusMedium text-[18px]"}>
-						{t("Xabarnomalar")}
-					</Text>
+					<Text style={styles.headerText}>{t("Xabarnomalar")}</Text>
 				</View>
 			</View>
 			<FlatList
 				onEndReached={onEndReached}
-				refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh}/>}
-				keyExtractor={item => get(item,'id')}
+				refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
+				keyExtractor={item => get(item, 'id')}
 				data={data}
 				ListFooterComponent={
-					<View style={{
-						flexDirection: 'row',
-						height: 100,
-						justifyContent: 'center',
-						alignItems: 'center',
-					}}>
-						{isFetchingNextPage && <ActivityIndicator/>}
+					<View style={styles.footer}>
+						{isFetchingNextPage && <ActivityIndicator />}
 					</View>
 				}
-				renderItem={({item}) => (
-					<TouchableOpacity className="p-4 pl-0 border-b border-[#919DA63D] flex-row" onPress={() => viewNotification(item)}>
-						<View className="w-2 justify-center items-center px-3">
+				renderItem={({ item }) => (
+					<TouchableOpacity style={styles.notificationItem} onPress={() => viewNotification(item)}>
+						<View style={styles.iconContainer}>
 							<View
-								className={`w-2 h-2 rounded-full ${
-									!get(item,'viewed') && "bg-[#215CA0]"
-								}`}
+								style={[
+									styles.notificationDot,
+									!get(item, 'viewed') && styles.unreadDot,
+								]}
 							/>
 						</View>
-						<View className="flex-1">
-							<View className="flex-row items-center">
-								<Text className="font-ALSSiriusMedium text-[15px]">{t(get(item,'type'))}</Text>
-								<Text className="ml-auto mr-1 text-[13px] text-[#919DA6]">
-									{new Date(get(item,'createdTime'))?.toLocaleString("en-US", {
+						<View style={styles.notificationContent}>
+							<View style={styles.notificationHeader}>
+								<Text style={styles.notificationTitle}>{t(get(item, 'type'))}</Text>
+								<Text style={styles.notificationTime}>
+									{new Date(get(item, 'createdTime'))?.toLocaleString("en-US", {
 										hour: "2-digit",
 										minute: "2-digit",
 									})}
@@ -90,5 +85,78 @@ const Index = () => {
 		</View>
 	);
 };
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: "#F5F6F7",
+		paddingTop: 60,
+	},
+	header: {
+		position: "absolute",
+		top: 0,
+		width: "100%",
+		paddingVertical: 17,
+		paddingHorizontal: 20,
+		flexDirection: "row",
+		justifyContent: "space-between",
+		borderBottomWidth: 1,
+		borderBottomColor: "#919DA63D",
+		backgroundColor: "white",
+	},
+	headerContent: {
+		flexDirection: "row",
+		alignItems: "center",
+	},
+	headerText: {
+		marginLeft: 16,
+		fontFamily: "ALSSiriusMedium",
+		fontSize: 18,
+	},
+	footer: {
+		flexDirection: "row",
+		height: 100,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	notificationItem: {
+		flexDirection: "row",
+		padding: 16,
+		paddingLeft: 0,
+		borderBottomWidth: 1,
+		borderBottomColor: "#919DA63D",
+	},
+	iconContainer: {
+		width: 16,
+		justifyContent: "center",
+		alignItems: "center",
+		paddingHorizontal: 12,
+	},
+	notificationDot: {
+		width: 8,
+		height: 8,
+		borderRadius: 4,
+	},
+	unreadDot: {
+		backgroundColor: "#215CA0",
+	},
+	notificationContent: {
+		flex: 1,
+	},
+	notificationHeader: {
+		flexDirection: "row",
+		alignItems: "center",
+	},
+	notificationTitle: {
+		fontFamily: "ALSSiriusMedium",
+		fontSize: 15,
+	},
+	notificationTime: {
+		marginLeft: "auto",
+		marginRight: 4,
+		fontSize: 13,
+		color: "#919DA6",
+	},
+});
 
 export default Index;
