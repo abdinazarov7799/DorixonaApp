@@ -15,11 +15,13 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { ENDPOINTS, KEYS } from "@/constants";
 import { HistoryBottomSheet } from "@/components/history";
+import {Center} from "native-base";
 
 const Report = () => {
 	const [transaction, setTransaction] = useState<ActionItemProps | null>(null);
 	const minHeight = useWindowDimensions().height;
 	const sheetRef = useRef<BottomSheetModal>(null);
+	const {t} = useTranslation();
 	const { data, isRefreshing, onRefresh, onEndReached, isFetchingNextPage } = useInfiniteScroll({
 		key: KEYS.transaction_history_list,
 		url: ENDPOINTS.transaction_history_list,
@@ -52,6 +54,11 @@ const Report = () => {
 						renderItem={({ item }) => (
 							<ActionItem {...item} onPress={handlePress(item)} />
 						)}
+						ListEmptyComponent={
+							<Center style={styles.emptyContainer}>
+								<Text style={styles.emptyText}>{t("No data")}</Text>
+							</Center>
+						}
 						ListFooterComponent={
 							<View style={styles.footer}>
 								{isFetchingNextPage && <ActivityIndicator />}
@@ -201,6 +208,15 @@ const styles = StyleSheet.create({
 		fontSize: 13,
 		color: "#919DA6",
 		fontFamily: "ALSSiriusRegular",
+	},
+	emptyContainer: {
+		padding: 40,
+		alignItems: 'center',
+	},
+	emptyText: {
+		fontSize: 18,
+		fontWeight: '400',
+		color: '#919DA6',
 	},
 });
 

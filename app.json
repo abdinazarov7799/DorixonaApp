@@ -2,7 +2,7 @@
 	"expo": {
 		"name": "Jurabek",
 		"slug": "jurabek-laboratories-mobile",
-		"version": "1.0.2",
+		"version": "1.0.3",
 		"orientation": "default",
 		"icon": "./assets/images/icon.png",
 		"scheme": "myapp",
@@ -15,11 +15,10 @@
 			"supportsTablet": true,
 			"bundleIdentifier": "com.mediasolutions.jurabeklab",
 			"requireFullScreen": true,
-			"buildNumber": "3"
+			"buildNumber": "4"
 		},
 		"android": {
-			"windowSoftInputMode": "adjustPan",
-			"softwareKeyboardLayoutMode": "pan",
+          "softwareKeyboardLayoutMode": "pan",
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/images/icon.png",
 				"backgroundColor": "#ffffff"
@@ -36,8 +35,7 @@
 			"expo-screen-orientation"
 		],
 		"experiments": {
-			"typedRoutes": true
-		},
+        },
 		"extra": {
 			"router": {
 				"origin": false

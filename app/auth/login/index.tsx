@@ -74,6 +74,7 @@ const Index = () => {
                                         placeholderTextColor="#888"
                                         keyboardType="phone-pad"
                                         maxLength={17}
+                                        height={45}
                                         onBlur={handleBlur("phone")}
                                         value={values.phone}
                                         onChangeText={handlePhoneChange}

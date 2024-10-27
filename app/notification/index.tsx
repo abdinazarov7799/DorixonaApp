@@ -16,6 +16,7 @@ import { ENDPOINTS, KEYS } from "@/constants";
 import { get, head, isEqual } from "lodash";
 import React from "react";
 import { request } from "@/lib/api";
+import {Center} from "native-base";
 
 const Index = () => {
 	const { t } = useTranslation();
@@ -52,6 +53,11 @@ const Index = () => {
 				refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
 				keyExtractor={item => get(item, 'id')}
 				data={data}
+				ListEmptyComponent={
+					<Center style={styles.emptyContainer}>
+						<Text style={styles.emptyText}>{t("No notification")}</Text>
+					</Center>
+				}
 				ListFooterComponent={
 					<View style={styles.footer}>
 						{isFetchingNextPage && <ActivityIndicator />}
@@ -156,6 +162,15 @@ const styles = StyleSheet.create({
 		marginRight: 4,
 		fontSize: 13,
 		color: "#919DA6",
+	},
+	emptyContainer: {
+		padding: 40,
+		alignItems: 'center',
+	},
+	emptyText: {
+		fontSize: 18,
+		fontWeight: '400',
+		color: '#919DA6',
 	},
 });
 

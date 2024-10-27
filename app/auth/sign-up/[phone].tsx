@@ -72,6 +72,7 @@ const SignUp = () => {
                                         onChangeText={handleChange("firstName")}
                                         onBlur={handleBlur("firstName")}
                                         variant={"unstyled"}
+                                        height={45}
                                         style={[
                                             styles.input,
                                             (touched.firstName && errors.firstName) && styles.errorBorder,
@@ -91,6 +92,7 @@ const SignUp = () => {
                                         onChangeText={handleChange("lastName")}
                                         onBlur={handleBlur("lastName")}
                                         variant={"unstyled"}
+                                        height={45}
                                         style={[
                                             styles.input,
                                             (touched.lastName && errors.lastName) && styles.errorBorder,

@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from "react-native";
-import { Button } from "native-base";
+import {Button, Center} from "native-base";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "expo-router";
@@ -89,6 +89,11 @@ export default function TabPaymentsScreen() {
 					showsVerticalScrollIndicator={false}
 					data={get(data, 'content', [])}
 					keyExtractor={item => String(item?.number)}
+					ListEmptyComponent={
+						<Center style={styles.emptyContainer}>
+							<Text style={styles.emptyText}>{t("No data")}</Text>
+						</Center>
+					}
 					renderItem={({ item: { id, ...action } }) => <ActionItem {...action} />}
 				/>
 			</View>
@@ -310,5 +315,14 @@ const styles = StyleSheet.create({
 		fontSize: 13,
 		color: "#919DA6",
 		fontFamily: "ALSSiriusRegular",
+	},
+	emptyContainer: {
+		padding: 40,
+		alignItems: 'center',
+	},
+	emptyText: {
+		fontSize: 18,
+		fontWeight: '400',
+		color: '#919DA6',
 	},
 });
