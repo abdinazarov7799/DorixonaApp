@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         width: "100%",
         padding: 16,
-        borderRadius: 20,
+        borderRadius: 12,
         textAlign: "center",
         fontFamily: "ALSSiriusRegular",
         backgroundColor: "white",
@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
     selectedLanguage: {
         fontFamily: "ALSSiriusBold",
         backgroundColor: "#f0f0f0",
+        borderRadius: 12,
     },
     continueButton: {
         width: "100%",

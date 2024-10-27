@@ -142,6 +142,7 @@ const styles = StyleSheet.create({
         fontFamily: "ALSSiriusRegular",
         backgroundColor: "#f0f0f0",
         borderWidth: 1,
+        width: "100%",
     },
     inputDefault: {
         borderColor: "#ccc",

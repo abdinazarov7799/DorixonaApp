@@ -1,5 +1,16 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, StyleSheet } from "react-native";
+import {
+    View,
+    Text,
+    Image,
+    ScrollView,
+    KeyboardAvoidingView,
+    Platform,
+    TouchableWithoutFeedback,
+    Keyboard,
+    StyleSheet,
+    Dimensions
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import { router } from "expo-router";
@@ -47,7 +58,7 @@ const Index = () => {
                                         value={String(getCountForItem(get(item, 'id')))}
                                         onChangeText={(count) => addToOrder({ ...item, count })}
                                         keyboardType="number-pad"
-                                        w={50}
+                                        w={70}
                                         h={9}
                                         textAlign="center"
                                         style={styles.input}
@@ -89,7 +100,7 @@ const styles = StyleSheet.create({
     header: {
         position: "absolute",
         top: 0,
-        width: "100%",
+        width: Dimensions.get("window").width,
         paddingVertical: 17,
         paddingHorizontal: 20,
         flexDirection: "row",
@@ -100,6 +111,7 @@ const styles = StyleSheet.create({
     headerContent: {
         flexDirection: "row",
         alignItems: "center",
+        justifyContent: "space-between"
     },
     headerText: {
         marginLeft: 16,
@@ -108,8 +120,6 @@ const styles = StyleSheet.create({
     },
     scrollView: {
         flex: 1,
-        borderTopWidth: 1,
-        borderTopColor: "#919DA63D",
     },
     orderItem: {
         padding: 8,
@@ -151,11 +161,12 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#e0e0e0",
         textAlign: "center",
+        marginHorizontal: 8
     },
     footer: {
         position: "absolute",
         bottom: 0,
-        width: "100%",
+        width: Dimensions.get("window").width,
         height: 114,
         padding: 12,
         backgroundColor: "white",

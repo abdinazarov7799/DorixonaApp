@@ -1,5 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FlatList, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, StyleSheet } from "react-native";
+import {
+    FlatList,
+    Text,
+    TouchableOpacity,
+    View,
+    KeyboardAvoidingView,
+    Platform,
+    TouchableWithoutFeedback,
+    Keyboard,
+    StyleSheet,
+    Dimensions
+} from "react-native";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import { Button, Icon, Input } from "native-base";
@@ -320,6 +331,7 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         marginTop: 24,
+        gap: 16,
     },
     input: {
         height: 56,
@@ -345,7 +357,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         left: 0,
         bottom: 0,
-        width: "100%",
+        width: Dimensions.get("window").width,
         height: 76,
         padding: 12,
         backgroundColor: "white",

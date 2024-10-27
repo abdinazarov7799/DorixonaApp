@@ -5,9 +5,11 @@ import useFetchRequest from "@/hooks/api/useFetchRequest";
 import { ENDPOINTS, KEYS } from "@/constants";
 import { get } from "lodash";
 import {useTranslation} from "react-i18next";
+import useStore from "@/store";
 
 const AppUpdateChecker = () => {
     const [modalVisible, setModalVisible] = useState(false);
+    const setUser = useStore(state => state.setUser);
     const {t} = useTranslation();
     const { data } = useFetchRequest({
         endpoint: ENDPOINTS.getMe,
@@ -15,10 +17,13 @@ const AppUpdateChecker = () => {
     });
 
     useEffect(() => {
-        if (get(data, 'version') == Application?.nativeApplicationVersion) {
-            setModalVisible(true);
-        } else {
-            setModalVisible(false);
+        setUser(data)
+        if (!!get(data, 'version') && !!Application) {
+            if (get(data, 'version') != Application?.nativeApplicationVersion) {
+                setModalVisible(true);
+            } else {
+                setModalVisible(false);
+            }
         }
     }, [data]);
 

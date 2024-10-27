@@ -8,6 +8,7 @@ import useStore from "@/store";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import i18n from "@/lib/i18n";
+import {get} from "lodash";
 
 type ProfileBottomSheetProps = {
 	bottomSheetRef: React.RefObject<BottomSheetModal>;
@@ -90,12 +91,12 @@ export const ProfileBottomSheet = ({
 									</TouchableOpacity>
 									<TouchableOpacity
 										style={styles.modalOption}
-										onPress={() => changeLanguage("RU")}
+										onPress={() => changeLanguage("ru")}
 									>
-										<Text style={[styles.modalText, { color: lang === "RU" ? "#246bb2" : "#000" }]}>
+										<Text style={[styles.modalText, { color: lang === "ru" ? "#246bb2" : "#000" }]}>
 											Русский язык
 										</Text>
-										{lang === "RU" && <Ionicons name="checkmark" size={18} color="blue" />}
+										{lang === "ru" && <Ionicons name="checkmark" size={18} color="blue" />}
 									</TouchableOpacity>
 									<TouchableOpacity
 										style={styles.modalOption}
@@ -121,7 +122,7 @@ export const ProfileBottomSheet = ({
 						<Text style={styles.logoutText}>{t("Dasturdan chiqish")}</Text>
 					</TouchableOpacity>
 					<Text style={styles.footerText}>{t("Jurabek LAB")}</Text>
-					<Text style={styles.footerText}>{t("Talqin 1.0.0")}</Text>
+					<Text style={styles.footerText}>{t("Talqin")} {get(user,'version')}</Text>
 				</View>
 			</BaseBottomSheet>
 		</>
@@ -166,6 +167,7 @@ const styles = StyleSheet.create({
 		paddingVertical: 8,
 	},
 	optionText: {
+		marginLeft: 12,
 		fontSize: 15,
 		fontFamily: "ALSSiriusMedium",
 		flex: 1,
@@ -188,6 +190,8 @@ const styles = StyleSheet.create({
 	modalContainer: {
 		height: 150,
 		width: 200,
+		marginTop: 300,
+		marginRight: 50,
 		backgroundColor: "white",
 		borderRadius: 12,
 		padding: 16,
@@ -209,7 +213,7 @@ const styles = StyleSheet.create({
 		fontFamily: "ALSSiriusRegular",
 	},
 	divider: {
-		width: "83%",
+		width: "100%",
 		borderTopWidth: 1,
 		borderTopColor: "#919DA63D",
 		marginVertical: 12,
@@ -229,6 +233,7 @@ const styles = StyleSheet.create({
 		borderRadius: 12,
 		backgroundColor: "white",
 		marginTop: 16,
+		marginBottom: 16
 	},
 	logoutText: {
 		fontSize: 15,
