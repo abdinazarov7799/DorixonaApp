@@ -15,7 +15,10 @@ const Info = () => {
 	const { mutate, isPending } = usePostQuery({});
 
 	useEffect(() => {
-		mutate({ endpoint: ENDPOINTS.withdraw, attributes: { cardId, amount } });
+		mutate({
+			endpoint: ENDPOINTS.withdraw,
+			attributes: { cardId, amount }
+		});
 	}, [amount]);
 
 	return (

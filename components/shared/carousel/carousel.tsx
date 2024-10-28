@@ -35,7 +35,7 @@ const CardCarousel = ({ activeIndex, setActiveIndex, myCards }: CardCarouselProp
 	};
 
 	return (
-		<View style={{ flex: 1 }}>
+		<View>
 			{/* Carousel */}
 			<FlatList
 				data={myCards}
@@ -77,7 +77,7 @@ const CardCarousel = ({ activeIndex, setActiveIndex, myCards }: CardCarouselProp
 								source={
 									imageUrl
 										? { uri: imageUrl }
-										: number?.substring(0, 4) === "8600"
+										: number?.substring(0, 4) != "9860"
 											? require("@/assets/images/uzcard.png")
 											: require("@/assets/images/humo.png")
 								}

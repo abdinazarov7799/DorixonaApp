@@ -101,13 +101,22 @@ const Index = () => {
 							<TextInput
 								onFocus={() => setFocused(true)}
 								onBlur={() => setFocused(false)}
-								value={amount}
-								onChangeText={(amount) => setAmount(amount)}
+								value={String(amount)}
+								onChangeText={(newAmount) => {
+									const numericAmount = parseInt(newAmount.replace(/[^0-9]/g, ""), 10);
+									if (!isNaN(numericAmount) && numericAmount <= balance) {
+										setAmount(numericAmount);
+									}else if (isNaN(numericAmount)){
+										setAmount('');
+									}
+								}}
 								keyboardType="numeric"
 								style={styles.amountInput}
 								placeholder={`0 ${t("so'm")}`}
 								placeholderTextColor={"#292C30"}
 							/>
+
+
 							{focused && (
 								<Ionicons
 									name="close"
@@ -152,6 +161,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: '#F5F6F7',
 		paddingTop: 90,
+		paddingBottom: 70
 	},
 	header: {
 		position: 'absolute',

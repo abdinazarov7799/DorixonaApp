@@ -107,7 +107,7 @@ const Card = ({ name, number }: CardProps) => {
 					resizeMode="contain"
 					style={styles.cardImage}
 					source={
-						number?.substring(0, 4) == "8600"
+						number?.substring(0, 4) != "9860"
 							? require("@/assets/images/uzcard.png")
 							: require("@/assets/images/humo.png")
 					}

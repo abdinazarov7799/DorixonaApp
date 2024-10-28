@@ -41,11 +41,11 @@ export const HistoryBottomSheet = ({
 						/>
 					</View>
 					<Text style={styles.statusText}>
-						{t(
-							isSuccessful
-								? "Kartaga pul oʻtkazildi"
-								: "Pul o'tkazish kutilmoqda"
-						)}
+						{transaction?.status === "DONE"
+							? t("Kartaga pul o'tkazildi")
+							: transaction?.status === "REJECTED"
+								? t("Amaliyot bekor qilindi")
+								: t("Pul o'tkazish kutilmoqda")}
 					</Text>
 					<Text style={styles.amountText}>
 						{Number(transaction?.amount)?.toLocaleString("en-US")} {t("so'm")}

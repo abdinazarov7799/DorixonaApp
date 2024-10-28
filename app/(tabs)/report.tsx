@@ -10,7 +10,7 @@ import {
 	ActivityIndicator,
 	StyleSheet,
 } from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
+import {FontAwesome5, Ionicons} from "@expo/vector-icons";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { ENDPOINTS, KEYS } from "@/constants";
@@ -73,24 +73,32 @@ const Report = () => {
 
 export type ActionItemProps = {
 	id: number;
-	type: "INCOME" | "EXPENSE";
-	status: "DONE" | "PENDING";
+	type: "INCOME" | "WITHDRAWAL";
+	status: "DONE" | "PENDING" | "REJECTED";
 	amount: number;
 	pharmacy: string;
 	number: number;
 	updatedTime: string | null;
 	onPress: () => void;
+	cardNumber: string
+	cardName: string
 };
 
-function ActionItem({ type, amount, pharmacy, updatedTime, onPress }: ActionItemProps) {
+function ActionItem({ type, amount, pharmacy, updatedTime, onPress, cardNumber, cardName, status }: ActionItemProps) {
 	const { t } = useTranslation();
-
 	const ActionTypes = useMemo(
 		() => ({
 			INCOME: (
 				<TouchableOpacity style={styles.actionItemContainer} onPress={onPress}>
 					<View style={styles.iconContainer}>
-						<FontAwesome5 name="arrow-down" size={18} color="#292C30" />
+						{
+							status == "REJECTED" ? (
+								<FontAwesome5 name="ban" size={18} color="red" />
+							) : (
+								<FontAwesome5 name="arrow-down" size={18} color="#292C30" />
+							)
+						}
+
 					</View>
 					<View>
 						<Text style={styles.pharmacyText} numberOfLines={1} ellipsizeMode="tail">
@@ -113,16 +121,36 @@ function ActionItem({ type, amount, pharmacy, updatedTime, onPress }: ActionItem
 					</View>
 				</TouchableOpacity>
 			),
-			EXPENSE: (
+			WITHDRAWAL: (
 				<TouchableOpacity style={styles.actionItemContainer} onPress={onPress}>
 					<View style={styles.iconContainer}>
-						<FontAwesome5 name="arrow-up" size={18} color="#292C30" />
+						{
+							status == "REJECTED" ? (
+								<FontAwesome5 name="ban" size={18} color="red" />
+							) : (
+								<FontAwesome5 name="arrow-up" size={18} color="#292C30" />
+							)
+						}
+						{status == "PENDING" && (
+							<View style={{position: "absolute", bottom: 0, right: 0}}>
+								<Ionicons name="time" size={16} color="black" />
+							</View>
+						)}
 					</View>
 					<View>
-						<Text style={styles.pharmacyText} numberOfLines={1} ellipsizeMode="tail">
-							{t(pharmacy)}
+						<Text style={styles.pharmacyText2}>
+							{t("Pul oʻtkazish")}
 						</Text>
-						<Text style={styles.expenseText}>{t("Chiqim")}</Text>
+						<Text style={styles.expenseText}>
+							{cardName}
+							{cardName && " ···· "}
+							{cardNumber}
+						</Text>
+						{status == "PENDING" && (
+							<Text style={{fontSize: 13, color: "#FA8042"}}>
+								{t("Kutilmoqda")}
+							</Text>
+						)}
 					</View>
 					<View style={styles.amountContainer}>
 						<Text style={styles.expenseAmount}>
@@ -178,6 +206,10 @@ const styles = StyleSheet.create({
 	pharmacyText: {
 		fontSize: 15,
 		maxWidth: "80%",
+		fontFamily: "ALSSiriusRegular",
+	},
+	pharmacyText2: {
+		fontSize: 15,
 		fontFamily: "ALSSiriusRegular",
 	},
 	incomeText: {
