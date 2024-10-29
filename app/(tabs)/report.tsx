@@ -16,13 +16,14 @@ import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { ENDPOINTS, KEYS } from "@/constants";
 import { HistoryBottomSheet } from "@/components/history";
 import {Center} from "native-base";
+import Loader from "@/components/shared/Loader";
 
 const Report = () => {
 	const [transaction, setTransaction] = useState<ActionItemProps | null>(null);
 	const minHeight = useWindowDimensions().height;
 	const sheetRef = useRef<BottomSheetModal>(null);
 	const {t} = useTranslation();
-	const { data, isRefreshing, onRefresh, onEndReached, isFetchingNextPage } = useInfiniteScroll({
+	const { data, isLoading ,isRefreshing, onRefresh, onEndReached, isFetchingNextPage } = useInfiniteScroll({
 		key: KEYS.transaction_history_list,
 		url: ENDPOINTS.transaction_history_list,
 		limit: 20,
@@ -46,25 +47,29 @@ const Report = () => {
 			/>
 			<View style={[styles.container, { minHeight }]}>
 				<View style={styles.innerContainer}>
-					<FlatList
-						data={data as ActionItemProps[]}
-						onEndReached={onEndReached}
-						refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
-						keyExtractor={(item) => item?.number}
-						renderItem={({ item }) => (
-							<ActionItem {...item} onPress={handlePress(item)} />
-						)}
-						ListEmptyComponent={
-							<Center style={styles.emptyContainer}>
-								<Text style={styles.emptyText}>{t("No data")}</Text>
-							</Center>
-						}
-						ListFooterComponent={
-							<View style={styles.footer}>
-								{isFetchingNextPage && <ActivityIndicator />}
-							</View>
-						}
-					/>
+					{
+						isLoading ? <Loader /> : (
+							<FlatList
+								data={data as ActionItemProps[]}
+								onEndReached={onEndReached}
+								refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
+								keyExtractor={(item) => item?.number}
+								renderItem={({ item }) => (
+									<ActionItem {...item} onPress={handlePress(item)} />
+								)}
+								ListEmptyComponent={
+									<Center style={styles.emptyContainer}>
+										<Text style={styles.emptyText}>{t("No data")}</Text>
+									</Center>
+								}
+								ListFooterComponent={
+									<View style={styles.footer}>
+										{isFetchingNextPage && <ActivityIndicator />}
+									</View>
+								}
+							/>
+						)
+					}
 				</View>
 			</View>
 		</>
@@ -78,6 +83,7 @@ export type ActionItemProps = {
 	amount: number;
 	pharmacy: string;
 	number: number;
+	createdTime: string | null;
 	updatedTime: string | null;
 	onPress: () => void;
 	cardNumber: string

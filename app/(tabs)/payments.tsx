@@ -7,6 +7,8 @@ import { useRouter } from "expo-router";
 import useFetchRequest from "@/hooks/api/useFetchRequest";
 import { ENDPOINTS, KEYS } from "@/constants";
 import { get } from "lodash";
+import Loader from "@/components/shared/Loader";
+import {Ionicons} from "@expo/vector-icons";
 
 export default function TabPaymentsScreen() {
 	const router = useRouter();
@@ -18,7 +20,7 @@ export default function TabPaymentsScreen() {
 		queryKey: KEYS.transaction_info,
 		endpoint: ENDPOINTS.transaction_info,
 	});
-	const { data } = useFetchRequest({
+	const { data, isLoading } = useFetchRequest({
 		queryKey: `${KEYS.transaction_history_list}_get_10`,
 		endpoint: ENDPOINTS.transaction_history_list,
 		params: {
@@ -85,31 +87,38 @@ export default function TabPaymentsScreen() {
 						</View>
 					</Button>
 				</View>
-				<FlatList
-					showsVerticalScrollIndicator={false}
-					data={get(data, 'content', [])}
-					keyExtractor={item => String(item?.number)}
-					ListEmptyComponent={
-						<Center style={styles.emptyContainer}>
-							<Text style={styles.emptyText}>{t("No data")}</Text>
-						</Center>
-					}
-					renderItem={({ item: { id, ...action } }) => <ActionItem {...action} />}
-				/>
+				{
+					isLoading ? <Loader /> : (
+						<FlatList
+							showsVerticalScrollIndicator={false}
+							data={get(data, 'content', [])}
+							keyExtractor={item => String(item?.number)}
+							ListEmptyComponent={
+								<Center style={styles.emptyContainer}>
+									<Text style={styles.emptyText}>{t("No data")}</Text>
+								</Center>
+							}
+							renderItem={({ item: { id, ...action } }) => <ActionItem {...action} />}
+						/>
+					)
+				}
 			</View>
 		</View>
 	);
 }
 
-type ActionItemProps = {
+ type ActionItemProps = {
 	id: number;
-	type: "INCOME" | "EXPENSE";
-	status: "DONE" | "PENDING";
+	type: "INCOME" | "WITHDRAWAL";
+	status: "DONE" | "PENDING" | "REJECTED";
 	amount: number;
 	pharmacy: string;
 	number: number;
+	createdTime: string | null;
 	updatedTime: string | null;
 	onPress: () => void;
+	cardNumber: string
+	cardName: string
 };
 
 function ActionItem({
@@ -118,6 +127,9 @@ function ActionItem({
 						pharmacy,
 						updatedTime,
 						onPress,
+						cardNumber,
+						cardName,
+						status
 					}: ActionItemProps) {
 	const { t } = useTranslation();
 
@@ -125,11 +137,18 @@ function ActionItem({
 		() => ({
 			INCOME: (
 				<TouchableOpacity style={styles.actionItemContainer} onPress={onPress}>
-					<View style={styles.incomeIcon}>
-						<FontAwesome5 name="arrow-down" size={18} color="#292C30" />
+					<View style={styles.iconContainer}>
+						{
+							status == "REJECTED" ? (
+								<FontAwesome5 name="ban" size={18} color="red" />
+							) : (
+								<FontAwesome5 name="arrow-down" size={18} color="#292C30" />
+							)
+						}
+
 					</View>
 					<View>
-						<Text style={styles.actionItemTitle} numberOfLines={1} ellipsizeMode="tail">
+						<Text style={styles.pharmacyText} numberOfLines={1} ellipsizeMode="tail">
 							{t(pharmacy)}
 						</Text>
 						<Text style={styles.incomeText}>{t("Tushum")}</Text>
@@ -139,7 +158,7 @@ function ActionItem({
 							{Number(amount)?.toLocaleString("en-US")} {t("so'm")}
 						</Text>
 						{updatedTime && (
-							<Text style={styles.timeText}>
+							<Text style={styles.updatedTimeText}>
 								{new Date(updatedTime)?.toLocaleString("en-US", {
 									hour: "2-digit",
 									minute: "2-digit",
@@ -149,23 +168,43 @@ function ActionItem({
 					</View>
 				</TouchableOpacity>
 			),
-			EXPENSE: (
+			WITHDRAWAL: (
 				<TouchableOpacity style={styles.actionItemContainer} onPress={onPress}>
-					<View style={styles.expenseIcon}>
-						<FontAwesome5 name="arrow-up" size={18} color="#292C30" />
+					<View style={styles.iconContainer}>
+						{
+							status == "REJECTED" ? (
+								<FontAwesome5 name="ban" size={18} color="red" />
+							) : (
+								<FontAwesome5 name="arrow-up" size={18} color="#292C30" />
+							)
+						}
+						{status == "PENDING" && (
+							<View style={{position: "absolute", bottom: 0, right: 0}}>
+								<Ionicons name="time" size={16} color="black" />
+							</View>
+						)}
 					</View>
 					<View>
-						<Text style={styles.actionItemTitle} numberOfLines={1} ellipsizeMode="tail">
-							{t(pharmacy)}
+						<Text style={styles.pharmacyText2}>
+							{t("Pul oʻtkazish")}
 						</Text>
-						<Text style={styles.expenseText}>{t("Chiqim")}</Text>
+						<Text style={styles.expenseText}>
+							{cardName}
+							{cardName && " ···· "}
+							{cardNumber}
+						</Text>
+						{status == "PENDING" && (
+							<Text style={{fontSize: 13, color: "#FA8042"}}>
+								{t("Kutilmoqda")}
+							</Text>
+						)}
 					</View>
 					<View style={styles.amountContainer}>
 						<Text style={styles.expenseAmount}>
 							{Number(amount)?.toLocaleString("en-US")} {t("so'm")}
 						</Text>
 						{updatedTime && (
-							<Text style={styles.timeText}>
+							<Text style={styles.updatedTimeText}>
 								{new Date(updatedTime)?.toLocaleString("en-US", {
 									hour: "2-digit",
 									minute: "2-digit",
@@ -187,6 +226,29 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: "#F5F6F7",
 		paddingTop: 20,
+	},
+	iconContainer: {
+		width: 40,
+		height: 40,
+		backgroundColor: "#B4C0CC29",
+		borderRadius: 20,
+		justifyContent: "center",
+		alignItems: "center",
+		marginRight: 12,
+	},
+	pharmacyText: {
+		fontSize: 15,
+		maxWidth: "80%",
+		fontFamily: "ALSSiriusRegular",
+	},
+	pharmacyText2: {
+		fontSize: 15,
+		fontFamily: "ALSSiriusRegular",
+	},
+	updatedTimeText: {
+		fontSize: 13,
+		color: "#919DA6",
+		fontFamily: "ALSSiriusRegular",
 	},
 	headerContainer: {
 		paddingHorizontal: 16,

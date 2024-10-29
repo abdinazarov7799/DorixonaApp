@@ -5,7 +5,7 @@ import {
     FlatList,
     RefreshControl,
     ActivityIndicator,
-    TouchableOpacity, Dimensions, KeyboardAvoidingView, Platform
+    TouchableOpacity, Dimensions, KeyboardAvoidingView, Platform, ScrollView
 } from 'react-native';
 import { KEYS, ENDPOINTS } from "@/constants";
 import Loader from "@/components/shared/Loader";
@@ -71,6 +71,13 @@ export default function HomeScreen() {
                     >
                         {item?.name}
                     </Text>
+                    <Text
+                        style={{ marginTop: 4, fontSize: 13, padding: 4, color: "#919DA6" }}
+                        numberOfLines={2}
+                        ellipsizeMode="tail"
+                    >
+                        {item?.description}
+                    </Text>
                     <Text style={{ marginTop: 4, padding: 4, marginBottom: 12, color: '#000', fontSize: 13, fontFamily: 'ALSSiriusMedium' }}>
                         {item?.price} {t("so'm")}
                     </Text>
@@ -110,94 +117,100 @@ export default function HomeScreen() {
 
     return (
         <View style={{ paddingHorizontal: 16, paddingTop: 20, backgroundColor: '#fff', flex: 1 }}>
-            <KeyboardAvoidingView
-                style={{ flex: 1 }}
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            >
-                <BaseBottomSheet bottomSheetRef={viewBottomSheetRef} snap={"90%"}>
-                    <Button
-                        variant={"unstyled"}
-                        shadow={1}
-                        style={{ position: 'absolute', right: 12, borderRadius: 999, backgroundColor: '#fff', zIndex: 10 }}
-                        onPress={handleCloseViewBottomSheet}
-                    >
-                        <AntDesign name="close" size={22} color="black" onPress={handleCloseViewBottomSheet} />
-                    </Button>
+            <BaseBottomSheet bottomSheetRef={viewBottomSheetRef} snap={"90%"}>
+                <Button
+                    variant={"unstyled"}
+                    shadow={1}
+                    style={{ position: 'absolute', right: 12, borderRadius: 999, backgroundColor: '#fff', zIndex: 10 }}
+                    onPress={handleCloseViewBottomSheet}
+                >
+                    <AntDesign name="close" size={22} color="black" onPress={handleCloseViewBottomSheet} />
+                </Button>
+                <KeyboardAvoidingView
+                    style={{ flex: 1 }}
+                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                    keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
+                >
+                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}
+                                keyboardShouldPersistTaps="handled">
+                        <View style={{ flex: 1, justifyContent: 'space-between', paddingBottom: 16}}>
+                            <View style={{ padding: 16 }}>
+                                <Image
+                                    source={selected?.imageUrl ? { uri: selected?.imageUrl } : require("@/assets/images/no-photo.png")}
+                                    style={{ width: "auto", height: 350, resizeMode: 'cover' }}
+                                />
+                                <Text style={{ marginTop: 4, fontSize: 24, padding: 4, fontFamily: 'ALSSiriusBold' }}>
+                                    {selected?.name}
+                                </Text>
+                                <Text style={{ marginTop: 4, fontSize: 16, padding: 4, fontFamily: 'ALSSiriusRegular' }}>
+                                    {selected?.description}
+                                </Text>
+                            </View>
 
-                    <View style={{ flex: 1, justifyContent: 'space-between', paddingBottom: 16, height: "auto" }}>
-                        <View style={{ padding: 16 }}>
-                            <Image
-                                source={selected?.imageUrl ? { uri: selected?.imageUrl } : require("@/assets/images/no-photo.png")}
-                                style={{ width: "auto", height: 350, resizeMode: 'cover' }}
-                            />
-                            <Text style={{ marginTop: 4, fontSize: 24, padding: 4, fontFamily: 'ALSSiriusBold' }}>
-                                {selected?.name}
-                            </Text>
-                        </View>
-
-                        <View style={{ width: '100%', padding: 16 }}>
-                            {
-                                orders[get(selected, "id")] ? (
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <View>
-                                            <Text style={{ color: '#919DA6', fontSize: 16, marginBottom: 4, fontFamily: 'ALSSiriusRegular' }}>
-                                                {t("Mahsulot narxi")}
-                                            </Text>
-                                            <Text style={{ color: '#292C30', fontSize: 18, fontFamily: 'ALSSiriusBold' }}>
-                                                {selected?.price} {t("so'm")}
-                                            </Text>
+                            <View style={{ width: '100%', padding: 16 }}>
+                                {
+                                    orders[get(selected, "id")] ? (
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            <View>
+                                                <Text style={{ color: '#919DA6', fontSize: 16, marginBottom: 4, fontFamily: 'ALSSiriusRegular' }}>
+                                                    {t("Mahsulot narxi")}
+                                                </Text>
+                                                <Text style={{ color: '#292C30', fontSize: 18, fontFamily: 'ALSSiriusBold' }}>
+                                                    {selected?.price} {t("so'm")}
+                                                </Text>
+                                            </View>
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Button
+                                                    style={{ backgroundColor: '#fff', borderRadius: 10 }}
+                                                    shadow={"1"}
+                                                    onPress={() => decrement(get(selected, 'id'))}
+                                                >
+                                                    <AntDesign name="minus" size={22} color="black" />
+                                                </Button>
+                                                <Input
+                                                    variant={"unstyled"}
+                                                    value={String(getCountForItem(get(selected, 'id')))}
+                                                    onChangeText={(count) => addToOrder({ ...selected, count })}
+                                                    type={"number"}
+                                                    keyboardType={"number-pad"}
+                                                    width={90}
+                                                    height={10}
+                                                    style={{ textAlign: 'center', borderRadius: 10, borderColor: '#e5e7eb', borderWidth: 1, marginHorizontal: 10 }}
+                                                />
+                                                <Button
+                                                    style={{ backgroundColor: '#fff', borderRadius: 10 }}
+                                                    shadow={"1"}
+                                                    onPress={() => increment(selected)}
+                                                >
+                                                    <AntDesign name="plus" size={22} color="black" />
+                                                </Button>
+                                            </View>
                                         </View>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    ) : (
+                                        <>
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                                                <Text style={{ color: '#919DA6', fontSize: 16 }}>{t("Mahsulot narxi")}</Text>
+                                                <Text style={{ color: '#292C30', fontSize: 18, fontFamily: 'ALSSiriusBold' }}>
+                                                    {selected?.price} {t("so'm")}
+                                                </Text>
+                                            </View>
                                             <Button
-                                                style={{ backgroundColor: '#fff', borderRadius: 10 }}
-                                                shadow={"1"}
-                                                onPress={() => decrement(get(selected, 'id'))}
-                                            >
-                                                <AntDesign name="minus" size={22} color="black" />
-                                            </Button>
-                                            <Input
-                                                variant={"unstyled"}
-                                                value={String(getCountForItem(get(selected, 'id')))}
-                                                onChangeText={(count) => addToOrder({ ...selected, count })}
-                                                type={"number"}
-                                                keyboardType={"number-pad"}
-                                                width={90}
-                                                height={10}
-                                                style={{ textAlign: 'center', borderRadius: 10, borderColor: '#e5e7eb', borderWidth: 1, marginHorizontal: 10 }}
-                                            />
-                                            <Button
-                                                style={{ backgroundColor: '#fff', borderRadius: 10 }}
+                                                style={{ backgroundColor: '#215ca0', width: '100%', height: 44, borderRadius: 10 }}
                                                 shadow={"1"}
                                                 onPress={() => increment(selected)}
                                             >
-                                                <AntDesign name="plus" size={22} color="black" />
+                                                <Text style={{ textAlign: 'center', color: '#fff', fontSize: 15, fontFamily: 'ALSSiriusMedium' }}>
+                                                    {t("Qo'shish")}
+                                                </Text>
                                             </Button>
-                                        </View>
-                                    </View>
-                                ) : (
-                                    <>
-                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                                            <Text style={{ color: '#919DA6', fontSize: 16 }}>{t("Mahsulot narxi")}</Text>
-                                            <Text style={{ color: '#292C30', fontSize: 18, fontFamily: 'ALSSiriusBold' }}>
-                                                {selected?.price} {t("so'm")}
-                                            </Text>
-                                        </View>
-                                        <Button
-                                            style={{ backgroundColor: '#215ca0', width: '100%', height: 44, borderRadius: 10 }}
-                                            shadow={"1"}
-                                            onPress={() => increment(selected)}
-                                        >
-                                            <Text style={{ textAlign: 'center', color: '#fff', fontSize: 15, fontFamily: 'ALSSiriusMedium' }}>
-                                                {t("Qo'shish")}
-                                            </Text>
-                                        </Button>
-                                    </>
-                                )
-                            }
+                                        </>
+                                    )
+                                }
+                            </View>
                         </View>
-                    </View>
-                </BaseBottomSheet>
-            </KeyboardAvoidingView>
+                    </ScrollView>
+                </KeyboardAvoidingView>
+            </BaseBottomSheet>
             <View style={{ backgroundColor: '#f3f4f6', padding: 8, borderRadius: 999, marginBottom: 8 }}>
                 <Input
                     variant="unstyled"

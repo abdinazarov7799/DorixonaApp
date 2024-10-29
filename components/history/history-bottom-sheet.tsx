@@ -5,6 +5,7 @@ import { View, Text, Image, StyleSheet } from "react-native";
 import { BaseBottomSheet } from "../shared/bottom-sheet";
 import { Ionicons } from "@expo/vector-icons";
 import { ActionItemProps } from "@/app/(tabs)/report";
+import dayjs from "dayjs";
 
 type HistoryBottomSheetProps = {
 	bottomSheetRef: React.RefObject<BottomSheetModal>;
@@ -60,12 +61,12 @@ export const HistoryBottomSheet = ({
 					)}
 					<View style={styles.row}>
 						<Text style={styles.labelText}>{t("So'rov yuborilgan vaqti")}</Text>
-						<Text style={styles.valueText}>{t("18-avgust, 09:28")}</Text>
+						<Text style={styles.valueText}>{transaction?.createdTime && dayjs(transaction?.createdTime).format("DD-MMMM HH:mm")}</Text>
 					</View>
 					{isSuccessful && (
 						<View style={styles.row}>
 							<Text style={styles.labelText}>{t("Tasdiqlangan vaqti")}</Text>
-							<Text style={styles.valueText}>{t("18-avgust, 09:28")}</Text>
+							<Text style={styles.valueText}>{transaction?.updatedTime && dayjs(transaction?.updatedTime).format("DD-MMMM HH:mm")}</Text>
 						</View>
 					)}
 					<View style={styles.row}>
