@@ -8,7 +8,7 @@ import useStore from "@/store";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import i18n from "@/lib/i18n";
-import {get} from "lodash";
+import * as Application from 'expo-application';
 
 type ProfileBottomSheetProps = {
 	bottomSheetRef: React.RefObject<BottomSheetModal>;
@@ -122,7 +122,7 @@ export const ProfileBottomSheet = ({
 						<Text style={styles.logoutText}>{t("Dasturdan chiqish")}</Text>
 					</TouchableOpacity>
 					<Text style={styles.footerText}>{t("Jurabek LAB")}</Text>
-					<Text style={styles.footerText}>{t("Talqin")} {get(user,'version')}</Text>
+					<Text style={styles.footerText}>{t("Talqin")} {Application?.nativeApplicationVersion}</Text>
 				</View>
 			</BaseBottomSheet>
 		</>

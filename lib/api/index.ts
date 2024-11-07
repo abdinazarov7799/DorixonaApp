@@ -1,7 +1,6 @@
 import {BASE_URL} from "@/constants";
 import axios from "axios";
 import useStore from "@/store";
-import {router} from "expo-router";
 
 const request = axios.create({
 	baseURL: BASE_URL,
@@ -65,7 +64,6 @@ request.interceptors.response.use(
 				return axios(originalRequest);
 			} else {
 				useStore.getState().clearAuthData();
-				router.push("/auth");
 			}
 			return Promise.reject(error);
 		}

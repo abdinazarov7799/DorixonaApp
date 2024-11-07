@@ -2,7 +2,7 @@
 	"expo": {
 		"name": "Jurabek",
 		"slug": "jurabek-laboratories-mobile",
-		"version": "1.0.5",
+		"version": "1.0.6",
 		"orientation": "default",
 		"icon": "./assets/images/icon.png",
 		"scheme": "myapp",
@@ -15,7 +15,7 @@
 			"supportsTablet": true,
 			"bundleIdentifier": "com.mediasolutions.jurabeklab",
 			"requireFullScreen": true,
-			"buildNumber": "6"
+			"buildNumber": "7"
 		},
 		"android": {
           "softwareKeyboardLayoutMode": "pan",
