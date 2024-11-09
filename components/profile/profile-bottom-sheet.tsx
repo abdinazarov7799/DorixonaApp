@@ -9,6 +9,7 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import i18n from "@/lib/i18n";
 import * as Application from 'expo-application';
+import React from "react";
 
 type ProfileBottomSheetProps = {
 	bottomSheetRef: React.RefObject<BottomSheetModal>;

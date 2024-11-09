@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { View, Text, FlatList, TouchableOpacity, StyleSheet } from "react-native";
+import {View, Text, FlatList, TouchableOpacity, StyleSheet, ScrollView, RefreshControl} from "react-native";
 import {Button, Center} from "native-base";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useTranslation } from "react-i18next";
@@ -16,11 +16,11 @@ export default function TabPaymentsScreen() {
 	const [cards] = useState([{}]);
 	const hasCards = cards.length > 0;
 
-	const { data: balance } = useFetchRequest({
+	const { data: balance, isFetching: balanceIsFetching, refetch: reFetchBalance } = useFetchRequest({
 		queryKey: KEYS.transaction_info,
 		endpoint: ENDPOINTS.transaction_info,
 	});
-	const { data, isLoading } = useFetchRequest({
+	const { data, isLoading, refetch, isFetching } = useFetchRequest({
 		queryKey: `${KEYS.transaction_history_list}_get_10`,
 		endpoint: ENDPOINTS.transaction_history_list,
 		params: {
@@ -28,13 +28,19 @@ export default function TabPaymentsScreen() {
 		},
 	});
 
+	const onRefresh = () => {
+		reFetchBalance();
+		refetch();
+	}
+
+
 	const handleAddCard = () => router.push("/cards/add");
 	const handleTransfer = () => router.push(`/transfer?balance=${get(balance, 'balance')}`);
 	const handleNavigateToCards = () => router.push("/cards");
 	const handleNavigateToHistory = () => router.push("/(tabs)/report");
 
 	return (
-		<View style={styles.container}>
+		<ScrollView style={styles.container} refreshControl={<RefreshControl refreshing={balanceIsFetching || isFetching} onRefresh={onRefresh} />}>
 			<View style={styles.headerContainer}>
 				<Text style={styles.accountLabel}>{t("Mening hisobim")}</Text>
 				<Text style={styles.balanceText}>
@@ -103,7 +109,7 @@ export default function TabPaymentsScreen() {
 					)
 				}
 			</View>
-		</View>
+		</ScrollView>
 	);
 }
 

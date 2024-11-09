@@ -25,5 +25,7 @@
       "developmentClient": true
     },
     "production": {}
-  }
+  },
+  "cli": {},
+  "submit": {}
 }
