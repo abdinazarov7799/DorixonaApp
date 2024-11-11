@@ -34,6 +34,9 @@ const Company = () => {
     const [pharmacy, setPharmacy] = useState(null);
     const [openPharmacy, setOpenPharmacy] = useState(false);
     const [search, setSearch] = useState(null);
+    const [pharmacyName, setPharmacyName] = useState("");
+    const [pharmacyAddress, setPharmacyAddress] = useState("");
+    const [inn,setInn] = useState("");
     const [pharmacyPhoneNumber, setPharmacyPhoneNumber] = useState(null);
     const { fullPrice, orders, setOrders } = useStore();
 
@@ -68,7 +71,11 @@ const Company = () => {
             mutate({
                 endpoint: ENDPOINTS.orderAdd,
                 attributes: {
+                    districtId: district?.id,
                     pharmacyPhoneNumber,
+                    pharmacyName,
+                    pharmacyAddress,
+                    inn,
                     pharmacyId: pharmacy?.id,
                     totalPrice: fullPrice,
                     products
@@ -225,7 +232,13 @@ const Company = () => {
                             <Input
                                 style={styles.input}
                                 placeholder={t("Dorixona nomi")}
-                                value={pharmacy?.name}
+                                value={pharmacy?.name ? pharmacy?.name : pharmacyName}
+                                onChangeText={(text) => {
+                                    if (!!pharmacy) {
+                                        setPharmacy(null)
+                                    }
+                                    setPharmacyName(text ? text : "")
+                                }}
                                 variant="unstyled"
                                 backgroundColor="#B4C0CC29"
                                 borderRadius={10}
@@ -236,7 +249,8 @@ const Company = () => {
                         <Input
                             style={styles.input}
                             placeholder={t("Dorixona manzili")}
-                            value={pharmacy?.address}
+                            value={pharmacy?.address ? pharmacy?.address : pharmacyAddress}
+                            onChangeText={(text) => setPharmacyAddress(text ? text : "")}
                             variant="unstyled"
                             backgroundColor="#B4C0CC29"
                             borderRadius={10}
@@ -245,7 +259,8 @@ const Company = () => {
                         <Input
                             style={styles.input}
                             placeholder={t("Dorixona inn")}
-                            value={pharmacy?.inn}
+                            value={pharmacy?.inn ? pharmacy?.inn : inn}
+                            onChangeText={(text) => setInn(text ? text : "")}
                             variant="unstyled"
                             backgroundColor="#B4C0CC29"
                             borderRadius={10}
