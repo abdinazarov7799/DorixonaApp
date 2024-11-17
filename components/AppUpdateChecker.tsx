@@ -20,7 +20,7 @@ const AppUpdateChecker = () => {
     useEffect(() => {
         setUser(data)
         if (!!version && !!Application) {
-            if (version == Application?.nativeApplicationVersion) {
+            if (version != Application?.nativeApplicationVersion) {
                 setModalVisible(true);
             } else {
                 setModalVisible(false);
