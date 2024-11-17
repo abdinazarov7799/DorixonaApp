@@ -15,11 +15,12 @@ const AppUpdateChecker = () => {
         endpoint: ENDPOINTS.getMe,
         queryKey: KEYS.getMe,
     });
+    const version = Platform.OS === 'ios' ? get(data,'iosVersion') : get(data,'androidVersion');
 
     useEffect(() => {
         setUser(data)
-        if (!!get(data, 'version') && !!Application) {
-            if (get(data, 'version') != Application?.nativeApplicationVersion) {
+        if (!!version && !!Application) {
+            if (version == Application?.nativeApplicationVersion) {
                 setModalVisible(true);
             } else {
                 setModalVisible(false);

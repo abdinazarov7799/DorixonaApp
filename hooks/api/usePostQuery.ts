@@ -3,11 +3,11 @@ import {request} from "@/lib/api";
 import {forEach, isArray, isEmpty} from "lodash";
 
 const postRequest = (endpoint: string, attributes: object = {}, config: object = {}) => request.post(endpoint, attributes, config);
-const useFetchRequest = ({
+const usePostQuery = ({
                              queryKey =[]
                          }:any) => {
     const queryClient = useQueryClient()
-    const {mutate,isPending} = useMutation({
+    const {mutate,isPending, isError ,error} = useMutation({
         mutationFn:async ({endpoint, attributes, config}:any)=>{
             return await postRequest(endpoint,attributes,config);
         },
@@ -17,12 +17,16 @@ const useFetchRequest = ({
                     queryClient.invalidateQueries({queryKey: [val]})
                 })
             }
+        },
+        onError: (err) => {
         }
     })
     return {
         mutate,
-        isPending
+        isPending,
+        isError,
+        error,
     }
 };
 
-export default useFetchRequest;
+export default usePostQuery;

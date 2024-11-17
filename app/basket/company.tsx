@@ -21,6 +21,7 @@ import useFetchRequest from "@/hooks/api/useFetchRequest";
 import { ENDPOINTS, KEYS } from "@/constants";
 import usePostQuery from "@/hooks/api/usePostQuery";
 import useStore from "@/store";
+import {get, isEmpty} from "lodash";
 
 const Company = () => {
     const { t } = useTranslation();
@@ -38,6 +39,7 @@ const Company = () => {
     const [pharmacyAddress, setPharmacyAddress] = useState("");
     const [inn,setInn] = useState("");
     const [pharmacyPhoneNumber, setPharmacyPhoneNumber] = useState(null);
+    const [error, setError] = useState('');
     const { fullPrice, orders, setOrders } = useStore();
 
     const { data } = useFetchRequest({
@@ -61,7 +63,6 @@ const Company = () => {
     }, [search]);
 
     const { mutate, isPending } = usePostQuery({});
-
     const handleSubmit = () => {
         const products = Object.values(orders)?.map(order => ({
             productId: order?.id,
@@ -81,12 +82,18 @@ const Company = () => {
                     products
                 }
             }, {
-                onSuccess: () => {
-                    setOrders({});
-                    router.push("/orders");
+                onSuccess: (res) => {
+                    if (get(res,'data') == "Order limit exceeded") {
+                        setError(get(res,'data'))
+                    }else {
+                        setOrders({});
+                        router.push("/orders");
+                    }
                 },
-                onError: (err) => { console.log(err, 'err'); },
-            });
+                onError: (err) => {
+                    console.log(err, 'err');
+                },
+            })
         }
     };
 
@@ -278,6 +285,12 @@ const Company = () => {
                         />
                     </View>
 
+                    <View style={styles.headerTextContainer}>
+                        <Text style={styles.errorTitle}>
+                            {error && !isEmpty(error) && t(error)}
+                        </Text>
+                    </View>
+
                     <View style={styles.submitButtonContainer}>
                         <Button
                             style={styles.submitButton}
@@ -301,7 +314,6 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     container: {
-        flex: 1,
         backgroundColor: "white",
         padding: 16,
     },
@@ -344,6 +356,12 @@ const styles = StyleSheet.create({
         color: "#656E78",
         fontFamily: "ALSSiriusRegular",
     },
+    errorTitle: {
+        fontSize: 15,
+        color: "#c80909",
+        fontFamily: "ALSSiriusRegular",
+        textAlign: "center",
+    },
     inputContainer: {
         marginTop: 24,
         gap: 16,
@@ -371,7 +389,7 @@ const styles = StyleSheet.create({
     submitButtonContainer: {
         position: "absolute",
         left: 0,
-        bottom: 0,
+        top: Dimensions.get("window").height - 160,
         width: Dimensions.get("window").width,
         height: 76,
         padding: 12,
