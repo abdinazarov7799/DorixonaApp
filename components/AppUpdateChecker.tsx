@@ -16,6 +16,7 @@ const AppUpdateChecker = () => {
         queryKey: KEYS.getMe,
     });
     const version = Platform.OS === 'ios' ? get(data,'iosVersion') : get(data,'androidVersion');
+    const storeUrl = Platform.OS === 'android' ? get(data, 'androidUrl') : get(data, 'iosUrl');
 
     useEffect(() => {
         setUser(data)
@@ -29,11 +30,6 @@ const AppUpdateChecker = () => {
     }, [data]);
 
     const handleUpdatePress = () => {
-        const androidUrl = get(data, 'androidUrl');
-        const iosUrl = get(data, 'iosUrl');
-
-        const storeUrl = Platform.OS === 'android' ? androidUrl : iosUrl;
-
         if (storeUrl) {
             Linking.openURL(storeUrl).catch((err) =>
                 console.error("Failed to open URL:", err)

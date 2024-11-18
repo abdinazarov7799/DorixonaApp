@@ -2,7 +2,6 @@
 	"expo": {
 		"name": "Jurabek",
 		"slug": "jurabek-laboratories-mobile",
-		"version": "1.0.9",
 		"orientation": "default",
 		"icon": "./assets/images/icon.png",
 		"scheme": "myapp",
@@ -21,7 +20,7 @@
 		"android": {
 			"versionCode": 1,
 			"version": "1.0.0",
-          "softwareKeyboardLayoutMode": "pan",
+			"softwareKeyboardLayoutMode": "pan",
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/images/icon.png",
 				"backgroundColor": "#ffffff"
