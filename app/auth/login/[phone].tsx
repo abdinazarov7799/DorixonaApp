@@ -81,7 +81,7 @@ const Login = () => {
                     <View style={styles.headerContainer}>
                         <Text style={styles.headerText}>{t("Tasdiqlash kodini kiriting")}</Text>
                         <Text style={styles.subHeaderText}>
-                            {t(`Kiritilgan ${phone} telefon raqamingizga maxsus tasdiqlash kodini SMS tarzda yubordik`)}
+                            {t("Kiritilgan")} {phone} {t("telefon raqamingizga maxsus tasdiqlash kodini SMS tarzda yubordik")}
                         </Text>
 
                         <ReactNativeOtpTextinput
