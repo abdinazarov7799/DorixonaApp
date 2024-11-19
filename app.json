@@ -14,8 +14,8 @@
 			"supportsTablet": true,
 			"bundleIdentifier": "com.mediasolutions.jurabeklab",
 			"requireFullScreen": true,
-			"version": "1.0.9",
-			"buildNumber": "10"
+			"version": "1.0.10",
+			"buildNumber": "11"
 		},
 		"android": {
 			"versionCode": 1,
