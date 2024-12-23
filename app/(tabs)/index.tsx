@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
 import {Button, Center, Icon, Input} from "native-base";
 import {AntDesign, Ionicons} from "@expo/vector-icons";
-import useStore from "@/store";
+import {useStore} from "@/store";
 import {get, isEmpty, isNil} from "lodash";
 import {router} from "expo-router";
 import {BottomSheetModal} from "@gorhom/bottom-sheet";
@@ -84,15 +84,20 @@ export default function HomeScreen() {
                 </TouchableOpacity>
                 {
                     !orders[get(item, "id")] ? (
-                        <Button style={{ paddingVertical: 8, backgroundColor: '#fff', borderRadius: 10 }} shadow={"1"} onPress={() => {
-                            increment(item);
-                            handleFocusInput(get(item, 'id'));
-                        }}>
+                        <Button
+                            style={{ paddingVertical: 8, backgroundColor: '#fff', borderRadius: 10 }}
+                            shadow={"1"}
+                            isDisabled={!get(item,'isActive')}
+                            onPress={() => {
+                                increment(item);
+                                handleFocusInput(get(item, 'id'));
+                            }}
+                        >
                             <Text style={{ textAlign: 'center', fontSize: 13 }}>{t("Qo'shish")}</Text>
                         </Button>
                     ) : (
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <Button style={{ backgroundColor: '#fff', borderRadius: 10 }} shadow={"1"} onPress={() => decrement(get(item, 'id'))}>
+                            <Button style={{ backgroundColor: '#fff', borderRadius: 10, height: 35 }} shadow={"1"} onPress={() => decrement(get(item, 'id'))}>
                                 <AntDesign name="minus" size={12} color="black" />
                             </Button>
                             <Input
@@ -103,9 +108,9 @@ export default function HomeScreen() {
                                 type={"number"}
                                 keyboardType={"number-pad"}
                                 width={"24"}
-                                style={{ textAlign: 'center', borderRadius: 10, borderColor: '#e5e7eb', borderWidth: 1 }}
+                                style={{ textAlign: 'center', borderRadius: 10, borderColor: '#e5e7eb', borderWidth: 1, height: 35 }}
                             />
-                            <Button style={{ backgroundColor: '#fff', borderRadius: 10 }} shadow={"1"} onPress={() => increment(item)}>
+                            <Button style={{ backgroundColor: '#fff', borderRadius: 10, height: 35 }} shadow={"1"} onPress={() => increment(item)}>
                                 <AntDesign name="plus" size={12} color="black" />
                             </Button>
                         </View>
@@ -195,6 +200,7 @@ export default function HomeScreen() {
                                                 </Text>
                                             </View>
                                             <Button
+                                                isDisabled={!get(selected,'isActive')}
                                                 style={{ backgroundColor: '#215ca0', width: '100%', height: 44, borderRadius: 10 }}
                                                 shadow={"1"}
                                                 onPress={() => increment(selected)}

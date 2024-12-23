@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 import { router } from "expo-router";
 import { get, isNil } from "lodash";
 import { Button, Input } from "native-base";
-import useStore from "@/store";
+import {useStore} from "@/store";
 
 const Index = () => {
     const { t } = useTranslation();

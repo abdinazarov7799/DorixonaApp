@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, Modal, Pressable, StyleSheet } from "reac
 import { BaseBottomSheet } from "../shared/bottom-sheet";
 import { Switch } from "native-base";
 import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import useStore from "@/store";
+import {useAuthStore} from "@/store";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import i18n from "@/lib/i18n";
@@ -24,9 +24,9 @@ export const ProfileBottomSheet = ({
 								   }: ProfileBottomSheetProps) => {
 	const router = useRouter();
 	const [open, setOpen] = useState(false);
-	const user = useStore(state => (state as any).user);
-	const lang = useStore(state => (state as any).lang);
-	const setLanguage = useStore(state => (state as any).setLang);
+	const user = useAuthStore(state => (state as any).user);
+	const lang = useAuthStore(state => (state as any).lang);
+	const setLanguage = useAuthStore(state => (state as any).setLang);
 	const { t } = useTranslation();
 
 	const handleNavigateToProfileEdit = () => {

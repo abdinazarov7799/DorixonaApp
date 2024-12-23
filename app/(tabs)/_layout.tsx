@@ -1,19 +1,30 @@
 import {Redirect, Tabs} from "expo-router";
-import React, {useRef} from "react";
+import React, {useEffect, useRef} from "react";
 import {TabBarIcon} from "@/components/navigation/TabBarIcon";
 import {useTranslation} from "react-i18next";
-import useStore from "@/store";
+import {useAuthStore} from "@/store";
 import {Bell} from "@/components/navigation/bell";
 import {Bars} from "@/components/navigation/bars";
 import {ProfileBottomSheet} from "@/components/profile";
 import {BottomSheetModal} from "@gorhom/bottom-sheet";
 import {LogoutBottomSheet} from "@/components/profile/logout-bottom-sheet";
+import useFetchRequest from "@/hooks/api/useFetchRequest";
+import {ENDPOINTS, KEYS} from "@/constants";
 
 export default function TabLayout() {
 	const profileSheetRef = useRef<BottomSheetModal>(null);
 	const logoutSheetRef = useRef<BottomSheetModal>(null);
 	const {t} = useTranslation();
-	const user = useStore(state => (state as any).user);
+	const user = useAuthStore(state => (state as any).user);
+	const setUser = useAuthStore(state => (state as any).setUser);
+	const {data} = useFetchRequest({
+		queryKey: KEYS.getMe,
+		endpoint: ENDPOINTS.getMe,
+	})
+
+	useEffect(() => {
+		setUser(data)
+	},[data])
 
 	if (user === null) return <Redirect href={"/auth"} />;
 

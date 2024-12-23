@@ -10,7 +10,7 @@ import {useTranslation} from "react-i18next";
 import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {StatusBar} from "expo-status-bar";
-import useStore from "@/store";
+import {useAuthStore} from "@/store";
 import AppUpdateChecker from "@/components/AppUpdateChecker";
 import React from "react";
 
@@ -42,7 +42,7 @@ export default function RootLayout() {
 function RootLayoutNav() {
 	const queryClient = new QueryClient();
 	const {i18n} = useTranslation();
-	const {lang} = useStore()
+	const {lang,user} = useAuthStore()
 
 	const loadLanguage = async () => {
 		try {
@@ -65,22 +65,16 @@ function RootLayoutNav() {
 						<AppUpdateChecker />
 						<StatusBar style={"dark"} />
 						<BottomSheetModalProvider>
-							<Stack>
+							<Stack initialRouteName={!user ? 'auth' : '(tabs)'}>
 								<Stack.Screen name="(tabs)" options={{headerShown: false}} />
 								<Stack.Screen name="basket" options={{headerShown: false}} />
 								<Stack.Screen name="cards" options={{headerShown: false}} />
-								<Stack.Screen
-									name="transfer"
-									options={{headerShown: false}}
-								/>
+								<Stack.Screen name="transfer" options={{headerShown: false}} />
 								<Stack.Screen name="order" options={{headerShown: false}} />
-								<Stack.Screen
-									name="notification"
-									options={{headerShown: false}}
-								/>
+								<Stack.Screen name="notification" options={{headerShown: false}} />
 								<Stack.Screen name="profile" options={{headerShown: false}} />
 								<Stack.Screen name="+not-found" />
-								<Stack.Screen name="auth" options={{headerShown: false}} />
+								<Stack.Screen name="auth" options={{headerShown: false,}} />
 							</Stack>
 						</BottomSheetModalProvider>
 					</NativeBaseProvider>

@@ -20,7 +20,7 @@ import { BaseBottomSheet } from "@/components/shared/bottom-sheet";
 import useFetchRequest from "@/hooks/api/useFetchRequest";
 import { ENDPOINTS, KEYS } from "@/constants";
 import usePostQuery from "@/hooks/api/usePostQuery";
-import useStore from "@/store";
+import {useStore} from "@/store";
 import {get, isEmpty} from "lodash";
 
 const Company = () => {

@@ -4,13 +4,13 @@ import { useTranslation } from "react-i18next";
 import i18n from "@/lib/i18n";
 import { Image, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import { Button } from "native-base";
-import useStore from "@/store";
+import {useAuthStore} from "@/store";
 
 const Index = () => {
     const [selectedLanguage, setSelectedLanguage] = useState('uz');
     const { t } = useTranslation();
     const router = useRouter();
-    const setLanguage = useStore(state => (state as any).setLang);
+    const setLanguage = useAuthStore(state => (state as any).setLang);
 
     const handleContinue = () => {
         i18n.changeLanguage(selectedLanguage);

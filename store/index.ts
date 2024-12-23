@@ -19,83 +19,85 @@ const mmkvStorage = {
     }
 };
 
-const calculateFullPrice = (orders) => {
-    return Object.values(orders).reduce((total, order) => total + (order.count * order.price), 0);
-};
-
-const useStore = create(
+export const useAuthStore = create(
     persist(
-        (set, get) => ({
+        (set) => ({
             user: null,
-            lang: "uz",
             accessToken: null,
             refreshToken: null,
-            orders: {},
-            fullPrice: 0,
+            lang: 'uz',
 
-            setUser: (user) => set((state) => ({ ...state, user })),
+            setUser: (user) => set({ user }),
 
-            setLang: (lang) => set((state) => ({ ...state, lang })),
+            setAccessToken: (accessToken) => set({ accessToken }),
 
-            setAccessToken: (accessToken) => set((state) => ({ ...state, accessToken })),
+            setRefreshToken: (refreshToken) => set({ refreshToken }),
 
-            setRefreshToken: (refreshToken) => set((state) => ({ ...state, refreshToken })),
+            setLang: (lang) => set({ lang }),
 
-            clearAuthData: () => set(() => ({
+            clearAuthData: () => set({
                 user: null,
                 accessToken: null,
                 refreshToken: null,
-            })),
-
-            setOrders: (orders) => set((state) => {
-                const fullPrice = calculateFullPrice(orders);
-                return { ...state, orders, fullPrice };
-            }),
-
-            addToOrder: (newOrder) => set((state) => {
-                const updatedOrders = { ...state.orders };
-
-                if (newOrder.count === 0 || newOrder.count === null) {
-                    delete updatedOrders[newOrder.id];
-                } else {
-                    updatedOrders[newOrder.id] = newOrder;
-                }
-
-                const fullPrice = calculateFullPrice(updatedOrders);
-                return { ...state, orders: updatedOrders, fullPrice };
-            }),
-
-            increment: (item) => set((state) => {
-                const updatedOrders = { ...state.orders };
-
-                if (updatedOrders[item.id]) {
-                    updatedOrders[item.id].count++;
-                } else {
-                    updatedOrders[item.id] = { ...item, count: 1 };
-                }
-
-                const fullPrice = calculateFullPrice(updatedOrders);
-                return { ...state, orders: updatedOrders, fullPrice };
-            }),
-
-            decrement: (id) => set((state) => {
-                const updatedOrders = { ...state.orders };
-
-                if (updatedOrders[id]?.count > 1) {
-                    updatedOrders[id].count--;
-                } else {
-                    delete updatedOrders[id];
-                }
-
-                const fullPrice = calculateFullPrice(updatedOrders);
-                return { ...state, orders: updatedOrders, fullPrice };
             }),
         }),
         {
-            name: 'store-storage',
+            name: 'auth-storage',
             getStorage: () => mmkvStorage,
         }
     )
 );
 
-export default useStore;
+
+const calculateFullPrice = (orders) => {
+    return Object.values(orders).reduce((total, order) => total + (order.count * order.price), 0);
+};
+
+export const useStore = create((set) => ({
+    orders: {},
+    fullPrice: 0,
+
+    setOrders: (orders) => set(() => {
+        const fullPrice = calculateFullPrice(orders);
+        return { orders, fullPrice };
+    }),
+
+    addToOrder: (newOrder) => set((state) => {
+        const updatedOrders = { ...state.orders };
+
+        if (newOrder.count === 0 || newOrder.count === null) {
+            delete updatedOrders[newOrder.id];
+        } else {
+            updatedOrders[newOrder.id] = newOrder;
+        }
+
+        const fullPrice = calculateFullPrice(updatedOrders);
+        return { orders: updatedOrders, fullPrice };
+    }),
+
+    increment: (item) => set((state) => {
+        const updatedOrders = { ...state.orders };
+
+        if (updatedOrders[item.id]) {
+            updatedOrders[item.id].count++;
+        } else {
+            updatedOrders[item.id] = { ...item, count: 1 };
+        }
+
+        const fullPrice = calculateFullPrice(updatedOrders);
+        return { orders: updatedOrders, fullPrice };
+    }),
+
+    decrement: (id) => set((state) => {
+        const updatedOrders = { ...state.orders };
+
+        if (updatedOrders[id]?.count > 1) {
+            updatedOrders[id].count--;
+        } else {
+            delete updatedOrders[id];
+        }
+
+        const fullPrice = calculateFullPrice(updatedOrders);
+        return { orders: updatedOrders, fullPrice };
+    }),
+}));

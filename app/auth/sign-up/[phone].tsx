@@ -7,15 +7,15 @@ import { Text, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, K
 import { Button, Input } from "native-base";
 import { Formik } from "formik";
 import { get } from "lodash";
-import useStore from "@/store";
+import {useAuthStore} from "@/store";
 
 const SignUp = () => {
     const { t } = useTranslation();
     const { phone } = useLocalSearchParams();
     const router = useRouter();
-    const setAccessToken = useStore(state => state.setAccessToken);
-    const setRefreshToken = useStore(state => state.setRefreshToken);
-    const setUser = useStore(state => state.setUser);
+    const setAccessToken = useAuthStore(state => state.setAccessToken);
+    const setRefreshToken = useAuthStore(state => state.setRefreshToken);
+    const setUser = useAuthStore(state => state.setUser);
     const { mutate, isPending } = usePostQuery({});
 
     const onSubmit = ({ firstName, lastName }) => {

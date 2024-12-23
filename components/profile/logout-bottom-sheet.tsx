@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Text, View, StyleSheet } from "react-native";
 import { BaseBottomSheet } from "../shared/bottom-sheet";
 import { Button } from "native-base";
-import useStore from "@/store";
+import {useAuthStore} from "@/store";
 import { router } from "expo-router";
 
 type LogoutBottomSheetProps = {
@@ -16,7 +16,7 @@ export const LogoutBottomSheet = ({
 									  onClose,
 								  }: LogoutBottomSheetProps) => {
 	const { t } = useTranslation();
-	const clearAuthData = useStore(state => (state as any).clearAuthData);
+	const clearAuthData = useAuthStore(state => (state as any).clearAuthData);
 
 	const logOut = () => {
 		clearAuthData();

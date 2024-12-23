@@ -35,6 +35,7 @@ const Index = () => {
                     onSubmit={onSubmit}
                     initialValues={{ phone: "" }}
                     validationSchema={identifySchema}
+                    style={styles.container}
                 >
                     {({
                           handleChange,
@@ -108,7 +109,6 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         width: "100%",
         padding: 20,
-        maxWidth: 576,
     },
     headerContainer: {
         marginTop: 112,

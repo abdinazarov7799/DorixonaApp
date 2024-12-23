@@ -5,11 +5,11 @@ import useFetchRequest from "@/hooks/api/useFetchRequest";
 import { ENDPOINTS, KEYS } from "@/constants";
 import { get } from "lodash";
 import {useTranslation} from "react-i18next";
-import useStore from "@/store";
+import {useAuthStore} from "@/store";
 
 const AppUpdateChecker = () => {
     const [modalVisible, setModalVisible] = useState(false);
-    const setUser = useStore(state => state.setUser);
+    const setUser = useAuthStore(state => state.setUser);
     const {t} = useTranslation();
     const { data } = useFetchRequest({
         endpoint: ENDPOINTS.getMe,

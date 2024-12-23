@@ -1,6 +1,6 @@
 import {BASE_URL} from "@/constants";
 import axios from "axios";
-import useStore from "@/store";
+import {useAuthStore} from "@/store";
 
 const request = axios.create({
 	baseURL: BASE_URL,
@@ -9,14 +9,13 @@ const request = axios.create({
 			Accept: "application/json",
 			"Content-Type": "application/json; charset=utf-8",
 			"Access-Control-Allow-Origin": "*",
-			"Cache-Control": "no-cache",
 		},
 	},
 });
 
 request.interceptors.request.use(
 	async config => {
-		const accessToken = useStore.getState().accessToken;
+		const accessToken = useAuthStore.getState().accessToken;
 		if (accessToken) {
 			config.headers.Authorization = `Bearer ${accessToken}`;
 		}
@@ -29,7 +28,7 @@ request.interceptors.request.use(
 
 const refreshToken = async () => {
 	try {
-		const refreshToken = await useStore.getState().refreshToken;
+		const refreshToken = await useAuthStore.getState().refreshToken;
 		const response = await axios.post(
 			`${BASE_URL}api/refresh-token`,
 			{},
@@ -41,8 +40,8 @@ const refreshToken = async () => {
 		);
 		const newToken = response?.data?.accessToken;
 		const newRefreshToken = response?.data?.refreshToken;
-		useStore.getState().setAccessToken(newToken);
-		useStore.getState().setRefreshToken(newRefreshToken);
+		useAuthStore.getState().setAccessToken(newToken);
+		useAuthStore.getState().setRefreshToken(newRefreshToken);
 
 		return newToken;
 	} catch (error) {
@@ -63,7 +62,7 @@ request.interceptors.response.use(
 				originalRequest.headers.Authorization = `Bearer ${newToken}`;
 				return axios(originalRequest);
 			} else {
-				useStore.getState().clearAuthData();
+				useAuthStore.getState().clearAuthData();
 			}
 			return Promise.reject(error);
 		}

@@ -18,6 +18,8 @@ import {
 } from "react-native";
 import useFetchRequest from "@/hooks/api/useFetchRequest";
 import { ENDPOINTS, KEYS } from "@/constants";
+import {useAuthStore} from "@/store";
+import {get} from "lodash";
 
 const Index = () => {
 	const [focused, setFocused] = useState(false);
@@ -25,6 +27,7 @@ const Index = () => {
 	const [amount, setAmount] = useState(0);
 	const minHeight = useWindowDimensions().height;
 	const { balance } = useLocalSearchParams();
+	const {user} = useAuthStore()
 	const { data: myCards } = useFetchRequest({
 		queryKey: KEYS.card_list,
 		endpoint: ENDPOINTS.card_list,
@@ -133,6 +136,11 @@ const Index = () => {
 							]}
 						/>
 						<Text style={styles.maxAmountText}>
+							{t("Minimal summa - ")}
+							{Number(get(user, 'minTransactionSum', 0)).toLocaleString("en-US")} {t("so'm")}
+						</Text>
+
+						<Text style={styles.maxAmountText}>
 							{t("Maksimal summa - ")}
 							{Number(balance)?.toLocaleString("en-US")} {t("so'm")}
 						</Text>
@@ -143,7 +151,7 @@ const Index = () => {
 									`/transfer/info?cardNumber=${myCards[activeIndex].number}&cardId=${myCards[activeIndex]?.id}&amount=${amount}`
 								)
 							}
-							isDisabled={amount < 1000}
+							isDisabled={amount < get(user, 'minTransactionSum', 1000)}
 							style={styles.transferButton}
 						>
 							<Text style={styles.transferButtonText}>{t("Pulni o'tkazish")}</Text>
@@ -273,6 +281,7 @@ const styles = StyleSheet.create({
 		fontSize: 13,
 		fontFamily: 'ALSSiriusMedium',
 		color: '#919DA6',
+		marginBottom: 5
 	},
 	transferButton: {
 		backgroundColor: '#215ca0',

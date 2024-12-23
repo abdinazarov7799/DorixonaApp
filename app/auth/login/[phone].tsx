@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { View, Text, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, StyleSheet } from "react-native";
 import { Button } from "native-base";
 import ReactNativeOtpTextinput from "react-native-otp-textinput/index";
-import useStore from "@/store";
+import {useAuthStore} from "@/store";
 
 const Login = () => {
     const { t } = useTranslation();
@@ -19,9 +19,9 @@ const Login = () => {
     const [chargeTimer, setChargeTimer] = useState(false);
     const { mutate, isPending } = usePostQuery({});
     const { mutate: sendOtp } = usePostQuery({});
-    const setAccessToken = useStore(state => state.setAccessToken);
-    const setRefreshToken = useStore(state => state.setRefreshToken);
-    const setUser = useStore(state => state.setUser);
+    const setAccessToken = useAuthStore(state => state.setAccessToken);
+    const setRefreshToken = useAuthStore(state => state.setRefreshToken);
+    const setUser = useAuthStore(state => state.setUser);
 
     useEffect(() => {
         let interval = setInterval(() => {
@@ -50,6 +50,7 @@ const Login = () => {
                             firstName: response.firstName,
                             lastName: response.lastName,
                             phoneNumber: response.phoneNumber,
+
                         };
                         setUser(user);
                         setRefreshToken(get(response, 'refreshToken'));
@@ -133,7 +134,6 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         width: "100%",
         padding: 24,
-        maxWidth: 576,
     },
     headerContainer: {
         marginTop: 112,

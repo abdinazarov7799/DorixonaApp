@@ -1,5 +1,5 @@
 import { BaseBottomSheet } from "@/components/shared/bottom-sheet";
-import useStore from "@/store";
+import {useAuthStore} from "@/store";
 import { Ionicons } from "@expo/vector-icons";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useRouter } from "expo-router";
@@ -29,8 +29,8 @@ const Index = () => {
 	const { t } = useTranslation();
 	const router = useRouter();
 	const minHeight = useWindowDimensions().height;
-	const user = useStore(state => (state as any).user);
-	const setUser = useStore(state => (state as any).setUser);
+	const user = useAuthStore(state => (state as any).user);
+	const setUser = useAuthStore(state => (state as any).setUser);
 
 	const handleOpenDeleteBottomSheet = () => {
 		sheetRef.current?.present();

@@ -2,14 +2,14 @@ import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import I18NextHttpBackend from "i18next-http-backend";
 import {BASE_URL} from "@/constants";
-import useStore from "@/store";
+import {useAuthStore} from "@/store";
 
 i18n
     .use({
         type: 'languageDetector',
         async: true,
         detect: async (cb: (lng: string) => void) => {
-            const lng = await useStore.getState().lang || 'uz';
+            const lng = await useAuthStore.getState().lang || 'uz';
             cb(lng);
         },
     })
