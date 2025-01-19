@@ -85,6 +85,8 @@ const Company = () => {
                 onSuccess: (res) => {
                     if (get(res,'data') == "Order limit exceeded") {
                         setError(get(res,'data'))
+                    }else if (get(res,'data') == 'Lower price than min order price') {
+                        setError(get(res,'data'))
                     }else {
                         setOrders({});
                         router.push("/orders");

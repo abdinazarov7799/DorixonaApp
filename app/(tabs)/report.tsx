@@ -113,7 +113,7 @@ function ActionItem({ type, amount, pharmacy, updatedTime, onPress, cardNumber, 
 						<Text style={styles.incomeText}>{t("Tushum")}</Text>
 					</View>
 					<View style={styles.amountContainer}>
-						<Text style={styles.incomeAmount}>
+						<Text style={status == "REJECTED" ? styles.expenseAmount : styles.incomeAmount}>
 							{Number(amount)?.toLocaleString("en-US")} {t("so'm")}
 						</Text>
 						{updatedTime && (

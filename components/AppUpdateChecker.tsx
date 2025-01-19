@@ -18,13 +18,28 @@ const AppUpdateChecker = () => {
     const version = Platform.OS === 'ios' ? get(data,'iosVersion') : get(data,'androidVersion');
     const storeUrl = Platform.OS === 'android' ? get(data, 'androidUrl') : get(data, 'iosUrl');
 
+    function isVersionCompatible() {
+        const parseVersion = (version) => version.split('.').map(Number);
+
+        const [reqMajor, reqMinor, reqPatch] = parseVersion(version);
+        const [curMajor, curMinor, curPatch] = parseVersion(Application?.nativeApplicationVersion);
+
+        if (curMajor > reqMajor) return true;
+        if (curMajor < reqMajor) return false;
+
+        if (curMinor > reqMinor) return true;
+        if (curMinor < reqMinor) return false;
+
+        return curPatch >= reqPatch;
+    }
+
     useEffect(() => {
         setUser(data)
         if (!!version && !!Application) {
-            if (version != Application?.nativeApplicationVersion) {
-                setModalVisible(true);
-            } else {
+            if (isVersionCompatible()) {
                 setModalVisible(false);
+            } else {
+                setModalVisible(true);
             }
         }
     }, [data]);

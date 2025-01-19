@@ -6,6 +6,7 @@
 		"icon": "./assets/images/icon.png",
 		"scheme": "myapp",
 		"userInterfaceStyle": "automatic",
+		"version": "1.0.11",
 		"splash": {
 			"image": "./assets/images/splash.png",
 			"backgroundColor": "#ffffff"
@@ -14,12 +15,12 @@
 			"supportsTablet": true,
 			"bundleIdentifier": "com.mediasolutions.jurabeklab",
 			"requireFullScreen": true,
-			"version": "1.0.10",
+			"version": "1.0.11",
 			"buildNumber": "1"
 		},
 		"android": {
 			"versionCode": 1,
-			"version": "1.0.1",
+			"version": "1.0.11",
 			"softwareKeyboardLayoutMode": "pan",
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/images/icon.png",

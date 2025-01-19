@@ -16,15 +16,17 @@ import { useTranslation } from "react-i18next";
 import { router } from "expo-router";
 import { get, isNil } from "lodash";
 import { Button, Input } from "native-base";
-import {useStore} from "@/store";
+import {useAuthStore, useStore} from "@/store";
 
 const Index = () => {
     const { t } = useTranslation();
     const { orders, increment, decrement, addToOrder, setOrders, fullPrice } = useStore();
+    const {user} = useAuthStore()
     const ordersList = Object.values(orders);
     const getCountForItem = (itemId) => {
         return orders[itemId] ? orders[itemId]?.count : 0;
     };
+    const minOrderLimit = get(user,'minOrderPrice') > fullPrice
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.flex}>
@@ -69,14 +71,26 @@ const Index = () => {
                                 </View>
                             </View>
                         ))}
+                        {
+                            minOrderLimit && (
+                                <View style={{display: "flex",flexDirection: "row",justifyContent: "space-between",alignItems: "center",marginTop: 10}}>
+                                    <Text style={{color: "#c80909"}}>{t("Min order price")}</Text>
+                                    <Text style={{color: "#c80909"}}>
+                                        {Intl.NumberFormat('en-US').format(get(user,'minOrderPrice'))} {t("so'm")}
+                                    </Text>
+                                </View>
+                            )
+                        }
                     </ScrollView>
+
+
 
                     <View style={styles.footer}>
                         <View style={styles.totalContainer}>
                             <Text style={styles.totalLabel}>{t("Umumiy narxi")}</Text>
                             <Text style={styles.totalPrice}>{Intl.NumberFormat('en-US').format(fullPrice)} {t("so'm")}</Text>
                         </View>
-                        <Button style={styles.selectPharmacyButton} disabled={isNil(orders)} onPress={() => router.push('/basket/company')}>
+                        <Button style={styles.selectPharmacyButton} disabled={isNil(orders) || minOrderLimit} onPress={() => router.push('/basket/company')}>
                             <Text style={styles.selectPharmacyButtonText}>{t("Dorixonani belgilash")}</Text>
                         </Button>
                     </View>
